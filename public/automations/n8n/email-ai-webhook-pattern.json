@@ -1,0 +1,56 @@
+{
+  "name": "Email → AI parse → webhook (pattern)",
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "gmail-trigger",
+      "name": "Gmail Trigger",
+      "type": "n8n-nodes-base.gmailTrigger",
+      "typeVersion": 1,
+      "position": [0, 0],
+      "notes": "Connect Gmail OAuth. Filter by label or sender in node settings."
+    },
+    {
+      "parameters": {
+        "model": "gpt-4o-mini",
+        "options": {
+          "systemMessage": "Extract structured JSON: name, email, skills[], years_experience, summary. Return JSON only."
+        }
+      },
+      "id": "openai-parse",
+      "name": "Parse with OpenAI",
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1,
+      "position": [220, 0],
+      "notes": "Replace with your OpenAI credentials. Enforce JSON in system prompt."
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://your-downstream.app/webhook/candidate",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ $json }}"
+      },
+      "id": "webhook-out",
+      "name": "Webhook to downstream",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4,
+      "position": [440, 0]
+    }
+  ],
+  "connections": {
+    "Gmail Trigger": {
+      "main": [[{ "node": "Parse with OpenAI", "type": "main", "index": 0 }]]
+    },
+    "Parse with OpenAI": {
+      "main": [[{ "node": "Webhook to downstream", "type": "main", "index": 0 }]]
+    }
+  },
+  "active": false,
+  "settings": { "executionOrder": "v1" },
+  "meta": {
+    "templateCredsSetupCompleted": false,
+    "instanceId": "portfolio-parmeet-pattern"
+  }
+}

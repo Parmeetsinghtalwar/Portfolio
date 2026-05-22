@@ -1,0 +1,50 @@
+{
+  "last_node_id": 6,
+  "last_link_id": 5,
+  "nodes": [
+    {
+      "id": 1,
+      "type": "CheckpointLoaderSimple",
+      "pos": [0, 0],
+      "properties": { "Node name for S&R": "CheckpointLoaderSimple" },
+      "widgets_values": ["sd_xl_base_1.0.safetensors"]
+    },
+    {
+      "id": 2,
+      "type": "CLIPTextEncode",
+      "pos": [280, -80],
+      "properties": {},
+      "widgets_values": ["cinematic portrait, soft light, portfolio template"]
+    },
+    {
+      "id": 3,
+      "type": "CLIPTextEncode",
+      "pos": [280, 80],
+      "properties": {},
+      "widgets_values": ["blurry, watermark, low quality"]
+    },
+    {
+      "id": 4,
+      "type": "KSampler",
+      "pos": [520, 0],
+      "properties": {},
+      "widgets_values": [0, "randomize", 20, 7, "euler", "normal", 1]
+    },
+    {
+      "id": 5,
+      "type": "VAEDecode",
+      "pos": [760, 0],
+      "properties": {}
+    },
+    {
+      "id": 6,
+      "type": "SaveImage",
+      "pos": [980, 0],
+      "properties": {},
+      "widgets_values": ["portfolio_txt2img"]
+    }
+  ],
+  "extra": {
+    "info": "Starter ComfyUI graph — import via ComfyUI UI. Adjust checkpoint name to your models folder."
+  }
+}

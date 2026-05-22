@@ -1,0 +1,33 @@
+{
+  "last_node_id": 4,
+  "last_link_id": 3,
+  "nodes": [
+    {
+      "id": 1,
+      "type": "CheckpointLoaderSimple",
+      "pos": [0, 0],
+      "widgets_values": ["sd_xl_base_1.0.safetensors"]
+    },
+    {
+      "id": 2,
+      "type": "LoraLoader",
+      "pos": [240, 0],
+      "widgets_values": ["your_lora.safetensors", 0.85, 1]
+    },
+    {
+      "id": 3,
+      "type": "CLIPTextEncode",
+      "pos": [480, 0],
+      "widgets_values": ["subject in consistent style, detailed"]
+    },
+    {
+      "id": 4,
+      "type": "SaveImage",
+      "pos": [720, 0],
+      "widgets_values": ["portfolio_lora_out"]
+    }
+  ],
+  "extra": {
+    "info": "LoRA stack template — replace your_lora.safetensors with your trained file."
+  }
+}

@@ -1,0 +1,292 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>dasupply — layered video + photo scroll (demo)</title>
+<style>
+  :root {
+    --bg: #0b0b0b;
+    --fg: #ededed;
+    --muted: #8a8a8a;
+    --line: rgba(255, 255, 255, 0.12);
+    --radius: 14px;
+    --font: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { background: var(--bg); color: var(--fg); font-family: var(--font); }
+  body { line-height: 1.4; -webkit-font-smoothing: antialiased; }
+  img, video { display: block; max-width: 100%; }
+
+  /* ---------- top nav ---------- */
+  header.nav {
+    position: fixed; inset: 0 0 auto 0;
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 18px 28px; z-index: 50;
+    mix-blend-mode: difference; color: #fff;
+    font-size: 13px; letter-spacing: 0.02em;
+  }
+  header.nav .brand { font-weight: 600; }
+  header.nav nav { display: flex; gap: 18px; }
+  header.nav a { color: inherit; text-decoration: none; opacity: 0.85; }
+  header.nav a:hover { opacity: 1; }
+
+  /* ---------- hero / intro ---------- */
+  .hero {
+    min-height: 100vh;
+    display: grid; place-items: center;
+    padding: 80px 24px;
+    text-align: center;
+  }
+  .hero h1 {
+    font-size: clamp(36px, 6vw, 72px);
+    font-weight: 500; letter-spacing: -0.02em;
+    max-width: 14ch; margin: 0 auto 16px;
+  }
+  .hero p { color: var(--muted); max-width: 48ch; margin: 0 auto; }
+  .scroll-hint {
+    margin-top: 48px; font-size: 12px; color: var(--muted);
+    letter-spacing: 0.2em; text-transform: uppercase;
+    animation: bob 2.4s ease-in-out infinite;
+  }
+  @keyframes bob { 0%,100% { transform: translateY(0); } 50% { transform: translateY(6px); } }
+
+  /* ---------- layered video section ---------- */
+  /*
+    The pattern:
+      .stage           : full-viewport stage, position: relative
+      .stage video.bg  : absolutely positioned, object-fit: cover, fills the stage
+      .stage .card     : centered foreground tile that holds the second video
+    Both videos are muted + autoplay + loop + playsInline so mobile browsers allow autoplay.
+  */
+  .stage {
+    position: relative;
+    height: 100vh;
+    overflow: hidden;
+    background: #000;
+  }
+  .stage video.bg {
+    position: absolute; inset: 0;
+    width: 100%; height: 100%;
+    object-fit: cover;
+    filter: brightness(0.55) saturate(1.05);
+    transform: scale(1.05); /* gives the parallax some room */
+  }
+  .stage::after {
+    /* subtle vignette so the foreground card pops */
+    content: ""; position: absolute; inset: 0;
+    background: radial-gradient(ellipse at center, transparent 40%, rgba(0,0,0,0.55) 100%);
+    pointer-events: none;
+  }
+  .stage .card {
+    position: absolute;
+    left: 50%; top: 50%;
+    transform: translate(-50%, -50%);
+    width: min(46vw, 620px);
+    aspect-ratio: 9 / 12;
+    border-radius: var(--radius);
+    overflow: hidden;
+    box-shadow: 0 30px 80px -20px rgba(0,0,0,0.6), 0 0 0 1px var(--line);
+    will-change: transform;
+  }
+  .stage .card video { width: 100%; height: 100%; object-fit: cover; }
+  .stage .card .label {
+    position: absolute; left: 14px; bottom: 14px;
+    font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase;
+    color: #fff; opacity: 0.9;
+    display: flex; gap: 10px; align-items: center;
+  }
+  .stage .card .label::before {
+    content: ""; width: 6px; height: 6px; border-radius: 50%;
+    background: #ff3b30; box-shadow: 0 0 12px #ff3b30;
+  }
+  .stage .meta {
+    position: absolute; left: 28px; right: 28px; bottom: 28px;
+    display: flex; justify-content: space-between; align-items: flex-end;
+    color: #fff; font-size: 12px; letter-spacing: 0.12em; text-transform: uppercase;
+    opacity: 0.85;
+  }
+  .stage .meta h2 { font-size: clamp(22px, 3vw, 36px); font-weight: 500; letter-spacing: -0.01em; text-transform: none; }
+
+  /* ---------- horizontal photo scroller ---------- */
+  /*
+    Two patterns combined:
+      1. CSS scroll-snap horizontal strip — feels great on touch + trackpad
+      2. JS-bound: vertical wheel events translate to horizontal scroll
+    Each tile holds an image that lazy-loads.
+  */
+  .gallery {
+    padding: 96px 0 120px;
+  }
+  .gallery .head {
+    display: flex; justify-content: space-between; align-items: baseline;
+    padding: 0 28px 24px;
+    border-bottom: 1px solid var(--line);
+    margin: 0 28px 32px;
+  }
+  .gallery .head h3 {
+    font-size: clamp(20px, 2.4vw, 28px);
+    font-weight: 500; letter-spacing: -0.01em;
+  }
+  .gallery .head span { color: var(--muted); font-size: 12px; letter-spacing: 0.16em; text-transform: uppercase; }
+
+  .strip {
+    display: flex; gap: 18px;
+    padding: 0 28px 24px;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+    overscroll-behavior-x: contain;
+  }
+  .strip::-webkit-scrollbar { display: none; }
+
+  .tile {
+    flex: 0 0 auto;
+    width: clamp(240px, 32vw, 460px);
+    aspect-ratio: 4 / 5;
+    scroll-snap-align: start;
+    border-radius: var(--radius);
+    overflow: hidden;
+    position: relative;
+    background: #111;
+    cursor: pointer;
+    transition: transform 400ms ease;
+  }
+  .tile:hover { transform: translateY(-4px); }
+  .tile img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    transition: transform 700ms ease;
+  }
+  .tile:hover img { transform: scale(1.04); }
+  .tile .caption {
+    position: absolute; left: 14px; right: 14px; bottom: 14px;
+    display: flex; justify-content: space-between;
+    font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase;
+    color: #fff;
+    text-shadow: 0 1px 4px rgba(0,0,0,0.5);
+  }
+
+  .progress {
+    height: 2px; background: var(--line); margin: 0 28px;
+    position: relative; overflow: hidden;
+  }
+  .progress::after {
+    content: ""; position: absolute; left: 0; top: 0; bottom: 0;
+    width: var(--p, 0%); background: var(--fg);
+    transition: width 80ms linear;
+  }
+
+  footer { padding: 40px 28px; color: var(--muted); font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; border-top: 1px solid var(--line); }
+</style>
+</head>
+<body>
+
+<header class="nav">
+  <div class="brand">dasupply<sup>™</sup></div>
+  <nav>
+    <a href="#">Index</a>
+    <a href="#">About</a>
+    <a href="#">Playground</a>
+    <a href="#">Blog</a>
+  </nav>
+</header>
+
+<section class="hero">
+  <div>
+    <h1>Layered video, then a photo strip you scroll through.</h1>
+    <p>Scroll down to see the two-video stage and the horizontal gallery.</p>
+    <div class="scroll-hint">Scroll ↓</div>
+  </div>
+</section>
+
+<!-- ============== LAYERED VIDEO STAGE ============== -->
+<section class="stage" aria-label="Featured work">
+  <video class="bg" autoplay muted loop playsinline preload="metadata"
+         poster="">
+    <source src="https://res.cloudinary.com/dbvmhiyjy/video/upload/v1777402678/Nathan_Rodriguez_On_an_open_grassland_under_natural_daylight__b8414397-b34b-4760-a03b-5cc000109d7b_1_dm5qou.mp4" type="video/mp4">
+  </video>
+
+  <div class="card">
+    <video autoplay muted loop playsinline preload="metadata">
+      <source src="https://res.cloudinary.com/dbvmhiyjy/video/upload/v1777409129/Nathan_Rodriguez_A_white_male_model_mid-turn_red_and_green_st_cf10a5f8-43c9-48d2-aa6b-2421e61ea7a1_0_1_sxh5zb.mp4" type="video/mp4">
+    </video>
+    <div class="label">LIVE — Series 01 / Frame 01</div>
+  </div>
+
+  <div class="meta">
+    <h2>Golden Silence</h2>
+    <span>Editorial · 2025</span>
+  </div>
+</section>
+
+<!-- ============== HORIZONTAL PHOTO SCROLLER ============== -->
+<section class="gallery" aria-label="Photo gallery">
+  <div class="head">
+    <h3>Photo gallery</h3>
+    <span>Drag · scroll · swipe</span>
+  </div>
+
+  <div class="strip" id="strip">
+    <a class="tile" href="#"><img loading="lazy" src="https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?auto=format&fit=crop&w=900&q=80" alt="">
+      <div class="caption"><span>01</span><span>Quiet Horizon</span></div></a>
+    <a class="tile" href="#"><img loading="lazy" src="https://images.unsplash.com/photo-1517816743773-6e0fd518b4a6?auto=format&fit=crop&w=900&q=80" alt="">
+      <div class="caption"><span>02</span><span>Salt / Sun</span></div></a>
+    <a class="tile" href="#"><img loading="lazy" src="https://images.unsplash.com/photo-1469474968028-56623f02e42e?auto=format&fit=crop&w=900&q=80" alt="">
+      <div class="caption"><span>03</span><span>Open Field</span></div></a>
+    <a class="tile" href="#"><img loading="lazy" src="https://images.unsplash.com/photo-1492447166138-50c3889fccb1?auto=format&fit=crop&w=900&q=80" alt="">
+      <div class="caption"><span>04</span><span>Soft Bodies</span></div></a>
+    <a class="tile" href="#"><img loading="lazy" src="https://images.unsplash.com/photo-1520975916090-3105956dac38?auto=format&fit=crop&w=900&q=80" alt="">
+      <div class="caption"><span>05</span><span>Sun & Table</span></div></a>
+    <a class="tile" href="#"><img loading="lazy" src="https://images.unsplash.com/photo-1494438639946-1ebd1d20bf85?auto=format&fit=crop&w=900&q=80" alt="">
+      <div class="caption"><span>06</span><span>Dressed & Moving</span></div></a>
+    <a class="tile" href="#"><img loading="lazy" src="https://images.unsplash.com/photo-1485217988980-11786ced9454?auto=format&fit=crop&w=900&q=80" alt="">
+      <div class="caption"><span>07</span><span>Still Heat</span></div></a>
+    <a class="tile" href="#"><img loading="lazy" src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=900&q=80" alt="">
+      <div class="caption"><span>08</span><span>Coastal Field</span></div></a>
+  </div>
+
+  <div class="progress" id="progress"></div>
+</section>
+
+<footer>© 2026 · Recreation of dasupply.xyz layered-video + horizontal photo scroll</footer>
+
+<script>
+  // ---------- horizontal-scroll-on-vertical-wheel ----------
+  const strip = document.getElementById('strip');
+  const progress = document.getElementById('progress');
+
+  strip.addEventListener('wheel', (e) => {
+    // Only hijack when the gesture is mostly vertical
+    if (Math.abs(e.deltaY) > Math.abs(e.deltaX)) {
+      e.preventDefault();
+      strip.scrollLeft += e.deltaY;
+    }
+  }, { passive: false });
+
+  // ---------- progress bar ----------
+  const updateProgress = () => {
+    const max = strip.scrollWidth - strip.clientWidth;
+    const p = max > 0 ? (strip.scrollLeft / max) * 100 : 0;
+    progress.style.setProperty('--p', p + '%');
+  };
+  strip.addEventListener('scroll', updateProgress, { passive: true });
+  updateProgress();
+
+  // ---------- parallax on the layered video stage ----------
+  // Subtle: when you scroll past the stage, the bg video drifts slower than
+  // the foreground card. Cheap, no library.
+  const stage = document.querySelector('.stage');
+  const bg = stage.querySelector('video.bg');
+  const card = stage.querySelector('.card');
+  window.addEventListener('scroll', () => {
+    const rect = stage.getBoundingClientRect();
+    const seen = Math.min(Math.max(-rect.top / rect.height, 0), 1);
+    bg.style.transform = `scale(1.05) translateY(${seen * -30}px)`;
+    card.style.transform = `translate(-50%, calc(-50% + ${seen * 60}px))`;
+  }, { passive: true });
+</script>
+</body>
+</html>
