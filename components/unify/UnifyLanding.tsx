@@ -7,7 +7,7 @@ import { UnifyTechSection } from '@/components/unify/UnifyTechSection'
 import {
   UNIFY_CHANNELS,
   UNIFY_FAQ,
-  UNIFY_LIVE_URL,
+  UNIFY_FEATURES_SECTION_ID,
   UNIFY_NAV,
   UNIFY_PILLARS,
   UNIFY_STATS,
@@ -44,12 +44,10 @@ export function UnifyLanding() {
             ))}
           </nav>
           <a
-            href={UNIFY_LIVE_URL}
-            target="_blank"
-            rel="noopener noreferrer"
+            href={`#${UNIFY_FEATURES_SECTION_ID}`}
             className="inline-flex items-center gap-1 rounded-full bg-slate-900 px-4 py-2 text-sm font-medium text-white transition hover:bg-slate-800"
           >
-            Live product
+            Explore features
             <ArrowUpRight className="h-3.5 w-3.5" />
           </a>
         </div>
@@ -72,12 +70,10 @@ export function UnifyLanding() {
           </p>
           <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
             <a
-              href={`${UNIFY_LIVE_URL}signup`}
-              target="_blank"
-              rel="noopener noreferrer"
+              href={`#${UNIFY_FEATURES_SECTION_ID}`}
               className="rounded-full bg-indigo-600 px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-indigo-600/25 transition hover:bg-indigo-500"
             >
-              Book a demo
+              See how it works
             </a>
             <a
               href="#features"

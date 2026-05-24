@@ -137,19 +137,19 @@ export function MultiLangVideoPlayer({
   return (
     <div
       className={cls(
-        'relative w-full rounded-[2rem] bg-[#1d3afb] px-4 pt-8 pb-8 md:px-10 md:pt-10 md:pb-10',
+        'relative w-full rounded-[2rem] bg-[#1d3afb] px-4 pt-5 pb-7 md:px-8 md:pt-6 md:pb-9',
         className,
       )}
     >
       {caption && (
-        <p className="mx-auto mb-6 max-w-3xl whitespace-pre-line px-2 text-center text-base leading-relaxed text-white/95 md:mb-8 md:text-lg">
+        <p className="mx-auto mb-4 max-w-3xl whitespace-pre-line px-2 text-center text-base leading-relaxed text-white/95 md:mb-5 md:text-lg">
           {caption}
         </p>
       )}
 
       {/* Film-strip progress indicator */}
       <div
-        className="relative mb-5 flex h-2.5 w-full items-stretch gap-[2px] overflow-hidden md:mb-7 md:h-3"
+        className="relative mb-3 flex h-2 w-full items-stretch gap-[2px] overflow-hidden md:mb-4 md:h-2.5"
         aria-hidden
       >
         {Array.from({ length: FILM_TICKS }).map((_, i) => {
@@ -168,7 +168,7 @@ export function MultiLangVideoPlayer({
       </div>
 
       <div
-        className="relative cursor-none overflow-hidden rounded-2xl bg-black"
+        className="relative aspect-video cursor-none overflow-hidden rounded-2xl bg-black"
         onMouseMove={onVideoMouseMove}
         onMouseEnter={() => setCursorVisible(true)}
         onMouseLeave={() => setCursorVisible(false)}
@@ -182,7 +182,7 @@ export function MultiLangVideoPlayer({
           autoPlay
           playsInline
           preload="auto"
-          className="block aspect-video w-full object-cover"
+          className="absolute inset-0 h-[114%] w-full -translate-y-[10%] scale-[1.1] object-cover object-[50%_40%]"
         />
 
         {/* Projector sweep — remounts via key on each video load. */}
@@ -226,7 +226,7 @@ export function MultiLangVideoPlayer({
         )}
       </div>
 
-      <div className="mt-8 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 md:mt-10 md:gap-x-10">
+      <div className="mt-6 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 md:mt-8 md:gap-x-10">
         {languages.map((l) => {
           const isActive = l.code === currentLang
           return (

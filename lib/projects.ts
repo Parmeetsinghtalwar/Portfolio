@@ -60,7 +60,14 @@ function advisoryToProject(venture: AdvisoryVenture): Project {
 }
 
 const PROJECT_ID_ALIASES: Record<string, string> = {
-  'idea-internal': 'dbaas',
+  'idea-internal': 'content-phase',
+  dbaas: 'content-phase',
+}
+
+/** Old slugs → canonical id (for redirects) */
+export const LEGACY_PROJECT_SLUGS: Record<string, string> = {
+  dbaas: 'content-phase',
+  'idea-internal': 'content-phase',
 }
 
 export function getProjectById(id: string): Project | undefined {
@@ -100,13 +107,6 @@ export const PROJECTS: Project[] = [
       'n8n',
       'Telegram',
     ],
-    links: [
-      { label: 'Live product', href: 'https://socialhub.apexneural.cloud/' },
-      {
-        label: 'GitHub · content-phase1',
-        href: 'https://github.com/apexneuralecosystems/content-phase1',
-      },
-    ],
     story: SOCIALHUB_STORY,
   },
   {
@@ -136,25 +136,24 @@ export const PROJECTS: Project[] = [
       'Google Calendar API',
       'Next.js',
     ],
-    links: [{ label: 'Live product', href: 'https://prism.apexneural.cloud/' }],
     story: PRISM_STORY,
   },
   {
-    id: 'dbaas',
-    title: 'DBaaS Social Hub',
+    id: 'content-phase',
+    title: 'Content Phase',
     tagline:
-      'Content Phase — GenOps social platform from the DBaaS monorepo (Samsung archive)',
+      'GenOps social platform — AI generation, calendar planning, and multi-platform publishing',
     role: 'Forward Deploy AI Engineer',
     period: '2024 — 2025',
     status: 'Production',
     description:
-      'Full-stack social media AI manager (`dbasssocialhub`): React + Vite SPA, FastAPI on Apex SaaS, PostgreSQL, Docker Compose. AI copy and images, monthly content calendar, persona agents (Flux + IP-Adapter), UGC editor, PDF brand extraction, OAuth to five platforms, and a Telegram bot with dashboard parity.',
+      'Full-stack social media AI manager: React + Vite SPA, FastAPI on Apex SaaS, PostgreSQL, Docker Compose. AI copy and images, monthly content calendar, persona agents (Flux + IP-Adapter), UGC editor, PDF brand extraction, OAuth to five platforms, and a Telegram bot with dashboard parity.',
     highlights: [
-      'Canonical codebase: `dbaas/social-hub/dbasssocialhub` on Samsung SSD',
+      'Production monorepo — React 19 + Vite 7 frontend, FastAPI backend, Docker Compose deploy',
       'Routes: AI content, calendar, agents, UGC, scheduled posts, social posting, credentials',
       'GPT-4o + DALL·E 3 + Fal.ai (Nano Banana / Flux); Gemini for UGC edits',
       'APScheduler worker publishes due posts; Fernet-encrypted OAuth tokens',
-      'Production: socialhub.apexneural.cloud · API ai-content.apexneural.cloud',
+      'Production GenOps stack — Docker Compose deploy',
     ],
     stack: [
       'React 19',
@@ -167,14 +166,6 @@ export const PROJECTS: Project[] = [
       'Fal.ai',
       'Docker',
       'Telegram',
-    ],
-    links: [
-      { label: 'SocialHub live', href: 'https://socialhub.apexneural.cloud/' },
-      { label: 'API', href: 'https://ai-content.apexneural.cloud/' },
-      {
-        label: 'Case study',
-        href: 'https://apexneural.com/case-studies/dbaas-platform',
-      },
     ],
     metrics: [
       { label: 'Platforms', value: '5' },
@@ -239,18 +230,7 @@ export const PROJECTS: Project[] = [
       'TypeORM',
       'React',
     ],
-    links: [
-      { label: 'Live product', href: 'https://l1chatbot.apexneural.cloud/' },
-      { label: 'Portfolio · engineering', href: '/projects/unify' },
-      {
-        label: 'GitHub · platform',
-        href: 'https://github.com/apexneuralecosystems/kalamandir-l1',
-      },
-      {
-        label: 'GitHub · agent',
-        href: 'https://github.com/apexneuralecosystems/kalamandir-agent',
-      },
-    ],
+    links: [{ label: 'Portfolio · engineering', href: '/projects/unify' }],
   },
   {
     id: 'taleweaver',
@@ -264,7 +244,7 @@ export const PROJECTS: Project[] = [
     highlights: [
       'Three-tier deploy: `frontend/`, `backend/` (FastAPI), `llm-service/` (GPU inference) + Docker Compose',
       'Fitzgerald-style LoRA — 5 ePub sources → 3,762 training examples (companion `finetune/` pipeline)',
-      'Live at bookgen.apexneural.cloud with outline, chapter WS, and export APIs',
+      'Outline → chapter WebSocket streaming → EPUB/PDF export APIs',
       'Voice-locked prose tuned for reader trust, not generic LLM tone',
     ],
     stack: [
@@ -277,11 +257,7 @@ export const PROJECTS: Project[] = [
       'Docker',
       'EPUB / PDF',
     ],
-    links: [
-      { label: 'Bookgen · live', href: 'https://bookgen.apexneural.cloud/' },
-      { label: 'Bookgen API', href: 'https://bookgen-api.apexneural.cloud/' },
-      { label: 'Portfolio experience', href: '/projects/taleweaver' },
-    ],
+    links: [{ label: 'Portfolio experience', href: '/projects/taleweaver' }],
     story: TALEWEAVER_STORY,
   },
   {
@@ -492,9 +468,6 @@ export const PROJECTS: Project[] = [
       'PyTorch',
       'ByteTrack / SORT',
     ],
-    links: [
-      { label: 'GitHub · champion-gen', href: 'https://github.com/parmeetsinghtalwar/champion-gen' },
-    ],
   },
   {
     id: 'web-scraper-evasion',
@@ -520,7 +493,6 @@ export const PROJECTS: Project[] = [
       'Proxy rotation',
       'Async I/O',
     ],
-    links: [{ label: 'GitHub', href: 'https://github.com/parmeetsinghtalwar/Web-scrape' }],
   },
   {
     id: 'ai-cost-optimizer',

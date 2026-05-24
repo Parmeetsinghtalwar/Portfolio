@@ -1,3 +1,4 @@
+import { getProjectVisual } from '@/lib/project-visuals'
 import type { Project } from '@/lib/projects'
 
 export type ProjectHoverItem = {
@@ -17,7 +18,7 @@ const PREVIEW_FALLBACK: Record<string, string> = {
     'https://images.unsplash.com/photo-1611162616475-46b635cb6868?auto=format&fit=crop&w=800&q=80',
   prism:
     'https://images.unsplash.com/photo-1521737711864-e399b85bbf0b?auto=format&fit=crop&w=800&q=80',
-  dbaas:
+  'content-phase':
     'https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=800&q=80',
   'sugarcane-health-ml':
     'https://images.unsplash.com/photo-1625246333195-78d9c38ad449?auto=format&fit=crop&w=800&q=80',
@@ -68,18 +69,22 @@ const HOVER_COLORS = [
 ]
 
 export function projectsToHoverItems(projects: Project[]): ProjectHoverItem[] {
-  return projects.map((project, index) => ({
-    id: project.id,
-    title: project.title,
-    subtitle: project.story
-      ? 'Story'
-      : `${project.status} · ${project.period}`,
-    href: `/projects/${project.id}`,
-    color: HOVER_COLORS[index % HOVER_COLORS.length],
-    image:
-      project.preview ??
-      project.cover ??
-      PREVIEW_FALLBACK[project.id] ??
-      DEFAULT_PREVIEW,
-  }))
+  return projects.map((project, index) => {
+    const visual = getProjectVisual(project.id)
+    return {
+      id: project.id,
+      title: project.title,
+      subtitle: project.story
+        ? 'Story'
+        : `${project.status} · ${project.period}`,
+      href: `/projects/${project.id}`,
+      color: HOVER_COLORS[index % HOVER_COLORS.length],
+      image:
+        visual?.preview ??
+        project.preview ??
+        project.cover ??
+        PREVIEW_FALLBACK[project.id] ??
+        DEFAULT_PREVIEW,
+    }
+  })
 }

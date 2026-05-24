@@ -245,9 +245,9 @@ export const PROJECT_TECHNICAL_SPECS: Record<string, SpecOverrides> = {
     ],
   },
 
-  dbaas: {
+  'content-phase': {
     summary:
-      'DBaaS Social Hub (Content Phase / dbasssocialhub): React 19 + Vite 7 SPA, FastAPI backend on Apex SaaS with Alembic migrations, modular services for AI content, content calendar, persona agents, UGC, OAuth credentials, and scheduled multi-platform publishing — PostgreSQL + Cloudinary + Docker Compose, documented in SYSTEM_ARCHITECTURE.md.',
+      'Content Phase: React 19 + Vite 7 SPA, FastAPI backend on Apex SaaS with Alembic migrations, modular services for AI content, content calendar, persona agents, UGC, OAuth credentials, and scheduled multi-platform publishing — PostgreSQL + Cloudinary + Docker Compose, documented in SYSTEM_ARCHITECTURE.md.',
     diagram: [
       '┌──────────────────────────────────────────────────────────────────┐',
       '│ CLIENT      React 19 + Vite 7 · Tailwind 4 · Framer · Three.js   │',
@@ -311,7 +311,7 @@ export const PROJECT_TECHNICAL_SPECS: Record<string, SpecOverrides> = {
       {
         title: 'Data & deploy',
         detail:
-          'PostgreSQL 15 in Docker Compose; Cloudinary for media URLs; production CORS for socialhub.apexneural.cloud and ai-content.apexneural.cloud.',
+          'PostgreSQL 15 in Docker Compose; Cloudinary for media URLs; production CORS configured for deployed frontend and API hosts.',
       },
     ],
     technologies: [
@@ -345,7 +345,6 @@ export const PROJECT_TECHNICAL_SPECS: Record<string, SpecOverrides> = {
       { label: 'Platforms', value: '5', detail: 'FB · IG · X · LinkedIn · Reddit' },
       { label: 'Deploy', value: 'Docker', detail: 'Postgres + API + SPA' },
       { label: 'Docs', value: 'In-repo', detail: 'SYSTEM_ARCHITECTURE.md' },
-      { label: 'Source', value: 'Samsung SSD', detail: 'dbaas/social-hub/dbasssocialhub' },
     ],
   },
 

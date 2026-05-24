@@ -7,14 +7,7 @@ export const SOCIALHUB_STORY: ProjectStory = {
   lede:
     'SocialHub is the content factory I helped shape: AI agents and workflows that generate posts, images, and schedules across every major channel — with OAuth so your passwords never touch our servers.',
   byline: 'Parmeet Singh Talwar · Builder · GenOps / AI systems',
-  social: [
-    { label: 'Live product', href: 'https://socialhub.apexneural.cloud/' },
-    { label: 'Sign in', href: 'https://socialhub.apexneural.cloud/login' },
-    {
-      label: 'GitHub · content-phase1',
-      href: 'https://github.com/apexneuralecosystems/content-phase1',
-    },
-  ],
+  social: [],
   blocks: [
     {
       type: 'chapter',
@@ -111,5 +104,5 @@ export const SOCIALHUB_STORY: ProjectStory = {
     },
   ],
   closing:
-    'GitHub: content-phase1 · Live product on SocialHub',
+    'Multi-channel GenOps — scheduled, brand-grounded, production-grade',
 }

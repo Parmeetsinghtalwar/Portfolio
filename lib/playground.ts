@@ -4,7 +4,7 @@ export const PLAYGROUND_COPY = {
   lede:
     'Hands-on automation experiments and reusable workflow templates. Practical builds, test runs, and import-ready JSON examples.',
   finderHint:
-    'Open a folder like Finder — pick a workflow, read how it works, download JSON at the bottom.',
+    'Open a folder like Finder — scroll the workflow list, pick a template, download JSON at the bottom.',
 } as const
 
 export const PLAYGROUND_SKILLS = [

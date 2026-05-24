@@ -32,7 +32,7 @@ export function Playground() {
             {PLAYGROUND_SKILLS.map((skill) => (
               <span
                 key={skill}
-                className="rounded-full border border-foreground/12 bg-background/80 px-2.5 py-1 font-mono text-[10px] uppercase tracking-wider text-foreground/65"
+                className="rounded-full border border-foreground/12 bg-background/80 px-3 py-1.5 font-mono text-xs uppercase tracking-wider text-foreground/65"
               >
                 {skill}
               </span>
@@ -40,7 +40,7 @@ export function Playground() {
           </div>
         </div>
 
-        <p className="mb-6 text-center font-mono text-[11px] text-foreground/50">
+        <p className="mb-6 text-center font-mono text-sm text-foreground/55 md:text-base">
           {PLAYGROUND_COPY.finderHint}
         </p>
 

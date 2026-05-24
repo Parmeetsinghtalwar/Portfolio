@@ -38,6 +38,12 @@ const EDITORIAL: LayeredItem['editorial'][] = [
       'QUEUE-FIRST FLOWS',
     ],
     footnote: 'TECH STACK — BACKEND',
+    timeline: '2023 - 2024',
+    duration: '14 months',
+    detail:
+      'Built core backend systems in Python + TypeScript for auth, APIs, event processing, and data reliability.',
+    process:
+      'Owned architecture, schema design, and production hardening from dev to deployment.',
   },
   {
     tag: '02',
@@ -53,6 +59,12 @@ const EDITORIAL: LayeredItem['editorial'][] = [
       'MEMORY PATTERNS',
     ],
     footnote: 'TECH STACK — AI',
+    timeline: '2024',
+    duration: '8 months',
+    detail:
+      'Shipped agent workflows across LangGraph, RAG, and tool-calling for multi-step automation.',
+    process:
+      'Moved from local prototyping to API orchestration with quality checks and evaluation loops.',
   },
   {
     tag: '03',
@@ -68,6 +80,12 @@ const EDITORIAL: LayeredItem['editorial'][] = [
       'PERF-FIRST UI',
     ],
     footnote: 'TECH STACK — WEB',
+    timeline: '2023 - 2025',
+    duration: 'ongoing',
+    detail:
+      'Designed and built frontend systems in Next.js with high-performance interactions and storytelling UI.',
+    process:
+      'Focused on clarity, responsive motion, and production-safe component architecture.',
   },
   {
     tag: '04',
@@ -83,6 +101,12 @@ const EDITORIAL: LayeredItem['editorial'][] = [
       'OPS PLAYBOOKS',
     ],
     footnote: 'TECH STACK — AUTOMATION',
+    timeline: '2024 - 2025',
+    duration: '11 months',
+    detail:
+      'Built automation pipelines for lead flow, support loops, campaign triggers, and cross-tool workflows.',
+    process:
+      'Connected product ops with growth workflows, including marketing and Meta ads reporting handoffs.',
   },
   {
     tag: '05',
@@ -98,6 +122,12 @@ const EDITORIAL: LayeredItem['editorial'][] = [
       'METRICS + LOGS',
     ],
     footnote: 'TECH STACK — DATA',
+    timeline: '2024',
+    duration: '6 months',
+    detail:
+      'Implemented data pipelines for ingestion, validation, and analytics to support faster product decisions.',
+    process:
+      'Set up ETL checks, event consistency rules, and dashboards for product + growth visibility.',
   },
   {
     tag: '06',
@@ -113,6 +143,12 @@ const EDITORIAL: LayeredItem['editorial'][] = [
       'ROLLBACK STRATEGY',
     ],
     footnote: 'TECH STACK — SHIP',
+    timeline: '2024 - 2025',
+    duration: '9 months',
+    detail:
+      'Operationalized deployments with Docker, CI/CD, release checks, and rollback-safe delivery.',
+    process:
+      'Prioritized environment-driven config, reliability monitoring, and zero-surprise releases.',
   },
   {
     tag: '07',
@@ -128,6 +164,12 @@ const EDITORIAL: LayeredItem['editorial'][] = [
       'SYSTEMS THINKING',
     ],
     footnote: 'TECH STACK — END TO END',
+    timeline: '2025',
+    duration: 'current',
+    detail:
+      'End-to-end build ownership: product strategy, engineering execution, and growth experimentation.',
+    process:
+      'Combined technical execution with distribution work, including messaging, campaigns, and Meta ads loops.',
   },
 ]
 

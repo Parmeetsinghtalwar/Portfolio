@@ -1,4 +1,4 @@
-export const UNIFY_LIVE_URL = 'https://l1chatbot.apexneural.cloud/'
+export const UNIFY_FEATURES_SECTION_ID = 'features'
 
 export const UNIFY_NAV = [
   { label: 'Features', href: '#features' },

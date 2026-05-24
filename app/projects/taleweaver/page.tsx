@@ -1,6 +1,6 @@
 import type { Metadata } from 'next'
 import { TaleweaverLanding } from '@/components/taleweaver/TaleweaverLanding'
-import { TALEWEAVER_LIVE_URL } from '@/lib/taleweaver-landing'
+import { SITE } from '@/lib/constants'
 
 export const metadata: Metadata = {
   title: 'AI Book Studio · AI eBooks & Author EPUB Fine-tuning',
@@ -8,8 +8,8 @@ export const metadata: Metadata = {
     'From a viral tweet to Bookgen — AI story creation with author EPUB fine-tuning, voice-locked prose, and export-ready manuscripts.',
   openGraph: {
     title: 'AI Book Studio · Bookgen',
-    description: 'Craft timeless stories with AI. Live on Bookgen.',
-    url: TALEWEAVER_LIVE_URL,
+    description: 'Craft timeless stories with AI. Portfolio case study.',
+    url: `${SITE.url}/projects/taleweaver`,
   },
 }
 

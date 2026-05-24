@@ -1,20 +1,13 @@
 import type { ProjectStory } from '@/lib/project-story'
 
 export const IDEA_INTERNAL_STORY: ProjectStory = {
-  headline: 'DBaaS Social Hub',
+  headline: 'Content Phase',
   subtitle:
-    'Content Phase — full-stack GenOps for multi-platform social: AI generation, calendar planning, persona agents, and OAuth publishing',
+    'Full-stack GenOps for multi-platform social — AI generation, calendar planning, persona agents, and OAuth publishing',
   lede:
-    'The Samsung archive at `dbaas/social-hub/dbasssocialhub` is a production-scale social media AI manager: React + Vite frontend, FastAPI backend on the Apex SaaS framework, PostgreSQL with Alembic migrations, and Docker Compose for deploy. It generates platform-specific copy and images, plans monthly content calendars from business profiles, maintains character-consistent persona agents, runs a UGC “magic editor,” and publishes to Facebook, Instagram, X, LinkedIn, and Reddit — with a Telegram bot that mirrors the web dashboard.',
-  byline: 'Parmeet Singh Talwar · Forward Deploy AI Engineer · DBaaS / ApexNeural',
-  social: [
-    { label: 'SocialHub live', href: 'https://socialhub.apexneural.cloud/' },
-    { label: 'Backend API', href: 'https://ai-content.apexneural.cloud/' },
-    {
-      label: 'Case study',
-      href: 'https://apexneural.com/case-studies/dbaas-platform',
-    },
-  ],
+    'Content Phase is a production-scale social media AI manager: React + Vite frontend, FastAPI backend on the Apex SaaS framework, PostgreSQL with Alembic migrations, and Docker Compose for deploy. It generates platform-specific copy and images, plans monthly content calendars from business profiles, maintains character-consistent persona agents, runs a UGC “magic editor,” and publishes to Facebook, Instagram, X, LinkedIn, and Reddit — with a Telegram bot that mirrors the web dashboard.',
+  byline: 'Parmeet Singh Talwar · Forward Deploy AI Engineer · ApexNeural',
+  social: [],
   blocks: [
     {
       type: 'chapter',
@@ -23,14 +16,14 @@ export const IDEA_INTERNAL_STORY: ProjectStory = {
     {
       type: 'prose',
       paragraphs: [
-        'DBaaS (Digital Business as a Service) needed a flagship GenOps product: not a single “generate a tweet” demo, but an operator-grade system teams could run daily. Founders and marketers were still juggling Canva, spreadsheets, five platform logins, and ad-hoc ChatGPT tabs.',
-        'Content Phase / DBaaS Social Hub compresses that into one monorepo: connect accounts once via OAuth, generate and refine content with GPT-4o and dual image providers (Fal.ai Nano Banana for speed, DALL·E 3 for quality), plan a month of posts from a business profile, and let a background scheduler publish on time.',
+        'Teams needed an operator-grade GenOps product — not a single “generate a tweet” demo, but something founders and marketers could run daily. They were still juggling Canva, spreadsheets, five platform logins, and ad-hoc ChatGPT tabs.',
+        'Content Phase compresses that into one monorepo: connect accounts once via OAuth, generate and refine content with GPT-4o and dual image providers (Fal.ai Nano Banana for speed, DALL·E 3 for quality), plan a month of posts from a business profile, and let a background scheduler publish on time.',
       ],
     },
     {
       type: 'quote',
       text: 'One codebase, five channels, and the same AI pipeline whether you use the web app or Telegram.',
-      attribution: 'System architecture · dbasssocialhub',
+      attribution: 'System architecture · Content Phase',
     },
     {
       type: 'chapter',
@@ -65,19 +58,12 @@ export const IDEA_INTERNAL_STORY: ProjectStory = {
     {
       type: 'prose',
       paragraphs: [
-        'Production URLs: frontend at socialhub.apexneural.cloud, API at ai-content.apexneural.cloud — configured in docker-compose and CORS allowlists.',
+        'Production deploy via Docker Compose — PostgreSQL, FastAPI API, and Vite SPA with documented CORS and OAuth configuration in-repo.',
         'Documented system architecture in-repo (`SYSTEM_ARCHITECTURE.md`) with full API contracts, OAuth flows (including LinkedIn non-PKCE and Twitter hybrid v1.1/v2 media upload), and deployment guidance.',
-        'Ecosystem on disk: same `dbaas/` tree also holds auth-login experiments, Facebook Graph helpers, and influencer ComfyUI workflows — Social Hub is the primary shipped application.',
-      ],
-    },
-    { type: 'divider' },
-    {
-      type: 'prose',
-      paragraphs: [
-        'Source: `/Volumes/Samsung_T5/Storage/code/source code/dbaas/social-hub/dbasssocialhub` — the canonical DBaaS Social Hub / Content Phase codebase this portfolio page describes.',
+        'Same monorepo also holds auth-login experiments, Facebook Graph helpers, and influencer ComfyUI workflows — Content Phase is the primary shipped application.',
       ],
     },
   ],
   closing:
-    'Live: socialhub.apexneural.cloud · API: ai-content.apexneural.cloud · Stack: React · FastAPI · PostgreSQL · Docker · OpenAI · Fal.ai',
+    'Stack: React · FastAPI · PostgreSQL · Docker · OpenAI · Fal.ai · Telegram',
 }

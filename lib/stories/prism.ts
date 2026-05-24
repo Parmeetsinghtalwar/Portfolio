@@ -6,7 +6,7 @@ export const PRISM_STORY: ProjectStory = {
   lede:
     'Prism is an end-to-end recruitment copilot I helped build: n8n orchestrates Gmail intake, GPT-4 résumé parsing and scoring, Airtable candidate state, and Google Calendar scheduling — so HR spends time on people, not chasing the same data across tools.',
   byline: 'Parmeet Singh Talwar · Forward Deploy AI Engineer',
-  social: [{ label: 'Live product', href: 'https://prism.apexneural.cloud/' }],
+  social: [],
   blocks: [
     {
       type: 'chapter',

@@ -1,10 +1,15 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
-import { notFound } from 'next/navigation'
+import { notFound, redirect } from 'next/navigation'
 import { ArrowLeft, ArrowUpRight } from 'lucide-react'
 import { Nav } from '@/components/ui/Nav'
 import { ProjectDetail } from '@/components/sections/ProjectDetail'
-import { PROJECTS, getAllProjectSlugs, getProjectById } from '@/lib/projects'
+import {
+  LEGACY_PROJECT_SLUGS,
+  PROJECTS,
+  getAllProjectSlugs,
+  getProjectById,
+} from '@/lib/projects'
 
 type RouteParams = { slug: string }
 
@@ -46,6 +51,10 @@ export default async function ProjectPage({
   params: Promise<RouteParams>
 }) {
   const { slug } = await params
+  const canonicalSlug = LEGACY_PROJECT_SLUGS[slug]
+  if (canonicalSlug) {
+    redirect(`/projects/${canonicalSlug}`)
+  }
   const project = getProjectById(slug)
   if (!project) notFound()
 

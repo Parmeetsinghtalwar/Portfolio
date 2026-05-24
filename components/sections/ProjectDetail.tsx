@@ -1,7 +1,9 @@
 import { ArrowUpRight } from 'lucide-react'
+import { ProjectHeroVisual } from '@/components/sections/ProjectHeroVisual'
 import { ProjectTechnicalSection } from '@/components/sections/ProjectTechnical'
 import { ProjectStoryNarrative } from '@/components/sections/ProjectStory'
 import { getProjectTechnical } from '@/lib/project-technical'
+import { filterPublicProjectLinks } from '@/lib/project-links'
 import type { Project } from '@/lib/projects'
 import { cn } from '@/lib/utils'
 
@@ -22,6 +24,7 @@ export function ProjectDetail({ project }: ProjectDetailProps) {
   const story = project.story
   const title = story?.headline ?? project.title
   const subtitle = story?.subtitle ?? project.tagline
+  const headerLinks = filterPublicProjectLinks(story?.social ?? project.links)
 
   return (
     <div className="mx-auto max-w-4xl">
@@ -51,9 +54,9 @@ export function ProjectDetail({ project }: ProjectDetailProps) {
           {subtitle}
         </p>
 
-        {(story?.social ?? project.links)?.length ? (
+        {headerLinks.length ? (
           <div className="mt-6 flex flex-wrap gap-2">
-            {(story?.social ?? project.links ?? []).map((link) => (
+            {headerLinks.map((link) => (
               <a
                 key={link.href}
                 href={link.href}
@@ -72,6 +75,8 @@ export function ProjectDetail({ project }: ProjectDetailProps) {
           </div>
         ) : null}
       </header>
+
+      <ProjectHeroVisual projectId={project.id} />
 
       <div className="mt-14">
         <ProjectTechnicalSection spec={spec} projectId={project.id} />

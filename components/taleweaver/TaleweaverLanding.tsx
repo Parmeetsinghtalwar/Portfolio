@@ -6,7 +6,7 @@ import { TaleweaverStudioDemo } from '@/components/taleweaver/TaleweaverStudioDe
 import {
   TALEWEAVER_FEATURES,
   TALEWEAVER_GENRES,
-  TALEWEAVER_LIVE_URL,
+  TALEWEAVER_STUDIO_SECTION_ID,
   TALEWEAVER_STATS,
   TALEWEAVER_STEPS,
 } from '@/lib/taleweaver-landing'
@@ -33,12 +33,10 @@ export function TaleweaverLanding() {
             ships as Bookgen
           </p>
           <a
-            href={TALEWEAVER_LIVE_URL}
-            target="_blank"
-            rel="noopener noreferrer"
+            href={`#${TALEWEAVER_STUDIO_SECTION_ID}`}
             className="inline-flex items-center gap-1 rounded-full bg-amber-950 px-4 py-2 text-sm font-medium text-amber-50 transition hover:bg-amber-900"
           >
-            Live on Bookgen
+            View studio demo
             <ArrowUpRight className="h-3.5 w-3.5" />
           </a>
         </div>
@@ -61,12 +59,10 @@ export function TaleweaverLanding() {
           </p>
           <div className="mt-10 flex flex-wrap justify-center gap-4">
             <a
-              href={TALEWEAVER_LIVE_URL}
-              target="_blank"
-              rel="noopener noreferrer"
+              href={`#${TALEWEAVER_STUDIO_SECTION_ID}`}
               className="rounded-full bg-amber-950 px-6 py-3 text-sm font-semibold text-amber-50 shadow-lg shadow-amber-950/20 transition hover:bg-amber-900"
             >
-              Start creating free
+              Explore the studio
             </a>
             <a
               href="#origin"
@@ -111,16 +107,8 @@ export function TaleweaverLanding() {
               instead of running detection checks in their head.
             </p>
             <p>
-              That reach turned into Bookgen — live at{' '}
-              <a
-                href={TALEWEAVER_LIVE_URL}
-                className="underline decoration-amber-900/30 underline-offset-4 hover:decoration-amber-950"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                Bookgen
-              </a>
-              , 10K+ books on the counter, 50+ genres — but the soul of the project is still
+              That reach turned into Bookgen — 10K+ books on the counter, 50+ genres — but the
+              soul of the project is still
               Taleweaver: GenOps for long-form fiction, born from one sentence on the internet.
             </p>
           </div>
@@ -134,7 +122,10 @@ export function TaleweaverLanding() {
         </div>
       </section>
 
-      <section className="px-6 py-20 md:py-28">
+      <section
+        id={TALEWEAVER_STUDIO_SECTION_ID}
+        className="scroll-mt-24 px-6 py-20 md:py-28"
+      >
         <div className="mx-auto max-w-6xl">
           <div className="grid gap-12 lg:grid-cols-2 lg:items-center">
             <div>
@@ -217,31 +208,19 @@ export function TaleweaverLanding() {
         <div className="mx-auto max-w-2xl text-center">
           <h2 className="font-editorial text-3xl font-medium">Ready to write your story?</h2>
           <p className="mt-3 text-amber-950/65">
-            Open Bookgen — start from an idea or an author EPUB.
+            Explore the in-page studio demo — outline to chapter flow on this case study.
           </p>
           <a
-            href={TALEWEAVER_LIVE_URL}
-            target="_blank"
-            rel="noopener noreferrer"
+            href={`#${TALEWEAVER_STUDIO_SECTION_ID}`}
             className="mt-8 inline-flex rounded-full bg-amber-950 px-8 py-3 text-sm font-semibold text-amber-50 transition hover:bg-amber-900"
           >
-            Get started on Bookgen
+            Open studio demo
           </a>
         </div>
       </section>
 
       <footer className="border-t border-amber-900/10 px-6 py-8 text-center text-xs text-amber-900/50">
-        <p>
-          Taleweaver · portfolio case study · live product{' '}
-          <a
-            href={TALEWEAVER_LIVE_URL}
-            className="underline hover:text-amber-950"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Bookgen
-          </a>
-        </p>
+        <p>Taleweaver · portfolio case study · Bookgen engine</p>
         <p className="mt-2 font-mono text-[10px]">
           Built by Parmeet Singh Talwar · LLM pipelines · EPUB export · author fine-tuning
         </p>

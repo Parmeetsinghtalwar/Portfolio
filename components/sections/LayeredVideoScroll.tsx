@@ -1,6 +1,6 @@
 'use client'
 
-import { useRef, useState, type MouseEvent } from 'react'
+import { useEffect, useRef, useState, type MouseEvent } from 'react'
 import {
   AnimatePresence,
   motion,
@@ -15,6 +15,10 @@ export type LayeredEditorial = {
   bottomLeft?: string[]
   rightBlock?: string[]
   footnote?: string
+  timeline?: string
+  duration?: string
+  detail?: string
+  process?: string
 }
 
 export type LayeredItem = {
@@ -63,6 +67,36 @@ export function LayeredVideoScroll({
 
   const current = items[index]
   const advance = () => setIndex((i) => (i + 1) % items.length)
+  const stackLines = current.editorial?.bottomLeft ?? []
+  const [captionLineIndex, setCaptionLineIndex] = useState(0)
+  const [typedChars, setTypedChars] = useState(0)
+
+  useEffect(() => {
+    setCaptionLineIndex(0)
+    setTypedChars(0)
+  }, [index])
+
+  useEffect(() => {
+    if (stackLines.length === 0) return
+
+    const activeLine = stackLines[captionLineIndex % stackLines.length]
+    const isLineComplete = typedChars >= activeLine.length
+
+    const timeout = window.setTimeout(
+      () => {
+        if (!isLineComplete) {
+          setTypedChars((prev) => prev + 1)
+          return
+        }
+
+        setCaptionLineIndex((prev) => (prev + 1) % stackLines.length)
+        setTypedChars(0)
+      },
+      isLineComplete ? 900 : 45,
+    )
+
+    return () => window.clearTimeout(timeout)
+  }, [stackLines, captionLineIndex, typedChars])
 
   /** White stage when cursor is on background (not card) — matches dasupply hover */
   const whiteStage = overBackground && !overCard
@@ -203,6 +237,17 @@ export function LayeredVideoScroll({
             {current.caption}
           </div>
         ) : null}
+
+        {stackLines.length > 0 ? (
+          <div className="pointer-events-none absolute inset-x-4 top-1/2 z-[12] -translate-y-1/2">
+            <div className="mx-auto w-fit max-w-[90%] rounded-full border border-white/25 bg-black/55 px-4 py-2 text-center backdrop-blur-sm md:px-5 md:py-2.5">
+              <p className="font-mono text-[11px] uppercase tracking-[0.14em] text-white/95 md:text-xs">
+                {stackLines[captionLineIndex % stackLines.length]?.slice(0, typedChars)}
+                <span className="ml-0.5 inline-block animate-pulse text-white/80">|</span>
+              </p>
+            </div>
+          </div>
+        ) : null}
       </div>
 
       {/* (Next) cursor — background only */}
@@ -270,7 +315,7 @@ function EditorialCorners({
         {editorial.topLeft?.length ? (
           <div
             className={cn(
-              'absolute left-7 top-7 max-w-[200px] space-y-1 font-mono text-[11px] uppercase leading-relaxed tracking-[0.16em]',
+              'absolute left-7 top-7 max-w-[260px] space-y-1 font-mono text-xs uppercase leading-relaxed tracking-[0.15em]',
               ink,
             )}
           >
@@ -284,7 +329,7 @@ function EditorialCorners({
         {editorial.rightBlock?.length ? (
           <div
             className={cn(
-              'absolute right-7 top-1/2 max-w-[220px] -translate-y-1/2 space-y-1 text-right font-mono text-[11px] uppercase leading-relaxed tracking-[0.14em]',
+              'absolute right-7 top-1/2 max-w-[260px] -translate-y-1/2 space-y-1 text-right font-mono text-xs uppercase leading-relaxed tracking-[0.13em]',
               ink,
             )}
           >
@@ -297,7 +342,7 @@ function EditorialCorners({
         {editorial.bottomLeft?.length ? (
           <div
             className={cn(
-              'absolute bottom-24 left-7 max-w-[240px] space-y-1 font-mono text-[11px] uppercase leading-relaxed tracking-[0.14em]',
+              'absolute bottom-24 left-7 max-w-[300px] space-y-1 font-mono text-xs uppercase leading-relaxed tracking-[0.13em]',
               ink,
             )}
           >
@@ -314,6 +359,30 @@ function EditorialCorners({
             ) : null}
           </div>
         ) : null}
+
+        {editorial.detail || editorial.process ? (
+          <div
+            className={cn(
+              'absolute bottom-24 right-7 max-w-[340px] space-y-2 text-right',
+              ink,
+            )}
+          >
+            {editorial.timeline || editorial.duration ? (
+              <p className={cn('font-mono text-[10px] uppercase tracking-[0.14em]', inkMuted)}>
+                {editorial.timeline ?? ''}
+                {editorial.timeline && editorial.duration ? ' · ' : ''}
+                {editorial.duration ?? ''}
+              </p>
+            ) : null}
+            {editorial.detail ? (
+              <p className="text-sm font-semibold leading-relaxed">{editorial.detail}</p>
+            ) : null}
+            {editorial.process ? (
+              <p className={cn('text-xs leading-relaxed', inkMuted)}>{editorial.process}</p>
+            ) : null}
+          </div>
+        ) : null}
+
       </motion.div>
     </AnimatePresence>
   )
@@ -342,8 +411,11 @@ function Media({
         muted
         loop
         playsInline
-        preload="metadata"
+        preload="auto"
         aria-hidden={variant === 'background'}
+        onLoadedData={(event) => {
+          event.currentTarget.play().catch(() => {})
+        }}
       />
     )
   }

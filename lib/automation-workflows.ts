@@ -1,19 +1,7 @@
-export type AutomationPlatform = 'n8n' | 'comfyui' | 'make' | 'zapier'
+import type { AutomationWorkflow } from '@/lib/automation-types'
+import { N8N_COMMUNITY_WORKFLOWS } from '@/lib/n8n-community-workflows'
 
-export type AutomationWorkflow = {
-  id: string
-  title: string
-  description: string
-  platform: AutomationPlatform
-  tags: string[]
-  /** Public path, e.g. /automations/n8n/my-flow.json */
-  jsonPath: string
-  /** Longer copy for Finder detail pane */
-  detail?: string
-  /** Optional link to a portfolio project that uses similar patterns */
-  relatedHref?: string
-  relatedLabel?: string
-}
+export type { AutomationPlatform, AutomationWorkflow } from '@/lib/automation-types'
 
 /**
  * Add workflows here + drop JSON under public/automations/{platform}/.
@@ -42,6 +30,7 @@ export const AUTOMATION_WORKFLOWS: AutomationWorkflow[] = [
     relatedHref: '/projects/prism',
     relatedLabel: 'See Prism project',
   },
+  ...N8N_COMMUNITY_WORKFLOWS,
   {
     id: 'comfyui-txt2img-starter',
     title: 'SDXL txt2img (starter graph)',

@@ -6,7 +6,7 @@ export const TALEWEAVER_STORY: ProjectStory = {
   lede:
     'Taleweaver is the product name I use for what ships as Bookgen: AI story infrastructure for authors who need speed without sounding like a machine wrote their chapter.',
   byline: 'Parmeet Singh Talwar · Builder · GenOps',
-  social: [{ label: 'Bookgen · live', href: 'https://bookgen.apexneural.cloud/' }],
+  social: [{ label: 'Portfolio experience', href: '/projects/taleweaver' }],
   blocks: [
     {
       type: 'chapter',

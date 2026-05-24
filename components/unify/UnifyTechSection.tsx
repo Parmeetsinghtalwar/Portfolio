@@ -1,13 +1,11 @@
 'use client'
 
-import { ArrowUpRight, GitBranch, Layers, Shield } from 'lucide-react'
+import { Layers, Shield } from 'lucide-react'
 import {
   UNIFY_ARCHITECTURE_LAYERS,
   UNIFY_CONTRIBUTIONS,
   UNIFY_FLOW_STEPS,
   UNIFY_MULTITENANT_POINTS,
-  UNIFY_REPO_AGENT,
-  UNIFY_REPO_L1,
   UNIFY_STACK_GROUPS,
   UNIFY_TECH_STATS,
 } from '@/lib/unify-tech'
@@ -29,29 +27,6 @@ export function UnifyTechSection() {
             multilingual L1 automation. Below is the stack and what I implemented on
             top of it.
           </p>
-
-          <div className="mt-10 flex flex-wrap gap-3">
-            <a
-              href={UNIFY_REPO_L1}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 rounded-full border border-slate-700 bg-slate-900 px-4 py-2 text-sm font-medium text-slate-100 transition hover:border-indigo-500 hover:text-white"
-            >
-              <GitBranch className="h-4 w-4 text-indigo-400" />
-              Platform monorepo
-              <ArrowUpRight className="h-3.5 w-3.5 opacity-60" />
-            </a>
-            <a
-              href={UNIFY_REPO_AGENT}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 rounded-full border border-slate-700 bg-slate-900 px-4 py-2 text-sm font-medium text-slate-100 transition hover:border-indigo-500 hover:text-white"
-            >
-              <GitBranch className="h-4 w-4 text-indigo-400" />
-              L1 agent service
-              <ArrowUpRight className="h-3.5 w-3.5 opacity-60" />
-            </a>
-          </div>
 
           <div className="mt-14 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {UNIFY_TECH_STATS.map((stat) => (

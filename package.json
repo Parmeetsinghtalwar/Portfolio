@@ -3,13 +3,14 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "next dev -p 3001",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
     "type-check": "tsc --noEmit",
     "seed:socialhub-presets": "bun run scripts/seed-socialhub-presets.ts",
-    "upload:img-car-videos": "bun run scripts/upload-img-car-videos.ts"
+    "upload:img-car-videos": "bun run scripts/upload-img-car-videos.ts",
+    "generate:project-images": "bun run scripts/generate-project-images.ts"
   },
   "dependencies": {
     "@gsap/react": "^2.1.1",

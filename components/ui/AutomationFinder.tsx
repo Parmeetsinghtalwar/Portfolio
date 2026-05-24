@@ -20,7 +20,7 @@ import {
   type AutomationFolder,
   type AutomationFolderId,
 } from '@/lib/automation-finder'
-import type { AutomationWorkflow } from '@/lib/automation-workflows'
+import type { AutomationWorkflow } from '@/lib/automation-types'
 import { cn } from '@/lib/utils'
 
 const FINDER_BG = '#F6F3EC'
@@ -74,7 +74,7 @@ function FolderIcon({
         ) : null}
       </div>
       <span
-        className="max-w-[100px] text-xs font-medium leading-tight"
+        className="max-w-[110px] text-sm font-medium leading-snug"
         style={{ color: FINDER_TEXT }}
       >
         {folder.label}
@@ -100,16 +100,16 @@ function WorkflowDetail({
           : 'Zapier → Create Zap → Import template (when provided)'
 
   return (
-    <div className="flex h-full flex-col">
-      <div className="flex-1 overflow-y-auto p-6 md:p-8">
+    <div className="flex h-full min-h-0 flex-col">
+      <div className="finder-scroll min-h-0 flex-1 overflow-y-auto p-6 md:p-8">
         <p
-          className="font-mono text-[10px] uppercase tracking-[0.2em]"
+          className="font-mono text-xs uppercase tracking-[0.2em]"
           style={{ color: FINDER_MUTED }}
         >
           {folder.label}
         </p>
         <h3
-          className="mt-2 text-2xl font-semibold tracking-tight"
+          className="mt-2 text-2xl font-semibold tracking-tight md:text-3xl"
           style={{ color: FINDER_TEXT }}
         >
           {workflow.title}
@@ -118,7 +118,7 @@ function WorkflowDetail({
           {workflow.tags.map((tag) => (
             <span
               key={tag}
-              className="rounded-full px-2.5 py-0.5 font-mono text-[9px] uppercase tracking-wider"
+              className="rounded-full px-2.5 py-1 font-mono text-[11px] uppercase tracking-wider"
               style={{ backgroundColor: `${folder.color}33`, color: FINDER_TEXT }}
             >
               {tag}
@@ -126,7 +126,7 @@ function WorkflowDetail({
           ))}
         </div>
         <p
-          className="mt-6 text-base leading-relaxed"
+          className="mt-6 text-base leading-relaxed md:text-lg"
           style={{ color: FINDER_MUTED }}
         >
           {workflow.detail ?? workflow.description}
@@ -134,13 +134,13 @@ function WorkflowDetail({
         {workflow.relatedHref ? (
           <Link
             href={workflow.relatedHref}
-            className="mt-6 inline-block text-sm font-medium underline underline-offset-4"
+            className="mt-6 inline-block text-base font-medium underline underline-offset-4"
             style={{ color: FINDER_TEXT }}
           >
             {workflow.relatedLabel ?? 'Related project'} →
           </Link>
         ) : null}
-        <p className="mt-8 font-mono text-[10px] leading-relaxed" style={{ color: FINDER_MUTED }}>
+        <p className="mt-8 font-mono text-xs leading-relaxed" style={{ color: FINDER_MUTED }}>
           {importHint}
         </p>
       </div>
@@ -151,7 +151,7 @@ function WorkflowDetail({
         <a
           href={workflow.jsonPath}
           download
-          className="flex w-full items-center justify-center gap-2 rounded-xl py-3.5 text-sm font-semibold text-white shadow-sm transition hover:brightness-105"
+          className="flex w-full items-center justify-center gap-2 rounded-xl py-3.5 text-base font-semibold text-white shadow-sm transition hover:brightness-105"
           style={{ backgroundColor: folder.color, color: '#1a1a1a' }}
         >
           <Download className="h-4 w-4" />
@@ -203,12 +203,13 @@ export function AutomationFinder() {
 
   return (
     <div
-      className="overflow-hidden rounded-2xl shadow-lg ring-1"
+      className="flex max-h-[min(75vh,680px)] min-h-[min(56vh,520px)] flex-col overflow-hidden rounded-2xl shadow-lg ring-1"
       style={{
         backgroundColor: FINDER_BG,
         borderColor: FINDER_BORDER,
         boxShadow: '0 24px 48px rgba(61, 56, 50, 0.12)',
       }}
+      data-lenis-prevent
     >
       {/* Title bar */}
       <div
@@ -221,7 +222,7 @@ export function AutomationFinder() {
           <span className="h-3 w-3 rounded-full bg-[#28C840]" />
         </div>
         <p
-          className="flex-1 text-center font-mono text-xs tracking-wide"
+          className="flex-1 text-center font-mono text-sm tracking-wide"
           style={{ color: FINDER_MUTED }}
         >
           {path}
@@ -230,7 +231,7 @@ export function AutomationFinder() {
           <button
             type="button"
             onClick={goHome}
-            className="flex items-center gap-1 font-mono text-[10px] uppercase tracking-wider transition hover:opacity-70"
+            className="flex items-center gap-1 font-mono text-xs uppercase tracking-wider transition hover:opacity-70"
             style={{ color: FINDER_TEXT }}
           >
             <ChevronLeft className="h-3.5 w-3.5" />
@@ -241,14 +242,14 @@ export function AutomationFinder() {
         )}
       </div>
 
-      <div className="flex min-h-[480px] md:min-h-[520px]">
+      <div className="flex min-h-0 flex-1">
         {/* Sidebar */}
         <aside
-          className="hidden w-44 shrink-0 border-r py-4 md:block lg:w-48"
+          className="finder-scroll hidden w-48 shrink-0 overflow-y-auto border-r py-4 md:block lg:w-52"
           style={{ borderColor: FINDER_BORDER, backgroundColor: FINDER_SIDEBAR }}
         >
           <p
-            className="px-4 font-mono text-[10px] uppercase tracking-[0.15em]"
+            className="px-4 font-mono text-xs uppercase tracking-[0.15em]"
             style={{ color: FINDER_MUTED }}
           >
             Favorites
@@ -258,7 +259,7 @@ export function AutomationFinder() {
               type="button"
               onClick={goHome}
               className={cn(
-                'flex w-full items-center gap-2 rounded-lg px-3 py-2 text-left text-sm transition',
+                'flex w-full items-center gap-2 rounded-lg px-3 py-2.5 text-left text-base transition',
                 !activeFolderId && 'bg-[#E5DDD0]',
               )}
               style={{ color: FINDER_TEXT }}
@@ -272,7 +273,7 @@ export function AutomationFinder() {
                 type="button"
                 onClick={() => openFolder(folder.id)}
                 className={cn(
-                  'flex w-full items-center gap-2 rounded-lg px-3 py-2 text-left text-sm transition hover:bg-[#E5DDD0]/80',
+                  'flex w-full items-center gap-2 rounded-lg px-3 py-2.5 text-left text-base transition hover:bg-[#E5DDD0]/80',
                   activeFolderId === folder.id && 'bg-[#E5DDD0]',
                 )}
                 style={{ color: FINDER_TEXT }}
@@ -286,9 +287,9 @@ export function AutomationFinder() {
 
         {/* Main */}
         {!activeFolder ? (
-          <div className="flex flex-1 flex-col items-center justify-center p-8 md:p-12">
+          <div className="finder-scroll flex min-h-0 flex-1 flex-col items-center justify-center overflow-y-auto p-8 md:p-12">
             <p
-              className="mb-8 font-mono text-[10px] uppercase tracking-[0.2em] md:hidden"
+              className="mb-8 font-mono text-xs uppercase tracking-[0.2em] md:hidden"
               style={{ color: FINDER_MUTED }}
             >
               Tap a folder
@@ -304,7 +305,7 @@ export function AutomationFinder() {
               ))}
             </div>
             <p
-              className="mt-10 max-w-md text-center text-sm leading-relaxed"
+              className="mt-10 max-w-md text-center text-base leading-relaxed md:text-lg"
               style={{ color: FINDER_MUTED }}
             >
               Open a folder — workflows I built while learning nodes. Download
@@ -312,37 +313,45 @@ export function AutomationFinder() {
             </p>
           </div>
         ) : (
-          <div className="flex min-w-0 flex-1 flex-col md:flex-row">
-            {/* File list */}
+          <div className="flex min-h-0 min-w-0 flex-1 flex-col overflow-hidden md:flex-row">
+            {/* File list — Finder-style scrollable column */}
             <div
-              className="flex max-h-[280px] shrink-0 flex-col border-b md:max-h-none md:w-[220px] md:border-b-0 md:border-r lg:w-[260px]"
+              className="flex max-h-[min(42%,240px)] min-h-0 w-full shrink-0 flex-col overflow-hidden border-b md:max-h-none md:h-full md:w-[240px] md:border-b-0 md:border-r lg:w-[280px]"
               style={{ borderColor: FINDER_BORDER }}
             >
               <div
-                className="hidden items-center gap-2 border-b px-4 py-3 md:flex"
+                className="hidden shrink-0 items-center gap-2 border-b px-4 py-3 md:flex"
                 style={{ borderColor: FINDER_BORDER }}
               >
                 <div
                   className="h-8 w-8 rounded-lg"
                   style={{ backgroundColor: activeFolder.color }}
                 />
-                <div>
-                  <p className="text-sm font-semibold" style={{ color: FINDER_TEXT }}>
+                <div className="min-w-0 flex-1">
+                  <p className="text-base font-semibold" style={{ color: FINDER_TEXT }}>
                     {activeFolder.label}
                   </p>
-                  <p className="text-[10px]" style={{ color: FINDER_MUTED }}>
+                  <p className="text-xs leading-snug" style={{ color: FINDER_MUTED }}>
                     {activeFolder.tagline}
                   </p>
                 </div>
               </div>
-              <ul className="flex-1 overflow-y-auto p-2">
+              {workflows.length > 6 ? (
+                <p
+                  className="shrink-0 border-b px-4 py-2 font-mono text-[11px] uppercase tracking-wider"
+                  style={{ borderColor: FINDER_BORDER, color: FINDER_MUTED }}
+                >
+                  {workflows.length} workflows · scroll
+                </p>
+              ) : null}
+              <ul className="finder-scroll min-h-0 flex-1 overflow-y-auto p-2">
                 {workflows.length === 0 ? (
                   <li
-                    className="rounded-lg px-3 py-8 text-center text-xs leading-relaxed"
+                    className="rounded-lg px-3 py-8 text-center text-sm leading-relaxed"
                     style={{ color: FINDER_MUTED }}
                   >
                     No JSON yet — add files to{' '}
-                    <code className="text-[10px]">
+                    <code className="text-xs">
                       public/automations/{activeFolder.id}/
                     </code>
                   </li>
@@ -353,14 +362,14 @@ export function AutomationFinder() {
                         type="button"
                         onClick={() => setSelectedWorkflowId(w.id)}
                         className={cn(
-                          'w-full rounded-lg px-3 py-2.5 text-left text-sm transition',
+                          'w-full rounded-lg px-3 py-3 text-left text-base transition',
                           selectedWorkflow?.id === w.id && 'bg-[#E5DDD0]',
                         )}
                         style={{ color: FINDER_TEXT }}
                       >
                         <span className="line-clamp-2 font-medium">{w.title}</span>
                         <span
-                          className="mt-0.5 block font-mono text-[9px] uppercase tracking-wider"
+                          className="mt-1 block font-mono text-[11px] uppercase tracking-wider"
                           style={{ color: FINDER_MUTED }}
                         >
                           .json
@@ -373,7 +382,7 @@ export function AutomationFinder() {
             </div>
 
             {/* Detail pane */}
-            <div className="min-h-[280px] flex-1 bg-[#FAF8F4] md:min-h-0">
+            <div className="flex min-h-0 min-w-0 flex-1 flex-col overflow-hidden bg-[#FAF8F4]">
               {selectedWorkflow && activeFolder ? (
                 <WorkflowDetail
                   workflow={selectedWorkflow}
@@ -381,7 +390,7 @@ export function AutomationFinder() {
                 />
               ) : (
                 <div
-                  className="flex h-full items-center justify-center p-8 text-center text-sm"
+                  className="flex flex-1 items-center justify-center p-8 text-center text-base"
                   style={{ color: FINDER_MUTED }}
                 >
                   Select a workflow or add JSON to this folder.

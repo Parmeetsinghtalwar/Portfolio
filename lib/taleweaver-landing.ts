@@ -1,4 +1,4 @@
-export const TALEWEAVER_LIVE_URL = 'https://bookgen.apexneural.cloud/'
+export const TALEWEAVER_STUDIO_SECTION_ID = 'studio'
 
 export const TALEWEAVER_STATS = [
   { value: '10K+', label: 'Books created' },

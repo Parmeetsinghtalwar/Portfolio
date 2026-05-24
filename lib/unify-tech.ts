@@ -1,8 +1,3 @@
-export const UNIFY_REPO_L1 =
-  'https://github.com/apexneuralecosystems/kalamandir-l1'
-export const UNIFY_REPO_AGENT =
-  'https://github.com/apexneuralecosystems/kalamandir-agent'
-
 export const UNIFY_TECH_STATS = [
   { value: 'Multi-tenant', label: 'PostgreSQL RLS', sub: 'per-org isolation' },
   { value: '2 services', label: 'NestJS + FastAPI', sub: 'platform + agent' },

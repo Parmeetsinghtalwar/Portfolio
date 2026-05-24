@@ -2805,7 +2805,7 @@ const COURSE_GRAPH: ProjectArchitectureGraph = {
 export const PROJECT_ARCHITECTURE_GRAPHS: Record<string, ProjectArchitectureGraph> = {
   socialhub: SOCIALHUB_GRAPH,
   prism: PRISM_GRAPH,
-  dbaas: DBAAS_GRAPH,
+  'content-phase': DBAAS_GRAPH,
   unify: UNIFY_GRAPH,
   taleweaver: TALEWEAVER_GRAPH,
   'football-analytics': FOOTBALL_GRAPH,

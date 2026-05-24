@@ -74,6 +74,72 @@ const INK_BREAK_DISTANCE = 160
 const MODEL_URL =
   'https://storage.googleapis.com/mediapipe-models/hand_landmarker/hand_landmarker/float16/1/hand_landmarker.task'
 
+type ModeGuide = {
+  title: string
+  steps: string[]
+  tip?: string
+}
+
+const MODE_GUIDES: Record<CanvasTool, ModeGuide> = {
+  type: {
+    title: 'Type a message',
+    steps: [
+      'Tap Type in the toolbar.',
+      'Use the text box at the bottom — keyboard and trackpad work normally.',
+      'Optional: switch to Draw or Hand to add ink on the canvas, then come back.',
+      'Tap Save when you are done.',
+    ],
+  },
+  play: {
+    title: 'Draw on the canvas',
+    steps: [
+      'Tap Draw in the toolbar.',
+      'Pick a color and brush size.',
+      'Drag with mouse, trackpad, or finger on the transparent canvas.',
+      'Use Clear to start over, then Save to keep it in Memory corner.',
+    ],
+  },
+  sign: {
+    title: 'Sign your name',
+    steps: [
+      'Tap Sign in the toolbar.',
+      'Use the dashed line near the bottom as your baseline.',
+      'Sign with white ink — drag slowly for a clean line.',
+      'Tap Save to store the snapshot.',
+    ],
+  },
+  sticker: {
+    title: 'Add stickers',
+    steps: [
+      'Tap Stickers in the toolbar.',
+      'Choose a graphic or emoji from the row below.',
+      'Tap anywhere on the canvas to place it — tap again to add more.',
+      'Switch back to Draw or Hand if you want ink too, then Save.',
+    ],
+  },
+  erase: {
+    title: 'Erase strokes & stickers',
+    steps: [
+      'Tap Eraser in the toolbar.',
+      'Drag over anything you want to remove.',
+      'Switch back to Draw or Hand to keep editing.',
+    ],
+    tip: 'Eraser only removes ink and stickers — it does not delete typed text.',
+  },
+  hand: {
+    title: 'Draw with your hand (camera)',
+    steps: [
+      'Tap Allow camera below and approve the browser prompt.',
+      'Tap Hand in the toolbar — wait for the green dot on your index finger.',
+      'Hold one hand in frame; move your index finger to draw in the air.',
+      'Lift your hand briefly to end a stroke, then move again to start a new one.',
+      'Adjust Color, Brush, and Cursor (steady / balanced / fast) if the line feels shaky.',
+      'Tap Save when finished — camera turns off when you scroll away.',
+    ],
+    tip: 'Good lighting and a plain background help tracking. Camera is only used in this section.',
+  },
+}
+
 const SNAPSHOT_W = 640
 const SNAPSHOT_H = 480
 const MEMORY_KEY = 'parmeet-portfolio-memories'
@@ -868,6 +934,7 @@ export function ContactReviewPanel() {
     <button
       key={mode}
       type="button"
+      title={MODE_GUIDES[mode].title}
       onClick={() => setInputMode(mode)}
       className={[
         'inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 font-mono text-[10px] uppercase tracking-wider ring-1 transition',
@@ -958,8 +1025,8 @@ export function ContactReviewPanel() {
         type="button"
         onClick={() => setMemoryOpen(true)}
         className="absolute right-6 top-24 z-30 grid h-12 w-12 place-items-center rounded-2xl bg-black/40 ring-1 ring-white/25 backdrop-blur-md transition hover:bg-black/55 md:right-12"
-        aria-label="Open memory corner"
-        title="Memory corner"
+        aria-label="Open memory corner — saved drawings and notes"
+        title="Memory corner — your saved drawings"
       >
         <Folder className="h-5 w-5 text-white" />
         {memories.length > 0 && (
@@ -1004,9 +1071,10 @@ export function ContactReviewPanel() {
           >
             {SITE.email} →
           </a>
-          <p className="mt-4 max-w-lg font-mono text-[11px] uppercase tracking-[0.16em] text-white/75">
-            Transparent canvas over your camera — draw, sign, stickers, or hand mode.
-            Open the folder (top right) for saved memories.
+          <p className="mt-4 max-w-lg text-sm leading-relaxed text-white/80">
+            Leave a note on the guest wall — type, draw, sign, add stickers, or trace
+            with your hand. Saved snapshots live in the{' '}
+            <span className="font-medium text-white">folder icon (top right)</span>.
           </p>
         </div>
 
@@ -1215,18 +1283,62 @@ export function ContactReviewPanel() {
                 </div>
               )}
 
-              <div className="w-full max-w-3xl rounded-2xl border border-white/15 bg-black/55 p-4 backdrop-blur-md">
+              <motion.div
+                key={inputMode}
+                initial={{ opacity: 0, y: 6 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.2 }}
+                className="w-full max-w-3xl rounded-2xl border border-white/15 bg-black/55 p-4 backdrop-blur-md"
+              >
+                <p className="font-mono text-[10px] uppercase tracking-wider text-emerald-400">
+                  How to use · {MODE_GUIDES[inputMode].title}
+                </p>
+                <ol className="mt-3 space-y-2 text-sm leading-snug text-white/90">
+                  {MODE_GUIDES[inputMode].steps.map((step, index) => (
+                    <li key={step} className="flex gap-3">
+                      <span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-white/15 font-mono text-[10px] text-white/70">
+                        {index + 1}
+                      </span>
+                      <span>{step}</span>
+                    </li>
+                  ))}
+                </ol>
+                {MODE_GUIDES[inputMode].tip ? (
+                  <p className="mt-3 border-t border-white/10 pt-3 text-xs leading-relaxed text-white/60">
+                    {MODE_GUIDES[inputMode].tip}
+                  </p>
+                ) : null}
+              </motion.div>
+
+              <div
+                className={[
+                  'w-full max-w-3xl rounded-2xl border bg-black/55 p-4 backdrop-blur-md',
+                  inputMode === 'hand'
+                    ? 'border-emerald-400/40 ring-1 ring-emerald-400/20'
+                    : 'border-white/15',
+                ].join(' ')}
+              >
                 <div className="flex items-start gap-3">
                   <Video className="mt-0.5 h-5 w-5 shrink-0 text-emerald-400" />
                   <div className="min-w-0 flex-1">
                     <p className="font-mono text-[10px] uppercase tracking-wider text-white/55">
-                      Camera (this section only)
+                      Camera {inputMode === 'hand' ? '(required for Hand mode)' : '(optional)'}
                     </p>
                     <p className="mt-1 text-sm leading-snug text-white/85">
-                      {status === 'ready'
-                        ? 'Camera is on while you are here. It turns off when you scroll away or tap Turn off.'
-                        : 'Allow camera below to see yourself and use hand mode. Camera stays off until you enable it.'}
+                      {inputMode === 'hand' && status !== 'ready'
+                        ? 'Hand drawing needs your webcam. Tap Allow camera, approve the browser popup, then select Hand in the toolbar above.'
+                        : inputMode === 'hand' && status === 'ready'
+                          ? 'Camera is live — you should see yourself behind the canvas. Move your index finger to draw; the green dot is your cursor.'
+                          : status === 'ready'
+                            ? 'Camera is on. Switch to Hand mode anytime, or keep drawing with mouse/trackpad.'
+                            : 'Camera stays off until you tap Allow camera. Only used in this contact section.'}
                     </p>
+                    {inputMode === 'hand' && status === 'ready' && (
+                      <p className="mt-2 text-xs leading-relaxed text-emerald-200/90">
+                        One hand in frame, index finger extended. Lift your hand to finish a stroke.
+                        Use Cursor steady / balanced / fast if the line wobbles.
+                      </p>
+                    )}
                     <div className="mt-3 flex flex-wrap items-center gap-2">
                       {(status === 'idle' || status === 'error') && (
                         <button
@@ -1239,7 +1351,9 @@ export function ContactReviewPanel() {
                         </button>
                       )}
                       {status === 'loading' && (
-                        <span className="font-mono text-xs text-white/60">Starting camera…</span>
+                        <span className="font-mono text-xs text-white/60">
+                          Starting camera… hold on
+                        </span>
                       )}
                       {status === 'ready' && (
                         <button
@@ -1249,6 +1363,11 @@ export function ContactReviewPanel() {
                         >
                           Turn camera off
                         </button>
+                      )}
+                      {inputMode === 'hand' && status !== 'ready' && (
+                        <span className="font-mono text-[10px] uppercase tracking-wider text-white/45">
+                          Step 1 for hand mode
+                        </span>
                       )}
                     </div>
                     {status === 'error' && errorMsg && (
@@ -1268,17 +1387,26 @@ export function ContactReviewPanel() {
 
             <div className="flex flex-wrap items-end justify-between gap-4">
               <div className="pointer-events-auto flex flex-wrap gap-4 font-mono text-sm text-white/75">
-                <a href={SITE.social.github}>github</a>
-                <a href={SITE.social.linkedin}>linkedin</a>
-                <a href={SITE.social.twitter}>twitter</a>
+                <a href={SITE.social.github} target="_blank" rel="noopener noreferrer">
+                  github
+                </a>
+                <a href={SITE.social.linkedin} target="_blank" rel="noopener noreferrer">
+                  linkedin
+                </a>
+                <a href={SITE.social.instagram} target="_blank" rel="noopener noreferrer">
+                  instagram
+                </a>
               </div>
-              <p className="font-mono text-xs text-white/55">
-                {inputMode === 'type' && 'Type your message — trackpad safe'}
-                {inputMode === 'play' && 'Transparent canvas · colors & brush'}
-                {inputMode === 'sign' && 'Sign on the line · white ink'}
-                {inputMode === 'sticker' && 'Stickers + emoji · tap to place'}
-                {inputMode === 'erase' && 'Drag eraser over strokes & stickers'}
-                {inputMode === 'hand' && 'Index finger · needs camera on'}
+              <p className="max-w-md text-right font-mono text-[10px] leading-relaxed text-white/55">
+                {inputMode === 'type' && 'Active: Type — message box at bottom'}
+                {inputMode === 'play' && 'Active: Draw — drag on canvas'}
+                {inputMode === 'sign' && 'Active: Sign — use the dashed baseline'}
+                {inputMode === 'sticker' && 'Active: Stickers — tap canvas to place'}
+                {inputMode === 'erase' && 'Active: Eraser — drag to remove ink'}
+                {inputMode === 'hand' &&
+                  (status === 'ready'
+                    ? 'Active: Hand — index finger draws; green dot = cursor'
+                    : 'Active: Hand — turn on camera first')}
               </p>
             </div>
           </div>

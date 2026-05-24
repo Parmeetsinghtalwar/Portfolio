@@ -21,7 +21,7 @@ export const AUTOMATION_FOLDERS: AutomationFolder[] = [
     label: 'n8n',
     color: '#8DB9D3',
     icon: 'workflow',
-    tagline: 'Learning nodes · webhooks · AI steps',
+    tagline: '32 workflows · download JSON · import',
     sidebarLabel: 'n8n',
   },
   {
