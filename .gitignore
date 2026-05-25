@@ -36,6 +36,9 @@ lerna-debug.log*
 # Local clones / scratch
 .tmp/
 
+# Personal DNS / deploy config (not for public repo)
+is-a-dev/
+
 # Editor / OS
 .vscode/*
 !.vscode/extensions.json

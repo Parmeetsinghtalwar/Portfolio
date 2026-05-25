@@ -3,9 +3,9 @@ import type { ProjectStory } from '@/lib/project-story'
 export const UNIFY_STORY: ProjectStory = {
   headline: 'Unify',
   subtitle:
-    'Omni-channel L1 platform — NestJS platform + FastAPI agent, multi-tenant',
+    'Omni-channel L1 — one inbox, AI-first, human when it matters',
   lede:
-    'Production omni-channel support for brands that sell on WhatsApp, Telegram, and Instagram: one inbox, multilingual L1 AI, catalog RAG and vision matching, and human takeover with full thread context — built as a NestJS platform plus a FastAPI agent pipeline.',
+    'Production omni-channel support for brands on WhatsApp, Telegram, and Instagram: one inbox, multilingual L1 AI, catalog grounding, and human takeover with full thread context.',
   byline: 'Parmeet Singh Talwar · Full-stack builder',
   social: [],
   blocks: [
@@ -46,8 +46,7 @@ export const UNIFY_STORY: ProjectStory = {
     {
       type: 'prose',
       paragraphs: [
-        'NestJS 11 monorepo: API gateway, JWT auth, tenant middleware, RBAC, conversations, tickets, audit log, and channel webhooks. FastAPI L1 agent: seven-step message pipeline with content guard, translation, catalog search (pgvector), orders/payments tools, and human-escalation signals.',
-        'PostgreSQL 16 with row-level security per tenant, Redis + BullMQ for queues, and Docker/Terraform deploy paths documented for production. Parallels the kalamandir-l1 / l-1-bot stack used for live saree-brand sales automation.',
+        'Platform and agent are intentionally separate: tenancy, conversations, and channel delivery live in one service; NLU, tools, and model calls live in another so you can scale inference without rewiring every webhook. Multi-tenant isolation and the seven-step agent pipeline are spelled out under Technical.',
       ],
     },
   ],

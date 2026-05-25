@@ -1,4 +1,5 @@
 import type { LayeredItem } from '@/components/sections/LayeredVideoScroll'
+import { homeSectionEyebrow } from '@/lib/home-sections'
 
 const IMG_CAR_FILES = [
   'IMG_4514.MOV',
@@ -178,7 +179,7 @@ export const IMG_CAR_CAROUSEL_ITEMS: LayeredItem[] = IMG_CAR_FILES.map(
     type: 'video' as const,
     src: CLOUDINARY_SRC[file] ?? LOCAL_SRC[file],
     caption: `Frame ${String(index + 1).padStart(2, '0')}`,
-    series: 'About · 01',
+    series: homeSectionEyebrow('about'),
     editorial: EDITORIAL[index],
   }),
 )

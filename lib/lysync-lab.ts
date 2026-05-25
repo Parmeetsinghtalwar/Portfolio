@@ -44,8 +44,10 @@ export const LYSYNC_LEARNING_POINTS = [
   'Using the player below as the review surface — same frame, switch dubs, watch lip lag.',
 ] as const
 
+import { homeSectionEyebrow } from '@/lib/home-sections'
+
 export const LYSYNC_LAB_COPY = {
-  eyebrow: '04 · Open-source audio · lip-sync',
+  eyebrow: homeSectionEyebrow('lysync'),
   title: 'LySync workflow',
   lede:
     'The dub pipeline I am actively wiring — open weights for ASR, speech, and lip alignment, then a QA player to hear five languages on one cut.',

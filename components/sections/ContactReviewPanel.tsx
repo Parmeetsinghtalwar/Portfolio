@@ -6,7 +6,7 @@ import {
   useRef,
   useState,
 } from 'react'
-import { motion } from 'framer-motion'
+import { AnimatePresence, motion } from 'framer-motion'
 import {
   Camera,
   Check,
@@ -26,6 +26,7 @@ import {
 } from 'lucide-react'
 import { MemoryCorner } from '@/components/sections/MemoryCorner'
 import { SITE } from '@/lib/constants'
+import { homeSectionEyebrow } from '@/lib/home-sections'
 import {
   getCameraStream,
   releaseCameraStream,
@@ -129,7 +130,7 @@ const MODE_GUIDES: Record<CanvasTool, ModeGuide> = {
   hand: {
     title: 'Draw with your hand (camera)',
     steps: [
-      'Tap Allow camera below and approve the browser prompt.',
+      'Use the Open your camera notification (top center) or tap Allow camera below.',
       'Tap Hand in the toolbar — wait for the green dot on your index finger.',
       'Hold one hand in frame; move your index finger to draw in the air.',
       'Lift your hand briefly to end a stroke, then move again to start a new one.',
@@ -236,6 +237,7 @@ export function ContactReviewPanel() {
   const [memories, setMemories] = useState<ReviewMemory[]>([])
   const [memoryOpen, setMemoryOpen] = useState(false)
   const [previewMemory, setPreviewMemory] = useState<ReviewMemory | null>(null)
+  const [cameraPromptDismissed, setCameraPromptDismissed] = useState(false)
 
   useEffect(() => {
     setMemories(loadMemories())
@@ -264,6 +266,14 @@ export function ContactReviewPanel() {
       setBrushSize(d.size)
     }
   }, [inputMode])
+
+  useEffect(() => {
+    if (inputMode === 'hand') setCameraPromptDismissed(false)
+  }, [inputMode])
+
+  useEffect(() => {
+    if (status === 'ready') setCameraPromptDismissed(false)
+  }, [status])
 
   useEffect(() => {
     inputModeRef.current = inputMode
@@ -905,6 +915,12 @@ export function ContactReviewPanel() {
   const brushSizes =
     inputMode === 'sign' ? SIGN_BRUSH_SIZES : PLAY_BRUSH_SIZES
 
+  const showCameraNotification =
+    !submitted &&
+    status !== 'ready' &&
+    status !== 'loading' &&
+    (inputMode === 'hand' || !cameraPromptDismissed)
+
   const onCanvasPointerDown = useCallback(
     (e: React.PointerEvent<HTMLCanvasElement>) => {
       if (inputMode === 'sticker') {
@@ -1021,6 +1037,66 @@ export function ContactReviewPanel() {
         </>
       )}
 
+      <AnimatePresence>
+        {showCameraNotification && (
+          <motion.div
+            role="alert"
+            initial={{ opacity: 0, y: -12 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -8 }}
+            className="pointer-events-auto absolute left-1/2 top-20 z-[45] w-[min(100%,22rem)] -translate-x-1/2 px-4 md:top-24 md:w-auto md:max-w-md"
+          >
+            <div
+              className={[
+                'rounded-2xl border px-4 py-3 shadow-2xl backdrop-blur-xl',
+                inputMode === 'hand'
+                  ? 'border-amber-400/50 bg-amber-950/90 ring-2 ring-amber-400/30'
+                  : 'border-emerald-400/35 bg-black/85 ring-1 ring-emerald-400/25',
+              ].join(' ')}
+            >
+              <div className="flex items-start gap-3">
+                <div className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-emerald-500/20">
+                  <Camera className="h-5 w-5 text-emerald-300" />
+                </div>
+                <div className="min-w-0 flex-1">
+                  <p className="font-mono text-[10px] uppercase tracking-wider text-emerald-300">
+                    {inputMode === 'hand' ? 'Camera required' : 'Optional camera'}
+                  </p>
+                  <p className="mt-1 text-sm font-medium leading-snug text-white">
+                    {inputMode === 'hand'
+                      ? 'Open your camera to draw with your hand.'
+                      : 'Open your camera for hand tracking, or keep drawing with mouse or trackpad.'}
+                  </p>
+                  <p className="mt-1 text-xs leading-relaxed text-white/65">
+                    Tap Allow below — your browser will ask for permission. Camera only runs in
+                    this section.
+                  </p>
+                  <div className="mt-3 flex flex-wrap items-center gap-2">
+                    <button
+                      type="button"
+                      onClick={startManually}
+                      className="inline-flex items-center gap-2 rounded-full bg-emerald-500 px-4 py-2 text-xs font-semibold text-black transition hover:bg-emerald-400"
+                    >
+                      <Camera className="h-4 w-4" />
+                      Open camera
+                    </button>
+                    {inputMode !== 'hand' && (
+                      <button
+                        type="button"
+                        onClick={() => setCameraPromptDismissed(true)}
+                        className="rounded-full px-3 py-2 font-mono text-[10px] uppercase tracking-wider text-white/70 hover:bg-white/10"
+                      >
+                        Not now
+                      </button>
+                    )}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
       <button
         type="button"
         onClick={() => setMemoryOpen(true)}
@@ -1053,7 +1129,9 @@ export function ContactReviewPanel() {
         className="pointer-events-none absolute inset-0 z-20 flex h-full flex-col justify-between px-6 pb-10 pt-24 md:px-12 md:pb-14 md:pt-28"
       >
         <div className="max-w-2xl">
-          <p className="font-mono text-xs uppercase tracking-[0.3em] text-accent">06 · Contact</p>
+          <p className="font-mono text-xs uppercase tracking-[0.3em] text-accent">
+            {homeSectionEyebrow('contact')}
+          </p>
           <motion.h2
             initial={{ opacity: 0, y: 40 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -1073,8 +1151,10 @@ export function ContactReviewPanel() {
           </a>
           <p className="mt-4 max-w-lg text-sm leading-relaxed text-white/80">
             Leave a note on the guest wall — type, draw, sign, add stickers, or trace
-            with your hand. Saved snapshots live in the{' '}
-            <span className="font-medium text-white">folder icon (top right)</span>.
+            with your hand. For hand mode, use the notification above to{' '}
+            <span className="font-medium text-white">open your camera</span>. Tap{' '}
+            <span className="font-medium text-white">Save</span> when done — memories live in
+            the <span className="font-medium text-white">folder (top right)</span>.
           </p>
         </div>
 

@@ -7,11 +7,11 @@ before writing any personalized message.
 ## Who I am
 - **Name:** Parmeet Singh Talwar
 - **Headline identity (lead with this in messages):** Co-founder & CTO of GetZoned (getzoned.in), an entertainment app for making people meet in real life through curated events and experiences. Funded, live, currently scaling.
-- **Day role (mention naturally when it fits, e.g. for AI infra targets where my professional work is relevant):** AI Context Engineer Intern at ApexNeural (Hyderabad). I designed automated product-research pipelines processing 10K+ posts/day, identified 500+ opportunities/month, cut validation cycles from 2 weeks to 48 hours. Authored "Why AI Safety is Losing the Race".
+- **Day role (mention naturally when it fits, e.g. for AI infra targets where my professional work is relevant):** AI Context Engineer (GenOps). Automated product-research pipelines processing 10K+ posts/day, identified 500+ opportunities/month, cut validation cycles from 2 weeks to 48 hours.
 - **Education:** Integrated MTech in CSE–AI at VIT Bhopal (completed).
 - **Self-described as:** AI Systems Engineer / GenOps Builder / Full-Stack Developer / Co-founder.
 - **Location:** Hyderabad, India (current). Originally from Bhopal, India.
-- **Email:** parmeetsinghtalwar2003@gmail.com / claudefour@apexneural.com
+- **Email:** parmeetsinghtalwar2003@gmail.com
 
 ## What I'm building / working on
 
@@ -22,13 +22,14 @@ before writing any personalized message.
 - **Status:** Funded, live at getzoned.in, currently scaling user acquisition in select Indian cities.
 
 ### Side / portfolio projects (proof I build real things, drop into messages when the recipient's domain matches)
-- **Content Factory / SocialHub — AI GenOps Platform.** End-to-end platform that takes one content idea and produces full multi-platform campaigns (images, captions, scheduling) across LinkedIn, Instagram, Facebook. Tech: FastAPI, Next.js, OAuth 2.0 zero-knowledge (credentials never stored), AES-256, LLMs, DALL-E 3, FLUX, RAG, n8n, Telegram API. AI content engine with prompt-enhancement layer. Telegram-based mobile command center for real-time generation, approval, scheduling. Useful hook for marketing/content-AI founders.
-- **Unify — AI-Powered Omnichannel Sales & Support SaaS.** Production-grade multi-tenant SaaS unifying WhatsApp, Instagram, Telegram, and web chat with org-level RBAC. LLM-powered conversational agent with RAG grounding, multilingual, context-aware. Sentiment-based escalation to human agents, real-time WebSocket message routing. Embeddings-based product recommendation. Tech: FastAPI, React, PostgreSQL, Supabase (pgvector), LangChain, WebSockets, RAG. Useful hook for conversational AI / customer support / agent system founders.
+- **Content Factory / SocialHub — AI GenOps Platform.** End-to-end platform that takes one content idea and produces full multi-platform campaigns (images, captions, scheduling) across LinkedIn, Instagram, Facebook. Shipped as a **production monorepo** (React/Vite SPA, FastAPI, workers, Docker Compose). Tech: FastAPI, Next.js, OAuth 2.0 zero-knowledge (credentials never stored), AES-256, LLMs, DALL-E 3, FLUX, RAG, n8n, Telegram API. AI content engine with prompt-enhancement layer. Telegram-based mobile command center for real-time generation, approval, scheduling. Useful hook for marketing/content-AI founders.
+- **Unify — AI-Powered Omnichannel Sales & Support SaaS.** Production-grade multi-tenant SaaS unifying WhatsApp, Instagram, Telegram, and web chat with org-level RBAC. **NestJS monorepo** for platform (conversations, RBAC, BullMQ) plus a **FastAPI L1 agent** service. LLM-powered conversational agent with RAG grounding, multilingual, context-aware. Sentiment-based escalation to human agents, real-time WebSocket message routing. Embeddings-based product recommendation. Tech: NestJS, FastAPI, React, PostgreSQL, pgvector, WebSockets, RAG. Useful hook for conversational AI / customer support / agent system founders.
+- **Taleweaver / Bookgen — AI Book Studio.** Monorepo: Vite frontend, FastAPI backend, GPU llm-service (Qwen + LoRA), offline training pipeline for author-style adapters. Useful hook for generative media / publishing AI founders.
 
-### Day job — ApexNeural (Hyderabad) — mention when it's relevant, don't lead with it
+### Day job — GenOps / AI engineering (client work) — mention when it's relevant, don't lead with it
 - **Role:** AI Context Engineer Intern.
 - **What I do there:** Engineered automated product-research pipelines combining Google Trends + Reddit + scraping. Built ingestion system processing 10K+ posts/day for NLP-based trend detection. Integrated 15+ tools (n8n, Airtable, Notion, Slack). Cut validation cycle from 2 weeks to 48 hours. Identified 500+ market opportunities/month. Designed and deployed end-to-end GenOps workflows.
-- **Authored:** Technical blog "Why AI Safety is Losing the Race" and case study "Content Phase – AI Platform" on ApexNeural's site.
+- **Authored:** Technical writing on AI safety and a Content Phase / GenOps platform case study (public portfolio).
 - **When to reference in outreach:** Naturally, when the recipient works on AI infra, observability, trend detection, NLP at scale, or anything where my pipeline work is a concrete shared topic. Don't lead with it. GetZoned is the headline.
 
 ### Scale AI — prior remote work on LLM evaluation
@@ -72,7 +73,7 @@ When pulling new rows, default ratio: ~60% AI, ~25% SaaS/B2B, ~15% others. Adjus
 - Specific over generic. One concrete detail beats five compliments.
 
 ## What to NEVER say in my messages
-- **Don't lead with ApexNeural.** GetZoned is the headline. ApexNeural can be referenced naturally when the recipient works on something where my pipeline / NLP / GenOps work is genuinely relevant (e.g. AI infra, trend detection, agent observability). But it's never the opening identity. The reader should see "founder/CTO at GetZoned, also AI engineer at ApexNeural", not the other way around.
+- **Don't lead with client/day-job employer names.** GetZoned is the headline. GenOps pipeline work can be referenced naturally when the recipient works on something relevant (AI infra, trend detection, agent observability). The reader should see "founder/CTO at GetZoned, also AI engineer shipping production systems", not employer-first.
 - "Leverage" / "leveraging"
 - "Ecosystem" / "synergy"
 - "Amazing" / "incredible" / "inspiring"

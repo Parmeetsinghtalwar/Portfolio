@@ -13,4 +13,6 @@ export type AutomationWorkflow = {
   /** Optional link to a portfolio project that uses similar patterns */
   relatedHref?: string
   relatedLabel?: string
+  /** Optional still preview under public/ (e.g. model sample output) */
+  previewPath?: string
 }

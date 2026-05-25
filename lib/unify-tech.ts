@@ -14,19 +14,19 @@ export const UNIFY_ARCHITECTURE_LAYERS = [
       'WhatsApp, Telegram, Instagram, email, and embedded web chat hit channel webhooks on the NestJS API. Each inbound event is normalized into a tenant-scoped conversation thread.',
   },
   {
-    title: 'Platform (kalamandir-l1)',
+    title: 'Platform (NestJS monorepo)',
     detail:
       'NestJS 11 monorepo: conversation state machine, tickets, JWT auth, tenant middleware, BullMQ workers for outbound delivery, and a router gateway that calls the agent with full thread context.',
   },
   {
-    title: 'L1 agent (kalamandir-agent)',
+    title: 'L1 agent (FastAPI)',
     detail:
       'FastAPI service on POST /api/v1/message: content guard → translation → context load → NLU / understanding → orchestrator (search, orders, payments, handoff signals) → channel-aware formatting.',
   },
   {
     title: 'Data plane',
     detail:
-      'PostgreSQL 16 with row-level security (app.tenant_id), Redis for queues, optional pgvector for visual search embeddings, and per-tenant commerce connectors (Magento, catalog APIs) stored as tenant data providers.',
+      'PostgreSQL 16 with row-level security (app.tenant_id), Redis for queues, optional pgvector for visual search embeddings, and per-tenant commerce connectors stored as tenant data providers.',
   },
 ] as const
 
@@ -45,7 +45,7 @@ export const UNIFY_MULTITENANT_POINTS = [
   },
   {
     title: 'Per-tenant integrations',
-    body: 'Bot tokens, commerce credentials, and visual-search providers are stored per tenant — not in shared env vars — so one deployment serves Kalamandir, sub-brands, and white-label workspaces.',
+    body: 'Bot tokens, commerce credentials, and visual-search providers are stored per tenant — not in shared env vars — so one deployment serves multiple brands and white-label workspaces.',
   },
 ] as const
 

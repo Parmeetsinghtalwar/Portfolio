@@ -78,8 +78,8 @@ export async function generateProjectCopy(
           'Return JSON only with these keys:',
           'quote — one famous MOVIE quote (real, recognizable) that metaphorically fits the project; max 22 words; keep the line faithful to the film.',
           'attribution — film title and year, e.g. "The Social Network (2010)" or "Character — Interstellar (2014)".',
-          'heroImagePrompt — SIMPLE real-world photograph or soft gradient: one clear subject, muted natural colors, minimal composition. NO neon, NO holograms, NO neural networks, NO sci-fi UI, NO glowing circuits, NO abstract tech wallpaper.',
-          'previewImagePrompt — SIMPLE square still life or soft color field matching the hero mood. Prefer no typography; if any, only the project name in plain sans-serif. Same ban: no neon cyberpunk AI art.',
+          'heroImagePrompt — ONE real-world photograph that visually suggests the project domain (tools, environment, objects). Muted natural colors, documentary style. NO text, NO logos, NO neon, NO holograms, NO neural-network art, NO sci-fi UI, NO glowing circuits.',
+          'previewImagePrompt — Square still life matching the hero subject/mood. Same rules: photograph only, zero typography, zero words, zero logos. NO AI-art clichés.',
         ].join(' '),
       },
       {
@@ -138,16 +138,21 @@ export function extractImageDataUrls(message: ChatMessage | undefined): string[]
 
 function buildImagePrompt(imagePrompt: string, variant: 'hero' | 'preview'): string {
   const noTextRule =
-    'CRITICAL: zero text, zero letters, zero words, zero logos, zero watermarks, zero typography.'
-  const textRule =
-    'Include bold stylized poster title typography for the project name only — no other text blocks.'
-
-  const style =
+    'CRITICAL: zero text, zero letters, zero words, zero numbers, zero logos, zero watermarks, zero UI labels, zero captions, zero typography on any object or screen.'
+  const aspect =
     variant === 'hero'
-      ? `Generate one cinematic wide hero image. ${noTextRule}`
-      : `Generate one square portfolio thumbnail image. ${textRule}`
+      ? 'Generate one cinematic wide 16:9 hero photograph.'
+      : 'Generate one square 1:1 portfolio thumbnail photograph.'
 
-  return `${imagePrompt}. ${style} Natural soft daylight or gentle gradient, understated, editorial photography aesthetic, not illustration, not 3D render, not AI-art clichés. No faces.`
+  return [
+    imagePrompt,
+    aspect,
+    noTextRule,
+    'Photorealistic documentary still life or environment photo: natural soft daylight, muted palette, shallow depth of field when appropriate.',
+    'Not illustration, not 3D render, not digital painting, not stock "AI brain" art, not neon cyberpunk, not holographic dashboards.',
+    'If a screen appears, content must be heavily blurred or blank so no readable characters.',
+    'No human faces.',
+  ].join(' ')
 }
 
 async function requestImageViaTool(

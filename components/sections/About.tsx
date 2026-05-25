@@ -4,6 +4,7 @@ import { useRef } from 'react'
 import { useGSAP, gsap, ScrollTrigger } from '@/lib/gsap'
 import { LayeredVideoScroll } from '@/components/sections/LayeredVideoScroll'
 import { IMG_CAR_CAROUSEL_ITEMS } from '@/lib/img-car-carousel'
+import { homeSectionEyebrow } from '@/lib/home-sections'
 
 export function About() {
   const ref = useRef<HTMLElement>(null)
@@ -30,7 +31,7 @@ export function About() {
       <LayeredVideoScroll
         items={IMG_CAR_CAROUSEL_ITEMS}
         title="Parmeet Talwar"
-        eyebrow="01 · About · hover background · click to advance"
+        eyebrow={homeSectionEyebrow('about')}
         watermark="parmeet"
         className="min-h-screen"
       />
@@ -39,7 +40,7 @@ export function About() {
         <div className="relative mx-auto grid max-w-6xl gap-16 px-6 md:grid-cols-2">
           <div>
             <p className="about-reveal mb-6 font-mono text-xs uppercase tracking-[0.3em] text-foreground/50">
-              01 · About
+              {homeSectionEyebrow('about')}
             </p>
             <h2 className="about-reveal text-4xl font-semibold leading-tight tracking-tight md:text-5xl">
               I design and ship agent systems, GenOps pipelines, and the products
@@ -49,15 +50,20 @@ export function About() {
               Storytelling, engineering, and strategy in one lane — for teams
               that need AI to work in production, not just in slides.
             </p>
-            <p className="about-reveal mt-8 font-mono text-xs uppercase tracking-[0.2em] text-foreground/50">
-              Co-founder &amp; CTO, GetZoned · Forward Deploy AI Engineer ·{' '}
+            <p className="about-reveal mt-8 text-sm leading-relaxed text-foreground/55">
+              Co-founder &amp; CTO at GetZoned. Forward Deploy AI Engineer. See{' '}
               <a href="#advisory" className="underline underline-offset-2 hover:text-foreground">
                 advisory
               </a>
-              {' · '}
+              ,{' '}
+              <a href="#open-models" className="underline underline-offset-2 hover:text-foreground">
+                open models
+              </a>
+              , and{' '}
               <a href="#playground" className="underline underline-offset-2 hover:text-foreground">
                 playground
               </a>
+              .
             </p>
           </div>
           <div className="about-reveal space-y-6 pt-4 text-lg leading-relaxed text-foreground/70 md:pt-12">
@@ -84,8 +90,15 @@ export function About() {
               >
                 Playground
               </a>{' '}
-              is where I learn nodes and automations — n8n, ComfyUI, Make, Zapier —
-              and I am building a simpler n8n-style flow app in progress.
+              is for automation templates — n8n, ComfyUI, Make, Zapier. Open-source
+              image and video work (fine-tuning, Z-Image, Wan) lives in{' '}
+              <a
+                href="#open-models"
+                className="text-foreground underline underline-offset-4 decoration-foreground/30 hover:decoration-foreground"
+              >
+                Open models
+              </a>
+              .
             </p>
             <p>
               As a Forward Deploy AI Engineer, I ship production GenOps: automated

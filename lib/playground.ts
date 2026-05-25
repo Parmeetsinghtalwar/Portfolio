@@ -1,16 +1,18 @@
+import { homeSectionEyebrow } from '@/lib/home-sections'
+
 export const PLAYGROUND_COPY = {
-  eyebrow: '03 · Playground',
+  eyebrow: homeSectionEyebrow('playground'),
   title: 'Playground',
   lede:
-    'Hands-on automation experiments and reusable workflow templates. Practical builds, test runs, and import-ready JSON examples.',
+    'Hands-on automation experiments and reusable workflow templates — n8n, ComfyUI, Make, Zapier. Import JSON, wire credentials, iterate.',
   finderHint:
-    'Open a folder like Finder — scroll the workflow list, pick a template, download JSON at the bottom.',
+    'Open a folder like Finder — pick a workflow, download JSON at the bottom.',
 } as const
 
 export const PLAYGROUND_SKILLS = [
   'Automation templates',
-  'Prompt workflows',
-  'Pipeline testing',
+  'ComfyUI',
+  'n8n',
   'JSON exports',
-  'Iterative builds',
+  'Pipeline testing',
 ] as const

@@ -32,7 +32,8 @@ export const TALEWEAVER_STORY: ProjectStory = {
     {
       type: 'prose',
       paragraphs: [
-        'Bookgen is the live surface: outline → chapter generation → EPUB/PDF export. Under Taleweaver, the part I care about is author EPUB fine-tuning — ingest a sample or prior book, lock style embeddings and prompt constraints, generate new material that matches cadence and vocabulary.',
+        'Bookgen is the live surface: outline → chapter generation → EPUB/PDF export. The engineering idea is simple — one product tree so training, inference, and export stay aligned; see Technical for how that is wired.',
+        'Under Taleweaver, the part I care about is author EPUB fine-tuning: ingest a sample or prior book, lock voice constraints, and generate new material that matches cadence and vocabulary instead of default model tone.',
         'We stress voice-locked outputs: human-readable rhythm, varied sentence length, genre-appropriate cliché avoidance — tuned so readers stay in the story instead of hunting for “AI smell.” That is the bar authors asked for in the first viral week.',
         '50+ genres, multi-language, commercial tiers — the SaaS wrapper is standard. The engineering depth is in the fine-tuning loop and export pipeline, not another blank textarea.',
       ],

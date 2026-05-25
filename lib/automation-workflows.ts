@@ -51,11 +51,40 @@ export const AUTOMATION_WORKFLOWS: AutomationWorkflow[] = [
     tags: ['lora', 'fine-tune', 'character'],
     jsonPath: '/automations/comfyui/lora-stack.json',
   },
+  {
+    id: 'comfyui-z-image-turbo',
+    title: 'Z-Image-Turbo (open-source stills)',
+    description:
+      'Apache-2.0 Tongyi-MAI 6B image model — native ComfyUI txt2img graph.',
+    detail:
+      'Content Phase uses this path for direct still generation without DALL·E/Fal markup. Download qwen_3_4b.safetensors (text_encoders), z_image_turbo_bf16.safetensors (diffusion_models), ae.safetensors (vae) per ComfyUI docs, then load this workflow JSON. Photoreal frames, strong instruction follow, fits ~16GB VRAM class GPUs.',
+    platform: 'comfyui',
+    tags: ['z-image', 'open-source', '6B', 'socialhub'],
+    jsonPath: '/automations/comfyui/z-image-turbo.json',
+    previewPath: '/projects/comfyui/z.jpeg',
+    relatedHref: '/projects/socialhub',
+    relatedLabel: 'Content Phase / SocialHub',
+  },
+  {
+    id: 'comfyui-wan-t2v',
+    title: 'Wan 2.1 text-to-video',
+    description: 'Open-weight Wan T2V clip generation in ComfyUI.',
+    detail:
+      'Script-driven social video in Content Phase: Wan 2.1 T2V graph (wan2.1_t2v_1.3B_fp16 + wan_2.1_vae + umt5_xxl text encoder). Queue from FastAPI or run manually in ComfyUI; export MP4 to Cloudinary before OAuth publish. Pair with Wan I2V when you have a hero still from Z-Image.',
+    platform: 'comfyui',
+    tags: ['wan', 'video', 't2v', 'open-source', 'socialhub'],
+    jsonPath: '/automations/comfyui/wan-t2v.json',
+    previewPath: '/projects/comfyui/wan.jpeg',
+    relatedHref: '/projects/socialhub',
+    relatedLabel: 'Content Phase / SocialHub',
+  },
 ]
 
 export const AUTOMATION_SKILLS = [
   'n8n',
   'ComfyUI',
+  'Z-Image-Turbo',
+  'Wan video',
   'Make.com',
   'Zapier',
   'Webhooks',

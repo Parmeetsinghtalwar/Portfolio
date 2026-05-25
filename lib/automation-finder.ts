@@ -59,5 +59,14 @@ export function getFolderById(id: AutomationFolderId): AutomationFolder | undefi
 export function getWorkflowsForFolder(
   folderId: AutomationFolderId,
 ): AutomationWorkflow[] {
-  return AUTOMATION_WORKFLOWS.filter((w) => w.platform === folderId)
+  const list = AUTOMATION_WORKFLOWS.filter((w) => w.platform === folderId)
+  if (folderId === 'comfyui') {
+    return [...list].sort((a, b) => {
+      const aOs = a.tags.includes('open-source') ? 0 : 1
+      const bOs = b.tags.includes('open-source') ? 0 : 1
+      return aOs - bOs
+    })
+  }
+  return list
 }
+

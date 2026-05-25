@@ -571,13 +571,15 @@ const DBAAS_POS = tiers(
     ['apex'],
     ['api'],
     ['ai', 'calendar', 'agents', 'ugc', 'oauth'],
+    ['comfy'],
+    ['zimage', 'wan'],
     ['scheduler'],
     ['postgres', 'cloudinary'],
     ['openai', 'fal'],
     ['telegram'],
     ['fb', 'ig', 'x', 'li', 'reddit'],
   ],
-  { centerX: 520, yGap: 140 },
+  { centerX: 520, yGap: 128 },
 )
 
 const DBAAS_GRAPH: ProjectArchitectureGraph = {
@@ -591,7 +593,7 @@ const DBAAS_GRAPH: ProjectArchitectureGraph = {
         group: 'client',
         description: 'Marketer dashboard and generators.',
         usage:
-          'Landing (Three.js), post generator, Content Calendar, UGC editor, Agents, OAuth connections, scheduler, and payments. Calls FastAPI over HTTPS with Apex JWT sessions.',
+          'Landing (Three.js), post generator, Content Calendar, UGC editor, Agents, OAuth connections, scheduler, and payments. Calls FastAPI over HTTPS with JWT sessions.',
         tech: ['React 19', 'Vite 7', 'Tailwind 4', 'Framer Motion', 'Three.js'],
       },
     },
@@ -599,13 +601,13 @@ const DBAAS_GRAPH: ProjectArchitectureGraph = {
       id: 'apex',
       position: DBAAS_POS.apex,
       data: {
-        label: 'Apex SaaS auth',
-        subLabel: 'apex.bootstrap',
+        label: 'Platform auth',
+        subLabel: 'JWT · sessions',
         group: 'edge',
         description: 'Users, tenants, JWT.',
         usage:
-          'Bootstraps auth tables and session/JWT validation before route handlers run. Same framework layer used across ApexNeural products.',
-        tech: ['Apex SaaS', 'JWT'],
+          'Bootstraps auth tables and session/JWT validation before route handlers run. Shared auth layer across production deployments.',
+        tech: ['JWT', 'Session store'],
       },
     },
     {
@@ -626,12 +628,51 @@ const DBAAS_GRAPH: ProjectArchitectureGraph = {
       position: DBAAS_POS.ai,
       data: {
         label: 'AI content',
-        subLabel: 'GPT-4o · images',
+        subLabel: 'LLM · image router',
         group: 'ai',
-        description: 'Copy + image generation.',
+        description: 'Copy + routed media generation.',
         usage:
-          'Platform-specific captions, prompt enhancer (text vs diffusion), DALL·E 3 and Fal Nano Banana paths, caption injected into image prompts for alignment.',
-        tech: ['OpenAI GPT-4o', 'DALL·E 3', 'Fal.ai'],
+          'Platform-specific captions and prompt enhancer. Images route to cloud APIs (DALL·E 3, Fal Flux) or to the self-hosted ComfyUI queue for open-weight Z-Image stills and Wan video clips — caption stays aligned across paths.',
+        tech: ['OpenAI GPT-4o', 'DALL·E 3', 'Fal.ai', 'ComfyUI API'],
+      },
+    },
+    {
+      id: 'comfy',
+      position: DBAAS_POS.comfy,
+      data: {
+        label: 'ComfyUI runtime',
+        subLabel: 'GPU queue · graphs',
+        group: 'ai',
+        description: 'Self-hosted diffusion + video graphs.',
+        usage:
+          'FastAPI enqueues ComfyUI workflow JSON from public/automations/comfyui/ — txt2img starters, Z-Image-Turbo graphs, and Wan T2V/I2V pipelines. Returns PNG/MP4 to Cloudinary when cloud APIs are bypassed for cost or control.',
+        tech: ['ComfyUI', 'Workflow JSON', 'GPU worker'],
+      },
+    },
+    {
+      id: 'zimage',
+      position: DBAAS_POS.zimage,
+      data: {
+        label: 'Z-Image-Turbo',
+        subLabel: 'Open-weight 6B',
+        group: 'ai',
+        description: 'Apache-2.0 image model (direct).',
+        usage:
+          'Tongyi-MAI Z-Image-Turbo loaded in ComfyUI (Qwen3-4B text encoder + z_image_turbo_bf16 + VAE). Used for photoreal stills and brand frames without a paid image API — sub-second class inference on capable GPUs.',
+        tech: ['Z-Image-Turbo', 'S3-DiT', 'ComfyUI native'],
+      },
+    },
+    {
+      id: 'wan',
+      position: DBAAS_POS.wan,
+      data: {
+        label: 'Wan video',
+        subLabel: 'T2V · I2V',
+        group: 'ai',
+        description: 'Open-weight video generation.',
+        usage:
+          'Wan 2.1/2.2 graphs in ComfyUI for script-driven clips: text-to-video (wan2.1_t2v) and image-to-video (wan2.1_i2v + CLIP vision). Feeds the marketing “script → persona → render” path with locally generated MP4 before schedule/publish.',
+        tech: ['Wan 2.1', 'Wan 2.2', 'umt5_xxl', 'ComfyUI'],
       },
     },
     {
@@ -836,6 +877,11 @@ const DBAAS_GRAPH: ProjectArchitectureGraph = {
     { id: 'd7', source: 'api', target: 'oauth' },
     { id: 'd8', source: 'ai', target: 'openai' },
     { id: 'd9', source: 'ai', target: 'fal' },
+    { id: 'd9b', source: 'ai', target: 'comfy', animated: true },
+    { id: 'd9c', source: 'comfy', target: 'zimage' },
+    { id: 'd9d', source: 'comfy', target: 'wan' },
+    { id: 'd9e', source: 'zimage', target: 'cloudinary' },
+    { id: 'd9f', source: 'wan', target: 'cloudinary' },
     { id: 'd10', source: 'agents', target: 'fal' },
     { id: 'd11', source: 'calendar', target: 'postgres' },
     { id: 'd12', source: 'ai', target: 'cloudinary' },
@@ -925,7 +971,7 @@ const UNIFY_GRAPH: ProjectArchitectureGraph = {
       position: UNIFY_POS.platform,
       data: {
         label: 'NestJS platform',
-        subLabel: 'kalamandir-l1',
+        subLabel: 'Monorepo API',
         group: 'app',
         description: 'Conversations · RBAC · tickets.',
         usage:
@@ -951,7 +997,7 @@ const UNIFY_GRAPH: ProjectArchitectureGraph = {
       position: UNIFY_POS.agent,
       data: {
         label: 'L1 agent',
-        subLabel: 'FastAPI · kalamandir-agent',
+        subLabel: 'FastAPI service',
         group: 'app',
         description: '7-step reply pipeline.',
         usage:
@@ -1007,8 +1053,8 @@ const UNIFY_GRAPH: ProjectArchitectureGraph = {
         group: 'app',
         description: 'Per-tenant integrations.',
         usage:
-          'Orchestrator invokes per-tenant tools — order status, payment links, Magento APIs — with the tenant-scoped credentials stored in the platform.',
-        tech: ['Magento', 'Razorpay', 'HTTP tools'],
+          'Orchestrator invokes per-tenant tools — order status, payment links, commerce APIs — with the tenant-scoped credentials stored in the platform.',
+        tech: ['Commerce APIs', 'Payments', 'HTTP tools'],
       },
     },
     {
@@ -1068,12 +1114,12 @@ const UNIFY_GRAPH: ProjectArchitectureGraph = {
       position: UNIFY_POS.commerce,
       data: {
         label: 'Commerce systems',
-        subLabel: 'Magento · payments',
+        subLabel: 'Commerce · payments',
         group: 'external',
         description: 'Per-tenant systems.',
         usage:
-          'Tool calls reach into each tenant\'s commerce backend — Magento, payment provider, custom APIs — using credentials stored per tenant.',
-        tech: ['Magento', 'Razorpay', 'Custom APIs'],
+          'Tool calls reach into each tenant\'s commerce backend — catalog, payment provider, custom APIs — using credentials stored per tenant.',
+        tech: ['Commerce APIs', 'Payments', 'Custom APIs'],
       },
     },
   ],
@@ -1207,7 +1253,7 @@ const TALEWEAVER_GRAPH: ProjectArchitectureGraph = {
       position: TALEWEAVER_POS.training,
       data: {
         label: 'Training pipeline',
-        subLabel: 'finetune/ repo',
+        subLabel: 'Offline train',
         group: 'app',
         description: 'Offline LoRA training.',
         usage:

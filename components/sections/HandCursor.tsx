@@ -161,7 +161,7 @@ export function HandCursor() {
 
       <div className="relative mx-auto flex min-h-screen max-w-5xl flex-col items-center justify-center px-6 text-center">
         <p className="mb-6 font-mono text-xs uppercase tracking-[0.3em] text-accent">
-          04 · Hand tracking
+          Hand tracking
         </p>
         <h2 className="text-4xl font-semibold leading-tight tracking-tight text-white md:text-6xl">
           Move your hand,

@@ -4,8 +4,8 @@
     "preview": "/projects/socialhub/preview.png",
     "quote": "We're gonna need a bigger boat.",
     "attribution": "Jaws (1975)",
-    "heroImagePrompt": "minimal photograph of a calm desk with notebook and pen, soft morning window light, muted beige and white tones, shallow depth of field",
-    "previewImagePrompt": "simple square crop of the same desk scene, warm neutral palette, no text, no digital effects"
+    "heroImagePrompt": "creative agency desk with laptop showing heavily blurred colorful social media grid, sticky notes and coffee, soft window light, documentary photograph, muted warm tones, no readable UI text",
+    "previewImagePrompt": "square crop of the same desk corner with laptop edge and ceramic mug, shallow depth of field, warm neutrals, photorealistic, no typography on screen"
   },
   "prism": {
     "hero": "/projects/prism/hero.png",
@@ -36,8 +36,8 @@
     "preview": "/projects/taleweaver/preview.png",
     "quote": "The stuff that dreams are made of.",
     "attribution": "The Maltese Falcon (1941)",
-    "heroImagePrompt": "open hardcover book on dark wood desk, single warm lamp, soft shadows, literary still life photograph",
-    "previewImagePrompt": "square crop of book pages and wood grain, warm brown tones, minimal, no text on image"
+    "heroImagePrompt": "author workspace photograph: laptop on desk with heavily blurred writing-app layout and chapter sidebar, stacked manuscript printouts, fountain pen, warm desk lamp, realistic over-the-shoulder angle, no readable screen text",
+    "previewImagePrompt": "square documentary still life: ebook reader device on linen desk beside closed notebook and pen, warm natural side light, muted browns and cream, screens blank or out of focus, no typography anywhere"
   },
   "linkedin-job-scraper": {
     "hero": "/projects/linkedin-job-scraper/hero.png",

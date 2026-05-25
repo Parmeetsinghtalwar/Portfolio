@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useMemo, useState } from 'react'
+import Image from 'next/image'
 import Link from 'next/link'
 import {
   Blocks,
@@ -56,7 +57,7 @@ function FolderIcon({
       <div className="relative">
         <div
           className={cn(
-            'relative h-[72px] w-[88px] rounded-t-xl shadow-sm transition-shadow group-hover:shadow-md',
+            'relative flex h-[72px] w-[88px] items-center justify-center rounded-t-xl shadow-sm transition-shadow group-hover:shadow-md',
             selected && 'ring-2 ring-[#3D3832]/25 ring-offset-2 ring-offset-[#F6F3EC]',
           )}
           style={{ backgroundColor: folder.color }}
@@ -65,9 +66,7 @@ function FolderIcon({
             className="absolute -top-2 left-0 h-4 w-10 rounded-t-md"
             style={{ backgroundColor: folder.color, filter: 'brightness(0.92)' }}
           />
-          <div className="flex h-full items-center justify-center">
-            <Icon className="h-7 w-7 text-white/90" strokeWidth={1.5} />
-          </div>
+          <Icon className="h-7 w-7 text-white/90" strokeWidth={1.5} />
         </div>
         {selected ? (
           <span className="absolute -right-1 -top-1 h-3 w-3 rounded-full bg-[#3D3832] ring-2 ring-[#F6F3EC]" />
@@ -114,6 +113,17 @@ function WorkflowDetail({
         >
           {workflow.title}
         </h3>
+        {workflow.previewPath ? (
+          <div className="relative mt-5 aspect-video w-full max-w-md overflow-hidden rounded-xl ring-1 ring-[#E0D9CE]">
+            <Image
+              src={workflow.previewPath}
+              alt=""
+              fill
+              className="object-cover"
+              sizes="(max-width: 768px) 100vw, 400px"
+            />
+          </div>
+        ) : null}
         <div className="mt-4 flex flex-wrap gap-2">
           {workflow.tags.map((tag) => (
             <span
@@ -308,8 +318,17 @@ export function AutomationFinder() {
               className="mt-10 max-w-md text-center text-base leading-relaxed md:text-lg"
               style={{ color: FINDER_MUTED }}
             >
-              Open a folder — workflows I built while learning nodes. Download
-              JSON and import into n8n, ComfyUI, Make, or Zapier.
+              Open a folder — workflows while learning nodes. Download JSON
+              and import into n8n, ComfyUI, Make, or Zapier. Previews for
+              open-source models live in{' '}
+              <Link
+                href="#open-models"
+                className="underline underline-offset-2 hover:opacity-80"
+                style={{ color: FINDER_TEXT }}
+              >
+                Open models
+              </Link>
+              .
             </p>
           </div>
         ) : (
@@ -362,17 +381,30 @@ export function AutomationFinder() {
                         type="button"
                         onClick={() => setSelectedWorkflowId(w.id)}
                         className={cn(
-                          'w-full rounded-lg px-3 py-3 text-left text-base transition',
+                          'flex w-full gap-3 rounded-lg px-3 py-3 text-left text-base transition',
                           selectedWorkflow?.id === w.id && 'bg-[#E5DDD0]',
                         )}
                         style={{ color: FINDER_TEXT }}
                       >
-                        <span className="line-clamp-2 font-medium">{w.title}</span>
-                        <span
-                          className="mt-1 block font-mono text-[11px] uppercase tracking-wider"
-                          style={{ color: FINDER_MUTED }}
-                        >
-                          .json
+                        {w.previewPath ? (
+                          <div className="relative h-10 w-10 shrink-0 overflow-hidden rounded-md ring-1 ring-[#E0D9CE]">
+                            <Image
+                              src={w.previewPath}
+                              alt=""
+                              fill
+                              className="object-cover"
+                              sizes="40px"
+                            />
+                          </div>
+                        ) : null}
+                        <span className="min-w-0 flex-1">
+                          <span className="line-clamp-2 font-medium">{w.title}</span>
+                          <span
+                            className="mt-1 block font-mono text-[11px] uppercase tracking-wider"
+                            style={{ color: FINDER_MUTED }}
+                          >
+                            .json
+                          </span>
                         </span>
                       </button>
                     </li>

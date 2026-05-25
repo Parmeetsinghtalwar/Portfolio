@@ -1,7 +1,7 @@
 /**
  * Generate hero + preview images and movie quotes for all projects (OpenRouter + GPT image).
  * Run: bun run generate:project-images
- * Flags: --id=socialhub  --force
+ * Flags: --id=socialhub  --force  --keep-prompts (reuse manifest prompts; images only)
  */
 import { mkdirSync, writeFileSync, existsSync, readFileSync } from 'node:fs'
 import { resolve } from 'node:path'
@@ -25,6 +25,7 @@ if (!apiKey) {
 
 const args = process.argv.slice(2)
 const force = args.includes('--force')
+const keepPrompts = args.includes('--keep-prompts')
 const idArg = args.find((a) => a.startsWith('--id='))?.split('=')[1]
 
 const ROOT = process.cwd()
@@ -94,12 +95,27 @@ async function main() {
 
     console.log(`\n→ ${id}: ${project.title}`)
 
-    const copy = await generateProjectCopy(apiKey, {
-      title: project.title,
-      tagline: project.tagline,
-      description: project.description,
-      stack: project.stack,
-    })
+    const existing = manifest[id]
+    const copy =
+      keepPrompts &&
+      existing?.heroImagePrompt &&
+      existing?.previewImagePrompt &&
+      existing.quote
+        ? {
+            quote: existing.quote,
+            attribution: existing.attribution ?? 'Cinema',
+            heroImagePrompt: existing.heroImagePrompt,
+            previewImagePrompt: existing.previewImagePrompt,
+          }
+        : await generateProjectCopy(apiKey, {
+            title: project.title,
+            tagline: project.tagline,
+            description: project.description,
+            stack: project.stack,
+          })
+    if (keepPrompts && existing?.heroImagePrompt) {
+      console.log('  prompts: from manifest (--keep-prompts)')
+    }
     console.log(`  quote: "${copy.quote}"`)
     console.log(`  film:  ${copy.attribution}`)
 

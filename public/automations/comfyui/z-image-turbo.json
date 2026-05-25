@@ -1,0 +1,11 @@
+{
+  "last_node_id": 8,
+  "last_link_id": 7,
+  "nodes": [],
+  "links": [],
+  "groups": [],
+  "config": {},
+  "extra": {},
+  "version": 0.4,
+  "info": "Z-Image-Turbo starter — import in ComfyUI, then load the official Z-Image-Turbo workflow from https://docs.comfy.org/tutorials/image/z-image/z-image-turbo or merge these model paths: text_encoders/qwen_3_4b.safetensors, diffusion_models/z_image_turbo_bf16.safetensors, vae/ae.safetensors. Used in Content Phase / SocialHub for open-weight stills."
+}

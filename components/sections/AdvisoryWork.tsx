@@ -7,6 +7,7 @@ import {
   GETZONED_EXPAND_IMAGE,
   GETZONED_THEME,
 } from '@/lib/getzoned-scroll'
+import { homeSectionEyebrow } from '@/lib/home-sections'
 
 export function AdvisoryWork() {
   const copy = GETZONED_EXPAND_COPY
@@ -19,7 +20,7 @@ export function AdvisoryWork() {
       <div className="mx-auto max-w-6xl px-6 py-24 md:py-32">
         <div className="max-w-3xl">
           <p className="font-mono text-xs font-semibold uppercase tracking-[0.3em] text-foreground/70">
-            02 · Advisory
+            {homeSectionEyebrow('advisory')}
           </p>
           <h2 className="mt-4 text-4xl font-bold tracking-tight md:text-5xl">
             {copy.title}

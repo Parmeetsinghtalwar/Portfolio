@@ -60,9 +60,8 @@ export const AUTHOR_FINETUNE_STORY: ProjectStory = {
     {
       type: 'prose',
       paragraphs: [
-        'Training output lives in fitzgerald_lora/ — adapter weights checked into the repo path the inference service expects.',
-        'Bookgen’s three-tier stack: React frontend, FastAPI backend (outline + WebSocket chapter streaming), and a dedicated llm-service on GPU. At inference, the service loads base Qwen2.5-3B + the Fitzgerald LoRA, streams tokens per chapter back through the backend, and the UI shows voice-locked prose — the same adapter trained offline, not a one-off API call to a generic model.',
-        'RunPod (or equivalent cloud GPU) hosts the heavy work: fine-tune experiments on the training side, and production inference for the llm-service where latency and VRAM matter. Docker Compose ties the tiers together so the adapter path from `finetune/` to `llm-service/` is reproducible.',
+        'The point is continuity: weights you train offline should be the same weights readers see online — not a fresh prompt pretending to be an author.',
+        'Bookgen loads base model + adapter at inference and streams chapters through the normal product path. GPU time (e.g. RunPod) is for training experiments and for serving inference where VRAM matters — details are in Technical.',
       ],
     },
     {
@@ -72,7 +71,7 @@ export const AUTHOR_FINETUNE_STORY: ProjectStory = {
     {
       type: 'prose',
       paragraphs: [
-        '3,762 instruction pairs from five books, ~479 MB adapter, consumed by Taleweaver/Bookgen chapter generation. The product story lives on the Taleweaver project page — this repo is the ML spine that makes “author EPUB fine-tuning” real instead of a marketing line.',
+        '3,762 instruction pairs from five books, ~479 MB adapter, feeding Taleweaver/Bookgen chapter generation — the ML spine behind “author EPUB fine-tuning,” not a marketing line.',
       ],
     },
   ],

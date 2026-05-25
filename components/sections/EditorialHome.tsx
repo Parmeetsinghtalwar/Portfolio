@@ -10,6 +10,7 @@ const NAV = [
   { href: '#home', label: 'Index' },
   { href: '#about', label: 'About' },
   { href: '#advisory', label: 'Advisory' },
+  { href: '#open-models', label: 'Open models' },
   { href: '#playground', label: 'Playground' },
   { href: '#lysync', label: 'LySync' },
   { href: '#projects', label: 'Work' },
