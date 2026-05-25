@@ -1742,7 +1742,10 @@ const LINEAGE_GRAPH: ProjectArchitectureGraph = {
 }
 
 const SUGARCANE_POS = tiers([
-  ['field'],
+  ['collect'],
+  ['catalog'],
+  ['clean'],
+  ['split'],
   ['preprocess'],
   ['vgg', 'resnet', 'svm'],
   ['eval'],
@@ -1752,16 +1755,55 @@ const SUGARCANE_POS = tiers([
 const SUGARCANE_GRAPH: ProjectArchitectureGraph = {
   nodes: [
     {
-      id: 'field',
-      position: SUGARCANE_POS.field,
+      id: 'collect',
+      position: SUGARCANE_POS.collect,
       data: {
-        label: 'Field images',
-        subLabel: 'Labeled dataset',
+        label: 'Field capture',
+        subLabel: 'Raw images',
         group: 'external',
-        description: 'Sugarcane crop imagery.',
+        description: 'Plot imagery.',
         usage:
-          'Faculty-curated sugarcane health images with disease/stress class labels. Stratified train/val/test splits for reproducible comparison across model families.',
-        tech: ['JPEG/PNG', 'CSV labels'],
+          'Sugarcane leaf and canopy photos captured per health class following faculty protocol — batch IDs and capture notes kept with each visit.',
+        tech: ['JPEG/PNG', 'mobile / DSLR'],
+      },
+    },
+    {
+      id: 'catalog',
+      position: SUGARCANE_POS.catalog,
+      data: {
+        label: 'Image catalog',
+        subLabel: 'CSV manifest DB',
+        group: 'data',
+        description: 'Central registry.',
+        usage:
+          'Every file registered with path, class label, resolution, and batch metadata in a pandas-backed manifest — the single source of truth before cleaning and modeling.',
+        tech: ['pandas', 'CSV', 'Python'],
+      },
+    },
+    {
+      id: 'clean',
+      position: SUGARCANE_POS.clean,
+      data: {
+        label: 'Database cleaning',
+        subLabel: 'QC · dedupe · labels',
+        group: 'app',
+        description: 'Data hygiene.',
+        usage:
+          'Drops corrupt/unreadable images, removes duplicates and burst frames, blur-scores unusable shots, enforces minimum resolution, and routes ambiguous labels to faculty review before splits are frozen.',
+        tech: ['OpenCV', 'imagehash', 'pandas'],
+      },
+    },
+    {
+      id: 'split',
+      position: SUGARCANE_POS.split,
+      data: {
+        label: 'Train / val / test',
+        subLabel: 'Stratified · fixed seed',
+        group: 'data',
+        description: 'Reproducible splits.',
+        usage:
+          'Stratified partitions written to index files — identical splits feed VGG19, ResNet, and SVM so comparisons stay fair across model families.',
+        tech: ['scikit-learn', 'stratified split'],
       },
     },
     {
@@ -1773,7 +1815,7 @@ const SUGARCANE_GRAPH: ProjectArchitectureGraph = {
         group: 'app',
         description: 'Image pipeline.',
         usage:
-          'Resize, normalize, and augment images; handles class imbalance with oversampling and rotation flips before feeding both CNN and classical tracks.',
+          'Resize, normalize, and augment training images only; class imbalance handled with oversampling and weighted loss before feeding CNN and classical tracks.',
         tech: ['OpenCV', 'Albumentations'],
       },
     },
@@ -1844,7 +1886,10 @@ const SUGARCANE_GRAPH: ProjectArchitectureGraph = {
     },
   ],
   edges: [
-    { id: 'sg1', source: 'field', target: 'preprocess', animated: true },
+    { id: 'sg0', source: 'collect', target: 'catalog', animated: true },
+    { id: 'sg1', source: 'catalog', target: 'clean', animated: true },
+    { id: 'sg1b', source: 'clean', target: 'split', animated: true },
+    { id: 'sg1c', source: 'split', target: 'preprocess', animated: true },
     { id: 'sg2', source: 'preprocess', target: 'vgg' },
     { id: 'sg3', source: 'preprocess', target: 'resnet' },
     { id: 'sg4', source: 'preprocess', target: 'svm' },
@@ -1939,208 +1984,6 @@ const LINKEDIN_GRAPH: ProjectArchitectureGraph = {
   ],
 }
 
-const B2B_POS = tiers([
-  ['muse', 'news', 'alpha'],
-  ['collectors'],
-  ['scoring'],
-  ['postgres'],
-  ['fastapi', 'streamlit'],
-])
-
-const B2B_GRAPH: ProjectArchitectureGraph = {
-  nodes: [
-    {
-      id: 'muse',
-      position: B2B_POS.muse,
-      data: {
-        label: 'Muse API',
-        subLabel: 'Hiring signals',
-        group: 'external',
-        description: 'External signal.',
-        usage: 'Hiring velocity and role postings feed the hiring collector (25% of score weight).',
-        tech: ['REST API'],
-      },
-    },
-    {
-      id: 'news',
-      position: B2B_POS.news,
-      data: {
-        label: 'News APIs',
-        subLabel: 'Guardian · News',
-        group: 'external',
-        description: 'Market signals.',
-        usage: 'Funding announcements and competitive news parsed into structured growth and competition factors.',
-        tech: ['News API', 'Guardian'],
-      },
-    },
-    {
-      id: 'alpha',
-      position: B2B_POS.alpha,
-      data: {
-        label: 'Alpha Vantage',
-        subLabel: 'Financial',
-        group: 'external',
-        description: 'Growth proxy.',
-        usage: 'Market and financial indicators enrich the growth dimension (20% weight) of the lead score.',
-        tech: ['Alpha Vantage'],
-      },
-    },
-    {
-      id: 'collectors',
-      position: B2B_POS.collectors,
-      data: {
-        label: 'Collectors',
-        subLabel: 'Modular FastAPI',
-        group: 'app',
-        description: 'Parallel ingest.',
-        usage:
-          'Pluggable collector modules fan out to 7+ APIs in parallel, normalize responses, and enqueue enrichment jobs for async discovery.',
-        tech: ['FastAPI', 'asyncio', 'httpx'],
-      },
-    },
-    {
-      id: 'scoring',
-      position: B2B_POS.scoring,
-      data: {
-        label: 'Scoring engine',
-        subLabel: 'Weighted 0–100',
-        group: 'app',
-        description: 'Explainable leads.',
-        usage:
-          'Combines hiring 25%, funding 25%, competition 20%, growth 20%, contact 10% into a single score with factor breakdown stored per prospect.',
-        tech: ['Python', 'SQLAlchemy'],
-      },
-    },
-    {
-      id: 'postgres',
-      position: B2B_POS.postgres,
-      data: {
-        label: 'PostgreSQL',
-        subLabel: 'Alembic',
-        group: 'data',
-        description: 'Lead store.',
-        usage: 'ORM models for companies, signals, scores, and discovery job state. Alembic manages schema migrations.',
-        tech: ['PostgreSQL', 'SQLAlchemy', 'Alembic'],
-      },
-    },
-    {
-      id: 'fastapi',
-      position: B2B_POS.fastapi,
-      data: {
-        label: 'FastAPI UI',
-        subLabel: 'REST dashboard',
-        group: 'client',
-        description: 'API consumers.',
-        usage: 'JSON APIs for ranked leads, filters, and async discovery job status.',
-        tech: ['FastAPI', 'OpenAPI'],
-      },
-    },
-    {
-      id: 'streamlit',
-      position: B2B_POS.streamlit,
-      data: {
-        label: 'Streamlit',
-        subLabel: 'Analyst view',
-        group: 'client',
-        description: 'Quick exploration.',
-        usage: 'Internal analyst dashboard for exploring scores, drilling into signal sources, and triggering discovery runs.',
-        tech: ['Streamlit'],
-      },
-    },
-  ],
-  edges: [
-    { id: 'b1', source: 'muse', target: 'collectors', animated: true },
-    { id: 'b2', source: 'news', target: 'collectors', animated: true },
-    { id: 'b3', source: 'alpha', target: 'collectors', animated: true },
-    { id: 'b4', source: 'collectors', target: 'scoring' },
-    { id: 'b5', source: 'scoring', target: 'postgres' },
-    { id: 'b6', source: 'postgres', target: 'fastapi' },
-    { id: 'b7', source: 'postgres', target: 'streamlit' },
-  ],
-}
-
-const MADHOST_POS = tiers([
-  ['ui'],
-  ['api'],
-  ['sqlite'],
-  ['whatsapp', 'telegram'],
-])
-
-const MADHOST_GRAPH: ProjectArchitectureGraph = {
-  nodes: [
-    {
-      id: 'ui',
-      position: MADHOST_POS.ui,
-      data: {
-        label: 'Host UI',
-        subLabel: 'index.html',
-        group: 'client',
-        description: 'Single-page ops.',
-        usage:
-          'Maintenance form served by FastAPI: add guest phone on booking, trigger checkout for cleaning. No separate frontend build.',
-        tech: ['HTML', 'FastAPI static'],
-      },
-    },
-    {
-      id: 'api',
-      position: MADHOST_POS.api,
-      data: {
-        label: 'FastAPI',
-        subLabel: '/booking · /checkout',
-        group: 'app',
-        description: 'Core API.',
-        usage:
-          'Creates guest records, fires WhatsApp welcome on check-in, and posts Telegram cleaning tasks on checkout.',
-        tech: ['FastAPI', 'SQLAlchemy'],
-      },
-    },
-    {
-      id: 'sqlite',
-      position: MADHOST_POS.sqlite,
-      data: {
-        label: 'SQLite',
-        subLabel: 'Guest records',
-        group: 'data',
-        description: 'Local persistence.',
-        usage: 'Stores bookings, guest phone numbers, and checkout timestamps for the host dashboard.',
-        tech: ['SQLite', 'SQLAlchemy'],
-      },
-    },
-    {
-      id: 'whatsapp',
-      position: MADHOST_POS.whatsapp,
-      data: {
-        label: 'WhatsApp',
-        subLabel: 'Business API',
-        group: 'channel',
-        description: 'Guest welcome.',
-        usage:
-          'On new booking, sends an automated welcome template to the guest E.164 number via WhatsApp Business API.',
-        tech: ['WhatsApp Business API'],
-      },
-    },
-    {
-      id: 'telegram',
-      position: MADHOST_POS.telegram,
-      data: {
-        label: 'Telegram',
-        subLabel: 'Cleaner bot',
-        group: 'channel',
-        description: 'Cleaning task.',
-        usage:
-          'Checkout POST triggers a message to CLEANER_TELEGRAM_CHAT_ID with property and timing details for the cleaning crew.',
-        tech: ['Telegram Bot API'],
-      },
-    },
-  ],
-  edges: [
-    { id: 'm1', source: 'ui', target: 'api', animated: true },
-    { id: 'm2', source: 'api', target: 'sqlite' },
-    { id: 'm3', source: 'api', target: 'whatsapp', animated: true },
-    { id: 'm4', source: 'api', target: 'telegram', animated: true },
-  ],
-}
-
 const TWITTER_POS = tiers([
   ['feeds'],
   ['research'],
@@ -2156,11 +1999,12 @@ const TWITTER_GRAPH: ProjectArchitectureGraph = {
       id: 'feeds',
       position: TWITTER_POS.feeds,
       data: {
-        label: 'News feeds',
+        label: 'Live news feeds',
         subLabel: 'HN · TC · MIT',
         group: 'external',
         description: 'AI news sources.',
-        usage: 'RSS and scrape targets: Hacker News, TechCrunch, MIT, OpenAI blog — polled by the research worker.',
+        usage:
+          'RSS and scrape targets polled each daily run: Hacker News, TechCrunch, MIT, OpenAI blog — fresh stories for engagement posts.',
         tech: ['RSS', 'feedparser'],
       },
     },
@@ -2223,7 +2067,8 @@ const TWITTER_GRAPH: ProjectArchitectureGraph = {
         subLabel: '/api/twitter/post',
         group: 'channel',
         description: 'Live post.',
-        usage: 'Approved drafts are published via Tweepy to the connected X account with text + media.',
+        usage:
+          'Approved drafts publish via Tweepy to X with text + media — the daily output aimed at timeline reach and consistent audience growth.',
         tech: ['Tweepy', 'X API'],
       },
     },
@@ -2320,8 +2165,8 @@ const FINETUNE_GRAPH: ProjectArchitectureGraph = {
         group: 'ai',
         description: 'LoRA fine-tune.',
         usage:
-          'Trains a LoRA adapter on Qwen2.5-3B with Transformers + PEFT. GPU notebooks for hyperparameter experiments.',
-        tech: ['PEFT', 'PyTorch', 'Transformers'],
+          'PEFT LoRA fine-tune on Qwen2.5-3B — runs on RunPod GPU (VRAM + hours of train time). Notebooks tune rank, LR, and epochs before exporting fitzgerald_lora/.',
+        tech: ['PEFT', 'PyTorch', 'Transformers', 'RunPod'],
       },
     },
     {
@@ -2341,11 +2186,12 @@ const FINETUNE_GRAPH: ProjectArchitectureGraph = {
       position: FINETUNE_POS.bookgen,
       data: {
         label: 'Bookgen llm-service',
-        subLabel: 'GPU inference',
+        subLabel: 'RunPod · GPU',
         group: 'channel',
-        description: 'Production consumer.',
-        usage: 'Loads base Qwen + Fitzgerald LoRA for voice-locked chapter generation in the live product.',
-        tech: ['Qwen2.5-3B', 'GPU'],
+        description: 'Production inference.',
+        usage:
+          'Production tier loads Qwen2.5-3B + fitzgerald_lora adapter on cloud GPU, streams chapters to FastAPI/WebSocket — the consumer that makes fine-tuning matter for authors.',
+        tech: ['Qwen2.5-3B', 'RunPod', 'Docker'],
       },
     },
   ],
@@ -2357,237 +2203,6 @@ const FINETUNE_GRAPH: ProjectArchitectureGraph = {
     { id: 'ft5', source: 'dataset', target: 'train' },
     { id: 'ft6', source: 'train', target: 'adapter' },
     { id: 'ft7', source: 'adapter', target: 'bookgen', animated: true, dashed: true },
-  ],
-}
-
-const GETZONED_POS = tiers([
-  ['visitor'],
-  ['nextjs'],
-  ['modals', 'hero3d'],
-  ['register', 'feedback'],
-  ['sheets', 'gmail'],
-  ['static'],
-])
-
-const GETZONED_GRAPH: ProjectArchitectureGraph = {
-  nodes: [
-    {
-      id: 'visitor',
-      position: GETZONED_POS.visitor,
-      data: {
-        label: 'Visitor',
-        subLabel: 'getzoned.in',
-        group: 'external',
-        description: 'Marketing traffic.',
-        usage: 'Prospective users and hosts land on the marketing site before the native app.',
-        tech: ['Web'],
-      },
-    },
-    {
-      id: 'nextjs',
-      position: GETZONED_POS.nextjs,
-      data: {
-        label: 'Next.js 14',
-        subLabel: 'App Router',
-        group: 'client',
-        description: 'Marketing shell.',
-        usage:
-          'Server components for content, client islands for motion and 3D. Lenis smooth scroll, product lanes from data/products.ts.',
-        tech: ['Next.js 14', 'TypeScript', 'Lenis'],
-      },
-    },
-    {
-      id: 'modals',
-      position: GETZONED_POS.modals,
-      data: {
-        label: 'Flow modals',
-        subLabel: 'Early access · host',
-        group: 'client',
-        description: 'Conversion flows.',
-        usage:
-          'App Router modals for early access, host-an-event, and choice flows — capture intent without leaving the hero.',
-        tech: ['App Router', 'Framer Motion'],
-      },
-    },
-    {
-      id: 'hero3d',
-      position: GETZONED_POS.hero3d,
-      data: {
-        label: '3D hero',
-        subLabel: 'R3F · Spline',
-        group: 'client',
-        description: 'Visual story.',
-        usage:
-          'React Three Fiber and Spline scenes for the 300m map and hyper-local discovery narrative on the landing hero.',
-        tech: ['React Three Fiber', 'Spline'],
-      },
-    },
-    {
-      id: 'register',
-      position: GETZONED_POS.register,
-      data: {
-        label: '/api/register',
-        subLabel: 'Server route',
-        group: 'app',
-        description: 'Waitlist capture.',
-        usage: 'POST handler validates form JSON and forwards rows to Google Sheets via Apps Script.',
-        tech: ['Next.js API routes'],
-      },
-    },
-    {
-      id: 'feedback',
-      position: GETZONED_POS.feedback,
-      data: {
-        label: '/api/feedback',
-        subLabel: 'Server route',
-        group: 'app',
-        description: 'User feedback.',
-        usage: 'Collects product feedback and optional email notification via Gmail integration.',
-        tech: ['Next.js API routes'],
-      },
-    },
-    {
-      id: 'sheets',
-      position: GETZONED_POS.sheets,
-      data: {
-        label: 'Google Sheets',
-        subLabel: 'Apps Script',
-        group: 'external',
-        description: 'Waitlist DB.',
-        usage: 'Apps Script webhook appends registration rows for ops and growth tracking.',
-        tech: ['Google Apps Script'],
-      },
-    },
-    {
-      id: 'gmail',
-      position: GETZONED_POS.gmail,
-      data: {
-        label: 'Gmail notify',
-        subLabel: 'Ops alert',
-        group: 'external',
-        description: 'Internal ping.',
-        usage: 'Optional email notification when high-intent forms submit (host event, feedback).',
-        tech: ['Gmail API'],
-      },
-    },
-    {
-      id: 'static',
-      position: GETZONED_POS.static,
-      data: {
-        label: 'Static export',
-        subLabel: 'out/',
-        group: 'channel',
-        description: 'CDN deploy.',
-        usage: 'Production build exports to out/ for static hosting paired with the live getzoned.in product app.',
-        tech: ['next export', 'CDN'],
-      },
-    },
-  ],
-  edges: [
-    { id: 'gz1', source: 'visitor', target: 'nextjs', animated: true },
-    { id: 'gz2', source: 'nextjs', target: 'modals' },
-    { id: 'gz3', source: 'nextjs', target: 'hero3d' },
-    { id: 'gz4', source: 'modals', target: 'register' },
-    { id: 'gz5', source: 'modals', target: 'feedback' },
-    { id: 'gz6', source: 'register', target: 'sheets', animated: true },
-    { id: 'gz7', source: 'feedback', target: 'gmail' },
-    { id: 'gz8', source: 'nextjs', target: 'static' },
-  ],
-}
-
-const SCRAPER_POS = tiers([
-  ['urls'],
-  ['queue'],
-  ['sessions'],
-  ['bypass'],
-  ['parse'],
-  ['export'],
-])
-
-const SCRAPER_GRAPH: ProjectArchitectureGraph = {
-  nodes: [
-    {
-      id: 'urls',
-      position: SCRAPER_POS.urls,
-      data: {
-        label: 'Target URLs',
-        subLabel: 'Seed list',
-        group: 'external',
-        description: 'Crawl targets.',
-        usage: 'Protected sites with rate limits enqueued for resilient fetching.',
-        tech: ['URL queue'],
-      },
-    },
-    {
-      id: 'queue',
-      position: SCRAPER_POS.queue,
-      data: {
-        label: 'Crawl queue',
-        subLabel: 'Dedup · backoff',
-        group: 'worker',
-        description: 'Orchestration.',
-        usage:
-          'Dedupes URLs, applies per-domain rate limits, schedules retries with exponential backoff on failure.',
-        tech: ['Python', 'asyncio'],
-      },
-    },
-    {
-      id: 'sessions',
-      position: SCRAPER_POS.sessions,
-      data: {
-        label: 'Session pool',
-        subLabel: 'Proxy · UA rotate',
-        group: 'app',
-        description: 'Fingerprint rotation.',
-        usage:
-          'Rotates proxies, user-agents, and cookies so consecutive requests do not look like a single bot.',
-        tech: ['httpx', 'Proxy rotation'],
-      },
-    },
-    {
-      id: 'bypass',
-      position: SCRAPER_POS.bypass,
-      data: {
-        label: 'Bypass layer',
-        subLabel: 'CAPTCHA · Selenium',
-        group: 'app',
-        description: 'Human-verify gates.',
-        usage:
-          'Pluggable steps clear “verify you are human” interstitials — Selenium fallback when httpx alone fails.',
-        tech: ['Selenium', 'CAPTCHA handlers'],
-      },
-    },
-    {
-      id: 'parse',
-      position: SCRAPER_POS.parse,
-      data: {
-        label: 'Parser',
-        subLabel: 'BeautifulSoup',
-        group: 'app',
-        description: 'Structured extract.',
-        usage: 'Normalizes HTML into records ready for JSON/CSV export and downstream NLP pipelines.',
-        tech: ['BeautifulSoup', 'httpx'],
-      },
-    },
-    {
-      id: 'export',
-      position: SCRAPER_POS.export,
-      data: {
-        label: 'Export',
-        subLabel: 'JSON · CSV',
-        group: 'channel',
-        description: 'Deliverable.',
-        usage: 'Deduped structured crawl results written for research and analytics consumers.',
-        tech: ['JSON', 'CSV'],
-      },
-    },
-  ],
-  edges: [
-    { id: 'ws1', source: 'urls', target: 'queue', animated: true },
-    { id: 'ws2', source: 'queue', target: 'sessions' },
-    { id: 'ws3', source: 'sessions', target: 'bypass' },
-    { id: 'ws4', source: 'bypass', target: 'parse' },
-    { id: 'ws5', source: 'parse', target: 'export', animated: true },
   ],
 }
 
@@ -2803,9 +2418,8 @@ const COURSE_GRAPH: ProjectArchitectureGraph = {
 }
 
 export const PROJECT_ARCHITECTURE_GRAPHS: Record<string, ProjectArchitectureGraph> = {
-  socialhub: SOCIALHUB_GRAPH,
+  socialhub: DBAAS_GRAPH,
   prism: PRISM_GRAPH,
-  'content-phase': DBAAS_GRAPH,
   unify: UNIFY_GRAPH,
   taleweaver: TALEWEAVER_GRAPH,
   'football-analytics': FOOTBALL_GRAPH,
@@ -2813,12 +2427,8 @@ export const PROJECT_ARCHITECTURE_GRAPHS: Record<string, ProjectArchitectureGrap
   'data-lineage': LINEAGE_GRAPH,
   'sugarcane-health-ml': SUGARCANE_GRAPH,
   'linkedin-job-scraper': LINKEDIN_GRAPH,
-  'b2b-lead-platform': B2B_GRAPH,
-  madhost: MADHOST_GRAPH,
   'ai-twitter-post-generator': TWITTER_GRAPH,
   'fitzgerald-lora-pipeline': FINETUNE_GRAPH,
-  'getzoned-marketing': GETZONED_GRAPH,
-  'web-scraper-evasion': SCRAPER_GRAPH,
   'ai-cost-optimizer': COST_GRAPH,
   'course-studio': COURSE_GRAPH,
 }

@@ -1,11 +1,11 @@
 import type { ProjectStory } from '@/lib/project-story'
 
 export const SOCIALHUB_STORY: ProjectStory = {
-  headline: 'Multi-Channel GenOps',
+  headline: 'Content Phase',
   subtitle:
-    'GenOps for social — one idea in, campaigns out, without hiring an agency',
+    'Multi-channel GenOps (SocialHub) — one idea in, campaigns out, without hiring an agency',
   lede:
-    'SocialHub is the content factory I helped shape: AI agents and workflows that generate posts, images, and schedules across every major channel — with OAuth so your passwords never touch our servers.',
+    'Content Phase and SocialHub are the same product: the public Multi-Channel GenOps experience and the production monorepo (React + Vite, FastAPI on Apex SaaS). AI agents and workflows generate posts, images, and schedules across every major channel — with OAuth so your passwords never touch our servers.',
   byline: 'Parmeet Singh Talwar · Builder · GenOps / AI systems',
   social: [],
   blocks: [
@@ -79,8 +79,8 @@ export const SOCIALHUB_STORY: ProjectStory = {
     {
       type: 'prose',
       paragraphs: [
-        'SocialHub / Content Factory (content-phase1 on GitHub) is a full-stack GenOps system — FastAPI backend, Next.js front end, workflow automation, and integrations that matter on the ground: LLMs, RAG over brand docs, image providers, n8n-style scheduling hooks, and a Telegram bot so founders can generate, approve, or reschedule from their phone like a command center.',
-        'My work sits in the AI layer and the connective tissue: prompt and context design, OAuth flows that stay minimal-scope, pipeline reliability, and making the “one idea → multi-platform campaign” path feel like one product instead of seven scripts. Telegram is not a gimmick — it is how a busy operator approves ten posts on the way to a meeting.',
+        'The shipped codebase (content-phase1 on GitHub) is a full-stack GenOps system — React 19 + Vite 7 SPA, FastAPI on Apex SaaS, PostgreSQL with Alembic, Docker Compose, persona agents (Flux + IP-Adapter), UGC editor, monthly calendar planner, and APScheduler publishing. The marketing site presents the same loops as Next.js dashboard surfaces where that stack is deployed for demos and customers.',
+        'My work sits in the AI layer and the connective tissue: prompt and context design, OAuth flows that stay minimal-scope, pipeline reliability, and making the “one idea → multi-platform campaign” path feel like one product instead of seven scripts. Telegram mirrors the web dashboard — approve or reschedule from your phone, not a separate toy integration.',
         'Pricing on the live site tiers Starter ($19), Pro ($49, unlimited posts, persona agents, Telegram), and Enterprise (white-label, custom training, API) — the architecture has to earn that ladder: rate limits and account caps on Starter, orchestration depth on Pro, tenancy and API on Enterprise.',
       ],
     },
@@ -104,5 +104,5 @@ export const SOCIALHUB_STORY: ProjectStory = {
     },
   ],
   closing:
-    'Multi-channel GenOps — scheduled, brand-grounded, production-grade',
+    'Content Phase · SocialHub — multi-channel GenOps, production-grade',
 }

@@ -93,11 +93,7 @@ export function About() {
               validation from two weeks to 48 hours — plus agent systems for
               social, hiring, and support. Earlier at Scale AI, I designed 200+
               LLM evaluation test cases with 96% annotation agreement across
-              reasoning, coding, and NLP.
-            </p>
-            <p>
-              Final-year Integrated MTech in CSE-AI at VIT Bhopal (July 2026). I
-              use{' '}
+              reasoning, coding, and NLP. I use{' '}
               <span className="font-medium text-foreground">GenOps</span> as the
               frame for LLM pipelines, scraping, and validation as one discipline.
               Day-to-day stack: Python, FastAPI, Next.js, LangGraph, RAG, MCP

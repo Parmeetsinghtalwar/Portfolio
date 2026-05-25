@@ -4,7 +4,15 @@ import { PRISM_STORY } from '@/lib/stories/prism'
 import { SOCIALHUB_STORY } from '@/lib/stories/socialhub'
 import { TALEWEAVER_STORY } from '@/lib/stories/taleweaver'
 import { FOOTBALL_ANALYTICS_STORY } from '@/lib/stories/football-analytics'
-import { IDEA_INTERNAL_STORY } from '@/lib/stories/idea-internal'
+import { SUGARCANE_ML_STORY } from '@/lib/stories/sugarcane-health-ml'
+import { UNIFY_STORY } from '@/lib/stories/unify'
+import { LINKEDIN_JOBS_STORY } from '@/lib/stories/linkedin-job-scraper'
+import { TWITTER_ENGAGEMENT_STORY } from '@/lib/stories/ai-twitter-post-generator'
+import { AUTHOR_FINETUNE_STORY } from '@/lib/stories/fitzgerald-lora-pipeline'
+import { LLM_COST_AUDIT_STORY } from '@/lib/stories/ai-cost-optimizer'
+import { SPORTS_TRACKING_STORY } from '@/lib/stories/yolo-sports-tracking'
+import { COURSE_STUDIO_STORY } from '@/lib/stories/course-studio'
+import { DATA_LINEAGE_STORY } from '@/lib/stories/data-lineage'
 
 export type ProjectLink = {
   label: string
@@ -60,14 +68,17 @@ function advisoryToProject(venture: AdvisoryVenture): Project {
 }
 
 const PROJECT_ID_ALIASES: Record<string, string> = {
-  'idea-internal': 'content-phase',
-  dbaas: 'content-phase',
+  'idea-internal': 'socialhub',
+  dbaas: 'socialhub',
+  'content-phase': 'socialhub',
 }
 
 /** Old slugs → canonical id (for redirects) */
 export const LEGACY_PROJECT_SLUGS: Record<string, string> = {
-  dbaas: 'content-phase',
-  'idea-internal': 'content-phase',
+  dbaas: 'socialhub',
+  'idea-internal': 'socialhub',
+  'content-phase': 'socialhub',
+  'getzoned-marketing': 'getzoned',
 }
 
 export function getProjectById(id: string): Project | undefined {
@@ -83,22 +94,28 @@ export const PROJECTS: Project[] = [
   {
     id: 'socialhub',
     featured: true,
-    title: 'Multi-Channel GenOps',
-    tagline: 'GenOps for social — AI agents, OAuth publish, multi-platform calendars',
+    title: 'Content Phase',
+    tagline:
+      'Multi-channel GenOps (SocialHub) — AI content, calendar, persona agents, OAuth publish',
     role: 'Builder · GenOps',
     period: '2024 — 2025',
     status: 'Production',
     description:
-      'Production GenOps platform for social — GPT-4o copy, DALL-E 3 / Fal.ai images, RAG brand docs, visual planner, and scheduled publish to Facebook, Instagram, X, LinkedIn, and Reddit.',
+      'One product, two surfaces: the public SocialHub / Multi-Channel GenOps experience and the production Content Phase monorepo (React + Vite, FastAPI on Apex SaaS). GPT-4o copy, DALL-E 3 / Fal.ai images, RAG over brand docs, monthly content calendar, persona agents, UGC editor, and scheduled publish to Facebook, Instagram, X, LinkedIn, and Reddit — with Telegram parity.',
     highlights: [
       '500K+ posts generated, 12M+ assets managed (per product metrics)',
       'Direct OAuth — post image & caption only; no stored passwords',
-      'AI Content Studio, smart calendar, UGC editor, document intelligence, Telegram approvals',
+      'AI Content Studio, smart calendar, UGC editor, PDF brand intelligence, persona agents (Flux + IP-Adapter)',
+      'Production stack: React 19 + Vite 7 SPA, FastAPI, PostgreSQL, Docker Compose, APScheduler worker',
       'Open-source lineage: content-phase1 on GitHub',
     ],
     stack: [
       'FastAPI',
       'Next.js',
+      'React 19',
+      'Vite 7',
+      'Apex SaaS',
+      'PostgreSQL',
       'GPT-4o',
       'DALL-E 3',
       'Fal.ai',
@@ -106,6 +123,12 @@ export const PROJECTS: Project[] = [
       'OAuth 2.0',
       'n8n',
       'Telegram',
+      'Docker',
+    ],
+    metrics: [
+      { label: 'Platforms', value: '5' },
+      { label: 'Channels', value: 'Web + Telegram' },
+      { label: 'Auth', value: 'OAuth only' },
     ],
     story: SOCIALHUB_STORY,
   },
@@ -139,71 +162,40 @@ export const PROJECTS: Project[] = [
     story: PRISM_STORY,
   },
   {
-    id: 'content-phase',
-    title: 'Content Phase',
-    tagline:
-      'GenOps social platform — AI generation, calendar planning, and multi-platform publishing',
-    role: 'Forward Deploy AI Engineer',
-    period: '2024 — 2025',
-    status: 'Production',
-    description:
-      'Full-stack social media AI manager: React + Vite SPA, FastAPI on Apex SaaS, PostgreSQL, Docker Compose. AI copy and images, monthly content calendar, persona agents (Flux + IP-Adapter), UGC editor, PDF brand extraction, OAuth to five platforms, and a Telegram bot with dashboard parity.',
-    highlights: [
-      'Production monorepo — React 19 + Vite 7 frontend, FastAPI backend, Docker Compose deploy',
-      'Routes: AI content, calendar, agents, UGC, scheduled posts, social posting, credentials',
-      'GPT-4o + DALL·E 3 + Fal.ai (Nano Banana / Flux); Gemini for UGC edits',
-      'APScheduler worker publishes due posts; Fernet-encrypted OAuth tokens',
-      'Production GenOps stack — Docker Compose deploy',
-    ],
-    stack: [
-      'React 19',
-      'Vite 7',
-      'FastAPI',
-      'Apex SaaS',
-      'PostgreSQL',
-      'Alembic',
-      'GPT-4o',
-      'Fal.ai',
-      'Docker',
-      'Telegram',
-    ],
-    metrics: [
-      { label: 'Platforms', value: '5' },
-      { label: 'Deploy', value: 'Docker' },
-      { label: 'Channels', value: 'Web + Telegram' },
-    ],
-    story: IDEA_INTERNAL_STORY,
-  },
-  {
     id: 'sugarcane-health-ml',
     title: 'Sugarcane ML',
     tagline:
-      'Comparative CNN & classical ML on crop health — VGG19, ResNet, SVM with faculty',
+      'Crop health ML — database cleaning, stratified splits, VGG19 · ResNet · SVM',
     role: 'Research · VIT Bhopal',
     period: '2023 — 2024',
     status: 'Research',
     description:
-      'Academic research with college faculty on a sugarcane health detection dataset: trained and compared deep models (VGG19, ResNet) against classical pipelines (SVM and related baselines) for disease/stress classification. Documented methodology, metrics, and model trade-offs in a formal research report.',
+      'Faculty-guided sugarcane health research: built a cleaned image database (manifest, dedupe, blur QC, label audit), stratified train/val/test splits, then compared VGG19 and ResNet transfer learning against HOG + SVM baselines on identical data — documented in a co-authored research report.',
     highlights: [
-      'Built and labeled sugarcane health image database for controlled experiments',
-      'Side-by-side evaluation: transfer-learning CNNs vs SVM / traditional feature pipelines',
-      'VGG19 and ResNet fine-tuning with augmentation and class-imbalance handling',
-      'Research paper / report co-authored with faculty — reproducible train–eval splits',
+      'Image database with CSV manifest — path, label, resolution, capture batch metadata',
+      'Cleaning pipeline: corrupt-file drop, duplicate removal, blur filter, faculty label review',
+      'Stratified train/val/test splits (fixed seed) shared by CNN and classical tracks',
+      'VGG19 & ResNet fine-tuning + SVM (HOG / color features) — same eval protocol',
+      'Metrics: accuracy, precision, recall, F1, confusion matrices · reproducible checkpoints',
     ],
     stack: [
       'Python',
+      'pandas',
+      'OpenCV',
       'TensorFlow / Keras',
       'VGG19',
       'ResNet',
       'SVM',
       'scikit-learn',
-      'OpenCV',
+      'Albumentations',
+      'Matplotlib',
     ],
     metrics: [
-      { label: 'Models compared', value: 'VGG19 · ResNet · SVM' },
-      { label: 'Domain', value: 'Agri-health' },
-      { label: 'Output', value: 'Research doc' },
+      { label: 'Pipeline', value: 'Clean → split → train' },
+      { label: 'Models', value: 'VGG19 · ResNet · SVM' },
+      { label: 'Output', value: 'Research report' },
     ],
+    story: SUGARCANE_ML_STORY,
   },
   {
     id: 'unify',
@@ -230,7 +222,12 @@ export const PROJECTS: Project[] = [
       'TypeORM',
       'React',
     ],
-    links: [{ label: 'Portfolio · engineering', href: '/projects/unify' }],
+    metrics: [
+      { label: 'Channels', value: '5+' },
+      { label: 'Agent', value: '7-step L1' },
+      { label: 'Tenancy', value: 'PostgreSQL RLS' },
+    ],
+    story: UNIFY_STORY,
   },
   {
     id: 'taleweaver',
@@ -263,17 +260,19 @@ export const PROJECTS: Project[] = [
   {
     id: 'linkedin-job-scraper',
     title: 'AI Jobs Export',
-    tagline: 'USA & UAE AI/ML jobs → Claude-structured Excel via guest API',
+    tagline:
+      'AI job discovery for friends — latest USA & UAE AI/ML roles → structured Excel',
     role: 'Builder',
     period: '2025',
     status: 'Open source',
     description:
-      'Python pipeline that scrapes AI-related LinkedIn postings through the public guest API (no login), applies anti-ban delays and UA rotation, and uses OpenRouter Claude 3.5 Sonnet to extract ten structured fields into a formatted spreadsheet.',
+      'Personal job-hunt tool turned shared pipeline: scrapes fresh AI/ML LinkedIn postings (guest API), uses Claude to extract ten structured fields per role, and exports a filterable spreadsheet. Helped six to eight friends track the latest market without manually opening every posting.',
     highlights: [
-      'Modules: `linkedin_scraper.py`, `ai_extractor.py`, `excel_writer.py` — CLI `main.py`',
-      '10 fields per row: company, role, skills, salary, mode, full JD, and more',
-      'Session caps + random delays (`MAX_JOBS_PER_SESSION`) to reduce blocks',
-      'Output: `linkedin_ai_jobs.xlsx` — sourced from Samsung `source code/Linkedin-job/`',
+      'Used with 6–8 friends — regular runs for the latest AI/ML openings (USA & UAE)',
+      'AI extracts company, role, skills, salary signal, remote mode, full JD, and more',
+      'Guest API scraper — UA rotation, delays, session caps (`MAX_JOBS_PER_SESSION`)',
+      'Output: `linkedin_ai_jobs.xlsx` — one sheet to shortlist and apply',
+      'Stack: `linkedin_scraper.py` · `ai_extractor.py` · `excel_writer.py` · CLI `main.py`',
     ],
     stack: [
       'Python',
@@ -283,68 +282,29 @@ export const PROJECTS: Project[] = [
       'openpyxl',
       'requests',
     ],
-  },
-  {
-    id: 'b2b-lead-platform',
-    title: 'Lead Intelligence',
-    tagline: 'Multi-API lead scoring, enrichment, and discovery dashboard',
-    role: 'Builder',
-    period: '2025',
-    status: 'Building',
-    description:
-      'FastAPI + PostgreSQL platform that scores B2B prospects from hiring, funding, competition, and growth signals across 7+ data APIs. Modular collectors, weighted lead-scoring engine, async discovery jobs, and Streamlit/FastAPI frontends.',
-    highlights: [
-      'Scoring weights: hiring 25%, funding 25%, competition 20%, growth 20%, contact 10%',
-      'Integrations: Muse, News API, Guardian, Alpha Vantage (per README)',
-      'SQLAlchemy ORM + Alembic migrations; background async discovery',
-      'Samsung archive: `Storage/code/leads/`',
+    metrics: [
+      { label: 'Friends helped', value: '6–8' },
+      { label: 'Fields per job', value: '10' },
+      { label: 'Regions', value: 'USA · UAE' },
     ],
-    stack: [
-      'FastAPI',
-      'PostgreSQL',
-      'SQLAlchemy',
-      'Alembic',
-      'Streamlit',
-      'Python',
-    ],
-  },
-  {
-    id: 'madhost',
-    title: 'Rental Ops Bot',
-    tagline: 'Airbnb ops bot — WhatsApp guest welcome, Telegram cleaning on checkout',
-    role: 'Builder',
-    period: '2025',
-    status: 'Production',
-    description:
-      'Minimal FastAPI + SQLite app for short-term rental hosts: add a guest number → automated WhatsApp welcome; checkout → Telegram task to cleaners. Single-page maintenance UI served from the backend.',
-    highlights: [
-      'Flow: booking form → guest record → WhatsApp Business API message',
-      'Checkout button fires Telegram cleaning task (`CLEANER_TELEGRAM_CHAT_ID`)',
-      '`backend/app/` API + `frontend/index.html`; PRD dated Feb 2025',
-      'Samsung archive: `source code/madhost/`',
-    ],
-    stack: [
-      'FastAPI',
-      'SQLAlchemy',
-      'SQLite',
-      'WhatsApp Business API',
-      'Telegram Bot API',
-    ],
+    story: LINKEDIN_JOBS_STORY,
   },
   {
     id: 'ai-twitter-post-generator',
-    title: 'Social Post AI',
-    tagline: 'AI news scrape → persona tweets + Fal Flux images → approve & post',
+    title: 'Twitter Engagement',
+    tagline:
+      'Daily X automation — live AI news → persona tweets + images → publish for reach',
     role: 'Builder',
     period: '2025',
     status: 'Open source',
     description:
-      'FastAPI backend with static approval UI: researches AI news (HN, TechCrunch, MIT, OpenAI feeds), drafts persona-styled tweets, generates Fal Flux images, and posts approved items via Tweepy.',
+      'Built to post on X every day: automated pipeline fetches live AI news (HN, TechCrunch, MIT, OpenAI feeds), Claude drafts persona-styled copy, Fal Flux adds visuals, human approval gate, then Tweepy publishes — designed to keep a daily rhythm and grow audience reach.',
     highlights: [
-      '`/api/research` → generate → approve/reject → `/api/twitter/post` pipeline',
-      'Persona config in `backend/app/persona/persona.json`',
-      'Anthropic Claude + Fal.ai + BeautifulSoup/feedparser',
-      'Samsung archive: `source code/twiter posting/`',
+      'Daily posting workflow — scheduled or on-demand runs, not one-off manual threads',
+      'Live news ingestion: RSS + scrape via feedparser and BeautifulSoup',
+      'Persona-locked voice in `persona.json` · Claude drafting · Fal Flux images',
+      'Approve/reject UI then `/api/twitter/post` to X for mass-facing distribution',
+      'FastAPI: research → generate → publish pipeline',
     ],
     stack: [
       'FastAPI',
@@ -353,58 +313,50 @@ export const PROJECTS: Project[] = [
       'Tweepy',
       'BeautifulSoup',
       'feedparser',
+      'cron / scheduler',
     ],
+    metrics: [
+      { label: 'Cadence', value: 'Daily' },
+      { label: 'News feeds', value: 'Live APIs' },
+      { label: 'Publish', value: 'X / Twitter' },
+    ],
+    story: TWITTER_ENGAGEMENT_STORY,
   },
   {
     id: 'fitzgerald-lora-pipeline',
     title: 'Author Fine-Tune',
-    tagline: 'ePub extract → instruction dataset → Qwen2.5-3B style adapter',
+    tagline:
+      'LoRA on Qwen2.5-3B — ePub corpus → instruction dataset → RunPod train → Bookgen inference',
     role: 'ML engineer',
     period: '2024 — 2025',
     status: 'Research',
     description:
-      'Offline training pipeline that turns Fitzgerald ePub corpora into a LoRA adapter for Bookgen: extract → segment → instruction generation → `dataset.jsonl` → PEFT training. Ships trained weights in `fitzgerald_lora/`.',
+      'Explains and implements author-style fine-tuning for Bookgen: what LoRA is, why a dedicated adapter beats prompts alone, and how five Fitzgerald ePubs become 3,762 instruction rows, a ~479 MB LoRA trained on RunPod GPU, then loaded in production by the Bookgen `llm-service` for voice-locked chapter streaming.',
     highlights: [
-      'Scripts: `extract.py`, `segment.py`, `generate_instructions.py`, `build_dataset.py`',
-      '5 books → 3,762 instruction examples (per project README)',
-      'Trained adapter ~479 MB; notebooks for author-style experiments',
-      'Samsung archive: `source code/finetune/` — feeds Bookgen `llm-service/`',
+      'LoRA (PEFT) on frozen Qwen2.5-3B — train adapter only, not full model weights',
+      'Pipeline: extract → segment → generate_instructions → build_dataset → PEFT train',
+      '5 Fitzgerald ePubs → 3,762 instruction pairs in dataset.jsonl',
+      'GPU training on RunPod; adapter shipped as fitzgerald_lora/ (~479 MB)',
+      'Production: Bookgen llm-service loads base + LoRA for chapter generation',
     ],
     stack: [
       'Python',
       'ebooklib',
       'Transformers',
       'PEFT',
+      'PyTorch',
       'Qwen2.5-3B',
+      'RunPod',
+      'Docker',
       'Jupyter',
     ],
-  },
-  {
-    id: 'getzoned-marketing',
-    title: 'Discovery Marketing',
-    tagline: 'Next.js 14 — 300m map, micro-events, 3D hero, early-access flows',
-    role: 'Co-founder & CTO',
-    period: '2024 — Present',
-    status: 'Live',
-    description:
-      'Marketing and waitlist site for GetZoned (`zoned/` on Samsung SSD): hyper-local social discovery with Framer Motion, React Three Fiber / Spline visuals, product lanes in `data/products.ts`, and Google Sheets/Gmail hooks for registration and feedback.',
-    highlights: [
-      'App Router modals: early access, host event, choice flows + Lenis smooth scroll',
-      'API routes: `app/api/register`, `app/api/feedback` with Apps Script integration',
-      'Static export `out/` build; pairs with live app at getzoned.in',
-      'Samsung archive: `source code/zoned/`',
+    metrics: [
+      { label: 'Training rows', value: '3,762' },
+      { label: 'Adapter', value: '~479 MB' },
+      { label: 'Inference', value: 'llm-service' },
     ],
-    stack: [
-      'Next.js 14',
-      'TypeScript',
-      'Tailwind CSS',
-      'Framer Motion',
-      'React Three Fiber',
-      'Spline',
-    ],
-    links: [
-      { label: 'getzoned.in', href: 'https://getzoned.in' },
-    ],
+    links: [{ label: 'Taleweaver / Bookgen', href: '/projects/taleweaver' }],
+    story: AUTHOR_FINETUNE_STORY,
   },
   {
     id: 'football-analytics',
@@ -468,31 +420,13 @@ export const PROJECTS: Project[] = [
       'PyTorch',
       'ByteTrack / SORT',
     ],
-  },
-  {
-    id: 'web-scraper-evasion',
-    title: 'Adaptive Scraper',
-    tagline:
-      'High-volume scraping with anti-bot and human-verification bypass layers',
-    role: 'Builder',
-    period: '2024',
-    status: 'Open source',
-    description:
-      'Web scraping stack designed to work past common bot gates: rotating sessions, browser-like headers, retry/backoff, and layered strategies to clear human-verification challenges before extracting structured data at scale.',
-    highlights: [
-      'Session and fingerprint rotation to reduce block rates on protected sites',
-      'Pluggable bypass steps for CAPTCHA / “verify you are human” interstitials',
-      'Resilient crawl queue with dedup, rate limits, and failure recovery',
-      'Structured export (JSON/CSV) for downstream NLP and research pipelines',
+    metrics: [
+      { label: 'Detect', value: 'YOLO' },
+      { label: 'Track', value: 'ByteTrack' },
+      { label: 'Output', value: 'CSV / JSON' },
     ],
-    stack: [
-      'Python',
-      'Selenium',
-      'httpx',
-      'BeautifulSoup',
-      'Proxy rotation',
-      'Async I/O',
-    ],
+    links: [{ label: 'Football Intelligence', href: '/projects/football-analytics' }],
+    story: SPORTS_TRACKING_STORY,
   },
   {
     id: 'ai-cost-optimizer',
@@ -514,10 +448,17 @@ export const PROJECTS: Project[] = [
       'Python',
       'FastAPI',
       'OpenAI / Anthropic APIs',
+      'OpenRouter',
       'PostgreSQL',
       'Langfuse',
-      'Prometheus-style metrics',
+      'Prometheus',
     ],
+    metrics: [
+      { label: 'Stages', value: '6' },
+      { label: 'Output', value: 'Playbook' },
+      { label: 'Store', value: 'PostgreSQL' },
+    ],
+    story: LLM_COST_AUDIT_STORY,
   },
   {
     id: 'course-studio',
@@ -542,6 +483,12 @@ export const PROJECTS: Project[] = [
       'FastAPI',
       'Next.js',
     ],
+    metrics: [
+      { label: 'Artifacts', value: 'PPTX + audio' },
+      { label: 'Structure', value: 'Module → slide' },
+      { label: 'Guide', value: 'Markdown' },
+    ],
+    story: COURSE_STUDIO_STORY,
   },
   {
     id: 'data-lineage',
@@ -569,6 +516,12 @@ export const PROJECTS: Project[] = [
       'Neo4j',
       'Knowledge graph',
     ],
+    metrics: [
+      { label: 'Sources', value: '5+' },
+      { label: 'Granularity', value: 'Column' },
+      { label: 'Graph', value: 'Neo4j' },
+    ],
+    story: DATA_LINEAGE_STORY,
   },
 ]
 

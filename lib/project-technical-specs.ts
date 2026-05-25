@@ -11,7 +11,7 @@ type SpecOverrides = Partial<ProjectTechnicalSpec>
 export const PROJECT_TECHNICAL_SPECS: Record<string, SpecOverrides> = {
   socialhub: {
     summary:
-      'Production GenOps platform: Next.js dashboard, FastAPI service mesh, multi-LLM AI orchestrator, async worker pool, and OAuth publishers across five social networks — all on a PostgreSQL + Redis + S3 + pgvector data plane.',
+      'Content Phase / SocialHub — production GenOps platform: React 19 + Vite 7 SPA (and Next.js dashboard surfaces), FastAPI on Apex SaaS, multi-LLM orchestrator, persona agents (Flux + IP-Adapter), UGC + calendar services, APScheduler/Celery workers, and OAuth publishers across five social networks on PostgreSQL + Redis + Cloudinary/S3 + pgvector.',
     diagram: [
       '┌──────────────────────────────────────────────────────────────────┐',
       '│ CLIENT      Next.js dashboard · Studio · Calendar · UGC editor   │',
@@ -86,11 +86,30 @@ export const PROJECT_TECHNICAL_SPECS: Record<string, SpecOverrides> = {
     technologies: [
       {
         group: 'Application',
-        items: ['FastAPI', 'Next.js', 'TypeScript', 'Python', 'Celery'],
+        items: [
+          'FastAPI',
+          'Apex SaaS',
+          'Next.js',
+          'React 19',
+          'Vite 7',
+          'TypeScript',
+          'Python',
+          'Celery',
+          'APScheduler',
+        ],
       },
       {
         group: 'AI',
-        items: ['GPT-4o', 'Claude', 'DALL·E 3', 'Fal.ai', 'RAG', 'pgvector'],
+        items: [
+          'GPT-4o',
+          'Claude',
+          'DALL·E 3',
+          'Fal.ai',
+          'Flux IP-Adapter',
+          'Gemini (UGC)',
+          'RAG',
+          'pgvector',
+        ],
       },
       {
         group: 'Data',
@@ -245,151 +264,123 @@ export const PROJECT_TECHNICAL_SPECS: Record<string, SpecOverrides> = {
     ],
   },
 
-  'content-phase': {
+  'sugarcane-health-ml': {
     summary:
-      'Content Phase: React 19 + Vite 7 SPA, FastAPI backend on Apex SaaS with Alembic migrations, modular services for AI content, content calendar, persona agents, UGC, OAuth credentials, and scheduled multi-platform publishing — PostgreSQL + Cloudinary + Docker Compose, documented in SYSTEM_ARCHITECTURE.md.',
+      'Sugarcane crop-health research pipeline: field image ingestion → manifest database → cleaning & QC (dedupe, corrupt drop, blur filter, faculty label audit) → stratified splits → augmentation → parallel VGG19/ResNet CNN training and HOG+SVM classical baseline → unified evaluation and faculty co-authored report.',
     diagram: [
       '┌──────────────────────────────────────────────────────────────────┐',
-      '│ CLIENT      React 19 + Vite 7 · Tailwind 4 · Framer · Three.js   │',
-      '│             Landing · Generator · Calendar · UGC · Agents        │',
+      '│ COLLECTION   Field captures · class protocol · batch metadata    │',
       '└────────────────────────────────┬─────────────────────────────────┘',
-      '                                 │ HTTPS · JWT (Apex auth)',
       '                                 ▼',
       '┌──────────────────────────────────────────────────────────────────┐',
-      '│ APEX + API    FastAPI · Apex bootstrap · slowapi rate limits     │',
-      '└──┬─────────┬──────────┬─────────┬──────────┬───────────────────┘',
-      '   │         │          │         │          │',
-      '   ▼         ▼          ▼         ▼          ▼',
-      '┌──────┐ ┌─────────┐ ┌───────┐ ┌─────┐ ┌────────────────────────┐',
-      '│ AI   │ │Calendar │ │Agents │ │ UGC │ │ OAuth + platform       │',
-      '│content│ │ planner │ │Flux IP│ │edit │ │ FB · IG · X · LI · RD  │',
-      '└──┬───┘ └────┬────┘ └───┬───┘ └──┬──┘ └───────────┬────────────┘',
-      '   │          │          │        │                │',
-      '   └──────────┴──────────┴────────┴────────────────┘',
-      '                                 │',
+      '│ CATALOG DB   CSV manifest · paths · labels · resolution · batch  │',
+      '└────────────────────────────────┬─────────────────────────────────┘',
       '                                 ▼',
       '┌──────────────────────────────────────────────────────────────────┐',
-      '│ WORKER      APScheduler · scheduler_worker (60s poll · publish)  │',
-      '│ TELEGRAM    Bot service — same FastAPI service layer as web      │',
+      '│ CLEANING     Drop corrupt · dedupe · blur score · label review   │',
+      '│              Faculty sign-off on disputed classes                │',
       '└────────────────────────────────┬─────────────────────────────────┘',
-      '                                 │',
-      '┌────────────────────────────────▼─────────────────────────────────┐',
-      '│ DATA        PostgreSQL 15 · Cloudinary · Fernet OAuth tokens     │',
-      '└────────────────────────────────┬─────────────────────────────────┘',
-      '                                 │',
       '                                 ▼',
       '┌──────────────────────────────────────────────────────────────────┐',
-      '│ AI PROVIDERS   OpenAI GPT-4o / DALL·E 3 · Fal.ai · Gemini (UGC) │',
+      '│ SPLITS       Stratified train / val / test · fixed seed          │',
+      '└────────────────────────────────┬─────────────────────────────────┘',
+      '                                 ▼',
+      '┌──────────────────────────────────────────────────────────────────┐',
+      '│ PREPROCESS   Resize · normalize · augment (train only) · balance  │',
+      '└──┬───────────────────────────────────────────────────┬──────────┘',
+      '   ▼ CNN track                                           ▼ classical',
+      '┌─────────────────────────────┐         ┌───────────────────────────┐',
+      '│ VGG19 · ResNet fine-tune    │         │ HOG · color hist → SVM    │',
+      '└──────────────┬──────────────┘         └─────────────┬─────────────┘',
+      '               └──────────────────┬──────────────────┘',
+      '                                  ▼',
+      '┌──────────────────────────────────────────────────────────────────┐',
+      '│ EVALUATION   Acc · precision · recall · F1 · confusion matrix    │',
+      '└────────────────────────────────┬─────────────────────────────────┘',
+      '                                 ▼',
+      '┌──────────────────────────────────────────────────────────────────┐',
+      '│ DELIVERABLE  Clean manifest · splits · checkpoints · PDF report  │',
       '└──────────────────────────────────────────────────────────────────┘',
     ].join('\n'),
     layers: [
       {
-        title: 'Client (Vite SPA)',
+        title: 'Collection & catalog',
         detail:
-          'React 19 pages: Liquid Ether landing, post generator, Content Calendar super-controller, UGC editor, persona Agents, OAuth connections, scheduler, payments. Axios to FastAPI with auth context.',
+          'Field images per health class with faculty labeling protocol. Central manifest (CSV) registers file path, class ID, resolution, and capture batch before any modeling.',
       },
       {
-        title: 'API + Apex SaaS',
+        title: 'Database cleaning',
         detail:
-          'FastAPI with apex.bootstrap, SQLAlchemy models, Alembic migrations. Routes: health, posts, scheduled, ai_content, enhance, credentials, ugc, content_calendar, agents, social_posting, scheduler.',
+          'Remove corrupt/unreadable files; dedupe near-identical frames; blur scoring for unusable photos; resolution floor; manual review queue for ambiguous labels with faculty approval.',
       },
       {
-        title: 'AI & media pipeline',
+        title: 'Splits & preprocess',
         detail:
-          'GPT-4o for platform copy and prompt enhancement; DALL·E 3 and Fal.ai (Nano Banana, Flux Pro/Dev) for images; agent_service for IP-Adapter personas; pdf_extraction_service for brand PDFs; ugc_service (Gemini) for edits.',
+          'Stratified train/val/test with fixed seed — identical indices for CNN and SVM. Resize, normalize, augmentation on train only; oversampling / class weights for imbalance.',
       },
       {
-        title: 'Calendar & scheduling',
+        title: 'Model tracks',
         detail:
-          'Monthly plan generation from business profile; bulk asset generation; scheduled_posts table; background worker publishes to all selected platforms with per-platform status.',
+          'Deep: VGG19 and ResNet transfer learning (frozen lower blocks, custom head). Classical: HOG + color histogram features → SVM with validation grid search.',
       },
       {
-        title: 'OAuth & channels',
+        title: 'Evaluation & report',
         detail:
-          'Encrypted credential store per platform profile. Publishers for Facebook, Instagram, Twitter (hybrid v1.1/v2 media), LinkedIn (non-PKCE), Reddit. No password storage.',
-      },
-      {
-        title: 'Data & deploy',
-        detail:
-          'PostgreSQL 15 in Docker Compose; Cloudinary for media URLs; production CORS configured for deployed frontend and API hosts.',
+          'Held-out test metrics and confusion matrices per model; trade-off analysis in co-authored research PDF with reproducible split files and checkpoints.',
       },
     ],
     technologies: [
       {
-        group: 'Frontend',
-        items: ['React 19', 'Vite 7', 'TypeScript', 'Tailwind CSS 4', 'Framer Motion', 'Three.js'],
+        group: 'Data',
+        items: ['Python', 'pandas', 'CSV manifest', 'OpenCV', 'imagehash / dedupe'],
       },
       {
-        group: 'Backend',
-        items: ['FastAPI', 'Apex SaaS', 'SQLAlchemy', 'Alembic', 'APScheduler', 'PostgreSQL 15', 'Docker Compose'],
+        group: 'Deep learning',
+        items: ['TensorFlow / Keras', 'VGG19', 'ResNet', 'Albumentations'],
       },
       {
-        group: 'AI',
-        items: ['OpenAI GPT-4o', 'DALL·E 3', 'Fal.ai', 'Gemini (UGC)', 'Flux IP-Adapter'],
+        group: 'Classical ML',
+        items: ['scikit-learn', 'SVM', 'HOG', 'color histograms'],
       },
       {
-        group: 'Integrations',
-        items: ['Facebook Graph', 'Instagram', 'X API', 'LinkedIn', 'Reddit', 'Telegram Bot', 'Cloudinary'],
+        group: 'Evaluation',
+        items: ['Matplotlib', 'confusion matrix', 'precision/recall/F1'],
       },
     ],
     inputs: [
-      { label: 'Business profile', format: 'Form + PDF', description: 'Brand voice, offerings, and visuals from PDF document intelligence.' },
-      { label: 'OAuth tokens', format: 'Per-platform credentials', description: 'User-connected social accounts; Fernet-encrypted at rest.' },
-      { label: 'Content brief', format: 'Text / calendar plan', description: 'Single post or monthly calendar slot with platform targets.' },
+      {
+        label: 'Raw field images',
+        format: 'JPEG/PNG folders',
+        description: 'Unsorted captures from plots — health, disease, stress classes.',
+      },
+      {
+        label: 'Label manifest',
+        format: 'CSV database',
+        description: 'Path, class, resolution, batch ID — updated after each cleaning pass.',
+      },
     ],
     outputs: [
-      { label: 'Posts & assets', format: 'Copy + image URLs', description: 'Platform-specific captions and Cloudinary-hosted media.' },
-      { label: 'Scheduled publishes', format: 'DB + API status', description: 'Due posts executed by worker; per-platform success/failure logged.' },
+      {
+        label: 'Cleaned dataset',
+        format: 'Manifest + split indices',
+        description: 'Audited catalog and frozen train/val/test partitions.',
+      },
+      {
+        label: 'Model checkpoints',
+        format: 'Keras / sklearn artifacts',
+        description: 'Best CNN and SVM models per validation metric.',
+      },
+      {
+        label: 'Research report',
+        format: 'PDF',
+        description: 'Cleaning methodology, metrics tables, CNN vs SVM conclusions.',
+      },
     ],
     results: [
-      { label: 'Platforms', value: '5', detail: 'FB · IG · X · LinkedIn · Reddit' },
-      { label: 'Deploy', value: 'Docker', detail: 'Postgres + API + SPA' },
-      { label: 'Docs', value: 'In-repo', detail: 'SYSTEM_ARCHITECTURE.md' },
-    ],
-  },
-
-  'sugarcane-health-ml': {
-    summary:
-      'Comparative ML research pipeline on a faculty-curated sugarcane health dataset: parallel training of transfer-learning CNNs (VGG19, ResNet) and classical SVM baselines on the same train/eval splits, with documented metrics for a co-authored research report.',
-    diagram: [
-      '┌──────────────────────────────────────────────────────────────────┐',
-      '│ DATASET     Sugarcane field images · faculty labeling protocol  │',
-      '└────────────────────────────────┬─────────────────────────────────┘',
-      '                                 │ stratified train / val / test',
-      '                                 ▼',
-      '┌──────────────────────────────────────────────────────────────────┐',
-      '│ PREPROCESS  Resize · normalize · augmentation · class balancing │',
-      '└──┬───────────────────────────────────────────────────┬──────────┘',
-      '   │                                                   │',
-      '   ▼ deep learning track                               ▼ classical track',
-      '┌─────────────────────────────────┐         ┌─────────────────────┐',
-      '│ Transfer learning               │         │ Feature engineering │',
-      '│   VGG19 · ResNet (PyTorch/Keras)│         │   HOG · color hist  │',
-      '│   fine-tune head + last blocks  │         │   SVM (scikit-learn)│',
-      '└──────────────┬──────────────────┘         └──────────┬──────────┘',
-      '               │                                       │',
-      '               └────────────────┬──────────────────────┘',
-      '                                ▼',
-      '┌──────────────────────────────────────────────────────────────────┐',
-      '│ EVALUATION   Accuracy · precision · recall · confusion matrix    │',
-      '└────────────────────────────────┬─────────────────────────────────┘',
-      '                                 ▼',
-      '┌──────────────────────────────────────────────────────────────────┐',
-      '│ DELIVERABLE  Research report · checkpoints · reproducible splits │',
-      '└──────────────────────────────────────────────────────────────────┘',
-    ].join('\n'),
-    inputs: [
-      { label: 'Crop images', format: 'JPEG/PNG dataset', description: 'Sugarcane health classes with stratified splits.' },
-      { label: 'Labels', format: 'Class indices + metadata', description: 'Disease/stress annotations from faculty protocol.' },
-    ],
-    outputs: [
-      { label: 'Model checkpoints', format: 'PyTorch/Keras weights', description: 'Best CNN and SVM artifacts per metric.' },
-      { label: 'Research report', format: 'PDF', description: 'Methodology, confusion matrices, model trade-offs.' },
-    ],
-    results: [
+      { label: 'Data QC', value: 'Full pipeline', detail: 'Catalog → clean → split' },
       { label: 'Deep models', value: 'VGG19 · ResNet', detail: 'Transfer learning' },
-      { label: 'Classical baseline', value: 'SVM + HOG', detail: 'Apples-to-apples eval' },
-      { label: 'Output', value: 'Research doc', detail: 'Co-authored with faculty' },
+      { label: 'Baseline', value: 'SVM + HOG', detail: 'Same test split' },
+      { label: 'Output', value: 'Research doc', detail: 'Faculty co-authored' },
     ],
   },
 
@@ -571,191 +562,150 @@ export const PROJECT_TECHNICAL_SPECS: Record<string, SpecOverrides> = {
       },
     ],
     results: [
+      { label: 'Friends helped', value: '6–8', detail: 'Latest-job export runs' },
       { label: 'Fields per job', value: '10', detail: 'Claude-structured' },
       { label: 'Anti-ban', value: 'Delays + caps', detail: 'Session limits + UA rotation' },
     ],
   },
 
-  'b2b-lead-platform': {
-    summary:
-      'FastAPI + PostgreSQL platform: pluggable signal collectors call 7+ external APIs in parallel, an async discovery scheduler enriches accounts, and a weighted scoring engine writes explainable lead scores to a database surfaced through Streamlit and FastAPI UIs.',
-    diagram: [
-      '┌──────────────────────────────────────────────────────────────────┐',
-      '│ SOURCES   Muse · News API · Guardian · Alpha Vantage · …         │',
-      '└────────────────────────────────┬─────────────────────────────────┘',
-      '                                 │ async fan-out',
-      '                                 ▼',
-      '┌──────────────────────────────────────────────────────────────────┐',
-      '│ COLLECTORS  Hiring · Funding · News · Growth · Contact (modular) │',
-      '└──┬───────────┬────────────┬─────────────┬───────────┬────────────┘',
-      '   │           │            │             │           │',
-      '   └───────────┴────────────┴─────────────┴───────────┘',
-      '                                 │ normalized signals',
-      '                                 ▼',
-      '┌──────────────────────────────────────────────────────────────────┐',
-      '│ SCORING ENGINE (weighted)                                        │',
-      '│   Hiring 25% · Funding 25% · Competition 20% · Growth 20% · 10%  │',
-      '└────────────────────────────────┬─────────────────────────────────┘',
-      '                                 ▼',
-      '┌──────────────────────────────────────────────────────────────────┐',
-      '│ DATA        PostgreSQL · SQLAlchemy ORM · Alembic migrations     │',
-      '└────────────────────────────────┬─────────────────────────────────┘',
-      '                                 │',
-      '                ┌────────────────┴────────────────┐',
-      '                ▼                                 ▼',
-      '         ┌──────────────┐                  ┌──────────────┐',
-      '         │ FastAPI UI   │                  │ Streamlit    │',
-      '         │ dashboard    │                  │ analyst view │',
-      '         └──────────────┘                  └──────────────┘',
-    ].join('\n'),
-    inputs: [
-      { label: 'Company signals', format: 'REST API JSON', description: 'Hiring, funding, news, competition from 7+ APIs.' },
-    ],
-    outputs: [
-      { label: 'Lead scores', format: 'DB rows + UI', description: 'Weighted score 0–100 with explainable factors.' },
-    ],
-    results: [
-      { label: 'Hiring weight', value: '25%' },
-      { label: 'Funding weight', value: '25%' },
-      { label: 'Discovery', value: 'Async jobs', detail: 'Background enrichment' },
-    ],
-  },
-
-  madhost: {
-    summary:
-      'Minimal short-term rental ops bot: FastAPI + SQLite, single-page maintenance UI, WhatsApp Business API for guest welcomes on check-in, and Telegram Bot API for cleaning tasks on checkout.',
-    diagram: [
-      '┌──────────────────────────────────────────────────────────────────┐',
-      '│ UI          Single-page maintenance form (served by FastAPI)     │',
-      '└────────────────────────────────┬─────────────────────────────────┘',
-      '                                 │',
-      '                                 ▼',
-      '┌──────────────────────────────────────────────────────────────────┐',
-      '│ API         FastAPI · SQLAlchemy · SQLite                        │',
-      '│   /booking · /checkout · /guests                                 │',
-      '└──┬─────────────────────────────────────────────────────┬─────────┘',
-      '   │ on booking                                          │ on checkout',
-      '   ▼                                                     ▼',
-      '┌────────────────────────┐                  ┌────────────────────────┐',
-      '│ WhatsApp Business API  │                  │ Telegram Bot API       │',
-      '│ guest welcome message  │                  │ cleaner task message   │',
-      '└────────────────────────┘                  └────────────────────────┘',
-    ].join('\n'),
-    inputs: [
-      { label: 'Guest phone', format: 'E.164', description: 'Stored on booking create.' },
-      { label: 'Checkout event', format: 'HTTP POST', description: 'Triggers cleaning workflow.' },
-    ],
-    outputs: [
-      { label: 'Guest message', format: 'WhatsApp template', description: 'Automated welcome on check-in.' },
-      { label: 'Cleaner task', format: 'Telegram message', description: 'Sent to CLEANER_TELEGRAM_CHAT_ID.' },
-    ],
-  },
-
   'ai-twitter-post-generator': {
     summary:
-      'FastAPI service with a static approval UI: research workers scrape AI news, a Claude drafting stage produces persona-styled tweets, Fal Flux generates an image per draft, and approved items are published to X via Tweepy.',
+      'Twitter Engagement — daily X automation: live news feeds (RSS + scrape) → FastAPI research worker → Claude persona drafts → Fal Flux images → human approval → Tweepy publish. Built for a consistent daily post cadence and broader reach on AI/tech news.',
     diagram: [
       '┌──────────────────────────────────────────────────────────────────┐',
-      '│ FEEDS       HN · TechCrunch · MIT · OpenAI (RSS + scrape)        │',
+      '│ SCHEDULE    Daily trigger (cron / manual) · post-every-day goal  │',
       '└────────────────────────────────┬─────────────────────────────────┘',
       '                                 ▼',
       '┌──────────────────────────────────────────────────────────────────┐',
-      '│ RESEARCH    FastAPI worker · feedparser + BeautifulSoup          │',
+      '│ LIVE FEEDS  HN · TechCrunch · MIT · OpenAI (RSS + scrape)        │',
       '└────────────────────────────────┬─────────────────────────────────┘',
       '                                 ▼',
       '┌──────────────────────────────────────────────────────────────────┐',
-      '│ DRAFT       Anthropic Claude · persona.json voice constraints    │',
+      '│ RESEARCH    /api/research · feedparser + BeautifulSoup           │',
+      '└────────────────────────────────┬─────────────────────────────────┘',
+      '                                 ▼',
+      '┌──────────────────────────────────────────────────────────────────┐',
+      '│ DRAFT       Claude · persona.json · engagement-focused copy      │',
       '└────────┬────────────────────────────────────┬────────────────────┘',
-      '         │                                    │',
       '         ▼                                    ▼',
       '┌────────────────────┐                ┌───────────────────────────┐',
-      '│ Fal Flux image gen │                │ Approval UI (static HTML) │',
+      '│ Fal Flux image     │                │ Approval UI               │',
       '└─────────┬──────────┘                └──────────┬────────────────┘',
-      '          │                                      │',
       '          └──────────────────┬───────────────────┘',
-      '                             ▼',
+      '                                 ▼',
       '┌──────────────────────────────────────────────────────────────────┐',
-      '│ PUBLISH     /api/twitter/post · Tweepy → X                       │',
+      '│ PUBLISH     /api/twitter/post · Tweepy → X (reach timeline)      │',
       '└──────────────────────────────────────────────────────────────────┘',
     ].join('\n'),
+    layers: [
+      {
+        title: 'Live news ingestion',
+        detail:
+          'Polls RSS and scrape targets each run so tweets reference what shipped today — Hacker News, TechCrunch, MIT, OpenAI blog, and similar AI/tech sources.',
+      },
+      {
+        title: 'Daily automation',
+        detail:
+          'Designed for a daily loop: one scheduled or manual pipeline execution produces candidate posts instead of rebuilding the workflow from scratch.',
+      },
+      {
+        title: 'Drafting & visuals',
+        detail:
+          'Claude writes in a fixed persona; Fal Flux generates per-post imagery so timeline posts stand out in crowded feeds.',
+      },
+      {
+        title: 'Publish to X',
+        detail:
+          'Human approve/reject gate, then Tweepy posts text + media — optimized for consistent presence and audience growth.',
+      },
+    ],
+    technologies: [
+      { group: 'Backend', items: ['FastAPI', 'Python', 'feedparser', 'BeautifulSoup'] },
+      { group: 'AI', items: ['Claude', 'Fal Flux'] },
+      { group: 'Distribution', items: ['Tweepy', 'X API', 'cron / scheduler'] },
+    ],
     inputs: [
-      { label: 'News feeds', format: 'RSS / scrape', description: 'HN, TechCrunch, MIT, OpenAI sources.' },
-      { label: 'Persona', format: 'persona.json', description: 'Voice and topic constraints.' },
+      { label: 'Live news feeds', format: 'RSS / HTTP', description: 'Fresh AI/tech stories each run.' },
+      { label: 'Persona', format: 'persona.json', description: 'Voice, tone, and topic guardrails.' },
     ],
     outputs: [
-      { label: 'Draft tweet', format: 'Text + image URL', description: 'Pending human approval.' },
-      { label: 'Published tweet', format: 'Twitter API', description: 'After approve endpoint.' },
+      { label: 'Daily draft', format: 'Text + image', description: 'Ready for approval.' },
+      { label: 'Published post', format: 'X timeline', description: 'Live tweet after approve.' },
+    ],
+    results: [
+      { label: 'Cadence', value: 'Daily', detail: 'Automated news → post loop' },
+      { label: 'Feeds', value: 'Live', detail: 'RSS + scrape' },
+      { label: 'Goal', value: 'Reach', detail: 'Consistent X presence' },
     ],
   },
 
   'fitzgerald-lora-pipeline': {
     summary:
-      'Offline ML pipeline: ePub corpora are extracted, segmented, turned into instruction examples, and used to PEFT-train a LoRA adapter on Qwen2.5-3B — the trained weights are then consumed by the Bookgen `llm-service`.',
+      'Author LoRA fine-tuning for Bookgen: Fitzgerald ePubs → instruction dataset (3,762 rows) → PEFT LoRA on Qwen2.5-3B trained on RunPod GPU → fitzgerald_lora/ adapter loaded by the production llm-service for voice-locked chapter streaming (see Taleweaver).',
     diagram: [
       '┌──────────────────────────────────────────────────────────────────┐',
-      '│ CORPUS      5 Fitzgerald ePub titles                             │',
+      '│ WHY LoRA    Voice-locked chapters · not one-shot prompting       │',
       '└────────────────────────────────┬─────────────────────────────────┘',
       '                                 ▼',
       '┌──────────────────────────────────────────────────────────────────┐',
-      '│ extract.py    ebooklib → cleaned chapter text                    │',
+      '│ CORPUS      5 Fitzgerald ePub titles (sole style source)         │',
       '└────────────────────────────────┬─────────────────────────────────┘',
       '                                 ▼',
       '┌──────────────────────────────────────────────────────────────────┐',
-      '│ segment.py    chunking · author-style passage selection          │',
+      '│ extract.py → segment.py → generate_instructions.py               │',
+      '│ build_dataset.py → dataset.jsonl (3,762 instruction pairs)       │',
       '└────────────────────────────────┬─────────────────────────────────┘',
       '                                 ▼',
       '┌──────────────────────────────────────────────────────────────────┐',
-      '│ generate_instructions.py    teacher LLM → instruction/response   │',
+      '│ TRAIN (GPU)  PEFT LoRA on Qwen2.5-3B · RunPod · Transformers     │',
+      '│              → fitzgerald_lora/ (~479 MB adapter weights)        │',
       '└────────────────────────────────┬─────────────────────────────────┘',
       '                                 ▼',
       '┌──────────────────────────────────────────────────────────────────┐',
-      '│ build_dataset.py            dataset.jsonl (3,762 examples)       │',
-      '└────────────────────────────────┬─────────────────────────────────┘',
-      '                                 ▼',
-      '┌──────────────────────────────────────────────────────────────────┐',
-      '│ PEFT TRAIN   Transformers + PEFT · LoRA on Qwen2.5-3B            │',
-      '│              fitzgerald_lora/ adapter (~479 MB)                  │',
-      '└────────────────────────────────┬─────────────────────────────────┘',
-      '                                 │ loaded at runtime',
-      '                                 ▼',
-      '                       Bookgen `llm-service` (GPU)',
+      '│ PRODUCTION   Bookgen llm-service (GPU) · base + LoRA at inference │',
+      '│              WebSocket chapters ← FastAPI ← React frontend       │',
+      '└──────────────────────────────────────────────────────────────────┘',
     ].join('\n'),
+    layers: [
+      {
+        title: 'What fine-tuning does',
+        detail:
+          'LoRA adds trainable low-rank matrices on a frozen Qwen2.5-3B base. The model keeps general language ability; the adapter specializes output toward Fitzgerald-like prose.',
+      },
+      {
+        title: 'Dataset build',
+        detail:
+          'ePub extract, passage segmentation, teacher-LLM instruction pairs, JSONL merge — 3,762 supervised examples before any GPU train.',
+      },
+      {
+        title: 'Training (RunPod)',
+        detail:
+          'PEFT training notebooks/scripts on cloud GPU — practical VRAM and runtime for 3B + LoRA. Output: fitzgerald_lora/ weight directory.',
+      },
+      {
+        title: 'Production inference',
+        detail:
+          'Bookgen llm-service hot-loads base Qwen + adapter, streams chapter tokens to the backend. Same weights trained offline; Dockerized three-tier deploy.',
+      },
+    ],
+    technologies: [
+      { group: 'Training', items: ['Python', 'ebooklib', 'PEFT', 'Transformers', 'PyTorch', 'Jupyter'] },
+      { group: 'Model', items: ['Qwen2.5-3B', 'LoRA', 'safetensors'] },
+      { group: 'Infrastructure', items: ['RunPod GPU', 'Docker', 'Bookgen llm-service'] },
+    ],
     inputs: [
-      { label: 'Source books', format: 'ePub', description: '5 Fitzgerald titles.' },
+      { label: 'Author ePubs', format: '5 × ePub', description: 'Fitzgerald corpus — single voice target.' },
+      { label: 'Base checkpoint', format: 'Qwen2.5-3B', description: 'Frozen foundation model for LoRA.' },
     ],
     outputs: [
-      { label: 'Adapter weights', format: '~479 MB', description: 'fitzgerald_lora/ for Bookgen llm-service.' },
-      { label: 'Dataset', format: 'JSONL', description: '3,762 instruction pairs.' },
+      { label: 'dataset.jsonl', format: '3,762 rows', description: 'Instruction/response training pairs.' },
+      { label: 'fitzgerald_lora/', format: '~479 MB', description: 'Adapter consumed at inference.' },
+      { label: 'Chapter stream', format: 'WebSocket', description: 'Voice-locked text in Bookgen UI.' },
     ],
-  },
-
-  'getzoned-marketing': {
-    summary:
-      'Next.js 14 marketing site for the GetZoned app: server components for content, Framer Motion + R3F/Spline for the 3D hero and animation, App Router modals for early-access / host-event flows, and serverless API routes that push waitlist data into Google Sheets via Apps Script.',
-    diagram: [
-      '┌──────────────────────────────────────────────────────────────────┐',
-      '│ VISITOR     Next.js 14 (App Router) · Framer Motion · R3F · Spline│',
-      '└────────────────────────────────┬─────────────────────────────────┘',
-      '                                 │',
-      '                                 ▼',
-      '┌──────────────────────────────────────────────────────────────────┐',
-      '│ APP ROUTER   Early-access · host-event · choice flows (modals)   │',
-      '└──┬───────────────────────────────────────────────────────┬───────┘',
-      '   │ POST /api/register                                    │ POST /api/feedback',
-      '   ▼                                                       ▼',
-      '┌───────────────────────────────────┐         ┌──────────────────────┐',
-      '│ Google Apps Script integration    │         │ Gmail (notification) │',
-      '│ → Google Sheets waitlist          │         └──────────────────────┘',
-      '└───────────────────────────────────┘',
-      '',
-      'BUILD   Static export `out/` · paired with getzoned.in product',
-    ].join('\n'),
-    inputs: [
-      { label: 'Registration', format: 'Form JSON', description: 'Early access, host event, feedback flows.' },
-    ],
-    outputs: [
-      { label: 'Waitlist rows', format: 'Google Sheets', description: 'Apps Script integration.' },
-      { label: 'Static site', format: 'out/', description: 'Export build paired with getzoned.in app.' },
+    results: [
+      { label: 'Examples', value: '3,762', detail: 'From 5 books' },
+      { label: 'Train GPU', value: 'RunPod', detail: 'LoRA fine-tune' },
+      { label: 'Deploy', value: 'llm-service', detail: 'Production inference' },
     ],
   },
 
@@ -808,7 +758,7 @@ export const PROJECT_TECHNICAL_SPECS: Record<string, SpecOverrides> = {
 
   'yolo-sports-tracking': {
     summary:
-      'Computer-vision pipeline: video frames are decoded into a queue, a YOLO detector locates players and ball per frame, a multi-object tracker maintains IDs across occlusions, and outputs (per-frame positions, IDs, derived stats) are exported for downstream analytics.',
+      'Sports CV pipeline: OpenCV decodes match video into a GPU-batched frame queue, Ultralytics YOLO detects players and ball, ByteTrack/SORT maintains track IDs, analytics derive speed/zones/possession proxies, and CSV/JSON + annotated video export for football intelligence workflows.',
     diagram: [
       '┌──────────────────────────────────────────────────────────────────┐',
       '│ INPUT       Match video · MP4 / RTSP stream                      │',
@@ -838,51 +788,47 @@ export const PROJECT_TECHNICAL_SPECS: Record<string, SpecOverrides> = {
     inputs: [
       { label: 'Video frames', format: 'MP4 / stream', description: 'Broadcast or training footage.' },
     ],
+    layers: [
+      {
+        title: 'Decode',
+        detail:
+          'OpenCV/PyAV reads MP4 or RTSP, normalizes FPS and resolution, feeds a bounded async queue so long matches do not exhaust RAM.',
+      },
+      {
+        title: 'Detect',
+        detail:
+          'Ultralytics YOLO (PyTorch) per frame — player + ball classes with weights tuned for small ball and crowded scenes.',
+      },
+      {
+        title: 'Track',
+        detail:
+          'ByteTrack or SORT associates detections into persistent IDs across occlusions and camera motion.',
+      },
+      {
+        title: 'Analytics & export',
+        detail:
+          'NumPy/Pandas derivations for speed, heatmaps, zone entries; CSV/JSON track logs and optional annotated MP4 for QA.',
+      },
+    ],
+    technologies: [
+      { group: 'Vision', items: ['YOLO', 'Ultralytics', 'OpenCV', 'PyTorch'] },
+      { group: 'Tracking', items: ['ByteTrack', 'SORT'] },
+      { group: 'Output', items: ['CSV', 'JSON', 'Annotated video'] },
+    ],
     outputs: [
       { label: 'Track IDs', format: 'CSV / JSON', description: 'Per-frame player and ball positions.' },
       { label: 'Analytics', format: 'Derived stats', description: 'Speed, zones, possession proxies.' },
     ],
-  },
-
-  'web-scraper-evasion': {
-    summary:
-      'Resilient scraping stack: a crawl queue feeds a session/proxy pool, requests flow through a bypass layer (UA rotation, fingerprinting, verification handlers), and a parsing stage normalizes results before structured export.',
-    diagram: [
-      '┌──────────────────────────────────────────────────────────────────┐',
-      '│ INPUT       Target URLs · crawl seeds                            │',
-      '└────────────────────────────────┬─────────────────────────────────┘',
-      '                                 ▼',
-      '┌──────────────────────────────────────────────────────────────────┐',
-      '│ CRAWL QUEUE   dedup · backoff · rate limits · failure recovery   │',
-      '└────────────────────────────────┬─────────────────────────────────┘',
-      '                                 ▼',
-      '┌──────────────────────────────────────────────────────────────────┐',
-      '│ SESSION POOL  proxy rotation · UA + header rotation · cookies    │',
-      '└────────────────────────────────┬─────────────────────────────────┘',
-      '                                 ▼',
-      '┌──────────────────────────────────────────────────────────────────┐',
-      '│ BYPASS LAYER  CAPTCHA / verification handlers · Selenium fallback│',
-      '└────────────────────────────────┬─────────────────────────────────┘',
-      '                                 ▼',
-      '┌──────────────────────────────────────────────────────────────────┐',
-      '│ PARSE         BeautifulSoup / structured extractors              │',
-      '└────────────────────────────────┬─────────────────────────────────┘',
-      '                                 ▼',
-      '┌──────────────────────────────────────────────────────────────────┐',
-      '│ EXPORT        JSON / CSV · deduped records for NLP pipelines     │',
-      '└──────────────────────────────────────────────────────────────────┘',
-    ].join('\n'),
-    inputs: [
-      { label: 'Target URLs', format: 'List / queue', description: 'Protected sites with rate limits.' },
-    ],
-    outputs: [
-      { label: 'Structured records', format: 'JSON / CSV', description: 'Deduped crawl results for NLP pipelines.' },
+    results: [
+      { label: 'Classes', value: 'Player + ball', detail: 'Per-frame detect' },
+      { label: 'Tracker', value: 'ByteTrack', detail: 'ID continuity' },
+      { label: 'Downstream', value: 'Football CV', detail: 'Analytics feed' },
     ],
   },
 
   'ai-cost-optimizer': {
     summary:
-      'GenOps cost-audit platform: an infrastructure questionnaire produces a service inventory; collectors pull provider usage telemetry; an analyzer compares cost vs quality per model and emits a migration/throttle/cache playbook with quantified savings.',
+      'GenOps LLM cost & infra audit: structured discovery questionnaire → FastAPI inventory (apps, envs, models, keys) → provider usage collectors → Langfuse + PostgreSQL telemetry ($/tokens per endpoint) → cost-vs-quality analyzer → prioritized Markdown playbook (migrate, throttle, cache, batch) with quantified savings.',
     diagram: [
       '┌──────────────────────────────────────────────────────────────────┐',
       '│ DISCOVERY   Infra questionnaire · API keys · service map         │',
@@ -909,14 +855,61 @@ export const PROJECT_TECHNICAL_SPECS: Record<string, SpecOverrides> = {
       '┌──────────────────────────────────────────────────────────────────┐',
       '│ PLAYBOOK    Markdown report · migrate · throttle · cache · batch │',
       '└──────────────────────────────────────────────────────────────────┘',
+      '',
+      'OBS  Langfuse traces · Prometheus metrics · FastAPI inventory API',
     ].join('\n'),
+    layers: [
+      {
+        title: 'Discovery',
+        detail:
+          'Infrastructure questionnaire captures apps, environments, provider accounts, models per route, owners, and task types (chat, extraction, embedding, agent loop). Seeds the audit before any API pull.',
+      },
+      {
+        title: 'Inventory service',
+        detail:
+          'FastAPI + PostgreSQL normalized map: one row per endpoint with model list, env, team owner, estimated spend band, and links to repo/service names for remediation.',
+      },
+      {
+        title: 'Usage collectors',
+        detail:
+          'Read-only pulls from OpenAI, Anthropic, OpenRouter (and similar) usage APIs plus app call logs — prompt/completion tokens, model id, latency, USD estimate per request.',
+      },
+      {
+        title: 'Telemetry store',
+        detail:
+          'PostgreSQL rollups (daily spend by model/endpoint/task); Langfuse for trace-level prompt attribution; Prometheus metrics for volume, error rate, and p95 latency dashboards.',
+      },
+      {
+        title: 'Analyzer',
+        detail:
+          'Compares GPT-4o vs mini vs open-weight routes per task band with quality guardrails — flags re-prompt waste, missing cache, oversized context, and unbounded agent iterations.',
+      },
+      {
+        title: 'Playbook output',
+        detail:
+          'Ordered Markdown (optional PDF): migrate model on endpoint X, enable cache on Y, throttle Z, batch jobs — each line tied to inventory id and estimated monthly savings.',
+      },
+    ],
+    technologies: [
+      { group: 'API', items: ['FastAPI', 'Python', 'PostgreSQL'] },
+      { group: 'Providers', items: ['OpenAI', 'Anthropic', 'OpenRouter'] },
+      { group: 'Observability', items: ['Langfuse', 'Prometheus', 'Trace tagging'] },
+      { group: 'Deliverable', items: ['Cost dashboard', 'Markdown playbook'] },
+    ],
     inputs: [
-      { label: 'API inventory', format: 'Keys + service map', description: 'Apps, envs, providers per company.' },
-      { label: 'Usage logs', format: 'Prompt/completion tokens', description: 'Per endpoint and model.' },
+      { label: 'Infra questionnaire', format: 'Structured JSON', description: 'Apps, envs, keys, providers, owners.' },
+      { label: 'API inventory', format: 'Keys + service map', description: 'Normalized endpoint → model mapping.' },
+      { label: 'Usage logs', format: 'Tokens + traces', description: 'Per endpoint, model, and feature tag.' },
     ],
     outputs: [
-      { label: 'Cost report', format: 'Dashboard + $ estimate', description: 'Spend by model and task type.' },
-      { label: 'Playbook', format: 'Markdown', description: 'Migrate, throttle, cache recommendations.' },
+      { label: 'Inventory DB', format: 'PostgreSQL', description: 'Canonical AI footprint per company.' },
+      { label: 'Cost report', format: 'Dashboard + $ estimate', description: 'Spend by model, endpoint, task type.' },
+      { label: 'Playbook', format: 'Markdown', description: 'Prioritized migrate · throttle · cache · batch actions.' },
+    ],
+    results: [
+      { label: 'Audit stages', value: '6', detail: 'Discovery → playbook' },
+      { label: 'Telemetry', value: 'Langfuse', detail: 'Per-prompt attribution' },
+      { label: 'Savings', value: 'Quantified', detail: 'Per recommendation' },
     ],
   },
 
@@ -955,9 +948,41 @@ export const PROJECT_TECHNICAL_SPECS: Record<string, SpecOverrides> = {
     inputs: [
       { label: 'Course brief', format: 'Text', description: 'Audience, objectives, module count.' },
     ],
+    layers: [
+      {
+        title: 'Outline',
+        detail:
+          'FastAPI + LLM: syllabus with module → lesson hierarchy and learning objectives — human-editable gate before slide generation.',
+      },
+      {
+        title: 'Content & render',
+        detail:
+          'Structured slide copy and speaker notes; python-pptx branded templates produce consistent PPTX (not raw markdown dumps).',
+      },
+      {
+        title: 'Audio & guide',
+        detail:
+          'Per-slide TTS (Edge or ElevenLabs-class providers); parallel Markdown instructor guide with timing and discussion prompts.',
+      },
+      {
+        title: 'Export',
+        detail:
+          'Batch LMS package: PPTX + MP3/WAV per slide + facilitator markdown in one folder structure.',
+      },
+    ],
+    technologies: [
+      { group: 'Backend', items: ['FastAPI', 'Python', 'LLM'] },
+      { group: 'Slides', items: ['python-pptx', 'Templates'] },
+      { group: 'Media', items: ['TTS', 'MP3/WAV'] },
+    ],
     outputs: [
       { label: 'Slide deck', format: 'PPTX', description: 'Layouts + speaker notes.' },
       { label: 'Audio', format: 'MP3/WAV', description: 'Per-slide narration.' },
+      { label: 'Instructor guide', format: 'Markdown', description: 'Facilitator timing and prompts.' },
+    ],
+    results: [
+      { label: 'Hierarchy', value: 'Module → slide', detail: 'Objectives per section' },
+      { label: 'Export', value: 'LMS bundle', detail: 'Slides + audio + guide' },
     ],
   },
 
@@ -1003,8 +1028,19 @@ export const PROJECT_TECHNICAL_SPECS: Record<string, SpecOverrides> = {
     inputs: [
       { label: 'SQL artifacts', format: '.sql / warehouse API', description: 'Queries and job metadata from heterogeneous sources.' },
     ],
+    technologies: [
+      { group: 'Sources', items: ['Airflow', 'Snowflake', 'Oracle', 'BigQuery', 'Git SQL'] },
+      { group: 'Parse', items: ['SQLGlot', 'sqlparse', 'Python adapters'] },
+      { group: 'Graph', items: ['Neo4j', 'Column-level edges'] },
+    ],
     outputs: [
       { label: 'Lineage graph', format: 'Neo4j edges', description: 'Impact analysis and column-level trace.' },
+      { label: 'Governed view', format: 'Access-checked', description: 'Edges only after permission verify.' },
+    ],
+    results: [
+      { label: 'Sources', value: '5+', detail: 'Heterogeneous connectors' },
+      { label: 'Granularity', value: 'Column', detail: 'Not table-only' },
+      { label: 'Use case', value: 'Impact', detail: 'Break-if-changed queries' },
     ],
   },
 }

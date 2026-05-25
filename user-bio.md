@@ -8,7 +8,7 @@ before writing any personalized message.
 - **Name:** Parmeet Singh Talwar
 - **Headline identity (lead with this in messages):** Co-founder & CTO of GetZoned (getzoned.in), an entertainment app for making people meet in real life through curated events and experiences. Funded, live, currently scaling.
 - **Day role (mention naturally when it fits, e.g. for AI infra targets where my professional work is relevant):** AI Context Engineer Intern at ApexNeural (Hyderabad). I designed automated product-research pipelines processing 10K+ posts/day, identified 500+ opportunities/month, cut validation cycles from 2 weeks to 48 hours. Authored "Why AI Safety is Losing the Race".
-- **Education:** Final-year Integrated MTech in CSE–AI at VIT Bhopal, graduating July 2026.
+- **Education:** Integrated MTech in CSE–AI at VIT Bhopal (completed).
 - **Self-described as:** AI Systems Engineer / GenOps Builder / Full-Stack Developer / Co-founder.
 - **Location:** Hyderabad, India (current). Originally from Bhopal, India.
 - **Email:** parmeetsinghtalwar2003@gmail.com / claudefour@apexneural.com
@@ -46,11 +46,11 @@ before writing any personalized message.
 
 ## Why I'm networking
 - **Primary goals (all four matter):**
-  1. **Jobs** — Looking for a full-time AI/ML or AI Systems role starting after July 2026 graduation
+  1. **Jobs** — Looking for a full-time AI/ML or AI Systems role
   2. **Customers** — for SocialHub / Unify-style platforms
   3. **Mentors** — operators 1-2 steps ahead in AI agent / GenOps / RAG space
   4. **Long-term brand** — peers in Indian + global AI ecosystem
-- **Specific ask, when it fits:** Looking for AI Engineer / AI Systems / GenOps-style roles for July 2026 onward; interested in teams building agent systems, RAG infra, or LLM applications at production scale.
+- **Specific ask, when it fits:** Looking for AI Engineer / AI Systems / GenOps-style roles; interested in teams building agent systems, RAG infra, or LLM applications at production scale.
 
 ## Target priority (USE THIS WHEN BUILDING LISTS)
 1. **AI / ML / Foundation models / Agent systems** — TOP PRIORITY. Every notable founder making moves in this space should be in the list. This includes: foundation model companies, AI infra, agent platforms, LLM applications, RAG infra, AI dev tools, AI safety, voice/multimodal AI. Both Indian and global.

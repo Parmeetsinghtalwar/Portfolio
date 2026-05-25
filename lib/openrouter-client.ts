@@ -78,8 +78,8 @@ export async function generateProjectCopy(
           'Return JSON only with these keys:',
           'quote — one famous MOVIE quote (real, recognizable) that metaphorically fits the project; max 22 words; keep the line faithful to the film.',
           'attribution — film title and year, e.g. "The Social Network (2010)" or "Character — Interstellar (2014)".',
-          'heroImagePrompt — art direction for a cinematic WIDE hero background: atmospheric, abstract or environmental, NO text/letters/logos/typography/watermarks, no readable faces.',
-          'previewImagePrompt — art direction for a square portfolio card: same mood, MAY include bold stylized poster title typography for the project name only.',
+          'heroImagePrompt — SIMPLE real-world photograph or soft gradient: one clear subject, muted natural colors, minimal composition. NO neon, NO holograms, NO neural networks, NO sci-fi UI, NO glowing circuits, NO abstract tech wallpaper.',
+          'previewImagePrompt — SIMPLE square still life or soft color field matching the hero mood. Prefer no typography; if any, only the project name in plain sans-serif. Same ban: no neon cyberpunk AI art.',
         ].join(' '),
       },
       {
@@ -147,7 +147,7 @@ function buildImagePrompt(imagePrompt: string, variant: 'hero' | 'preview'): str
       ? `Generate one cinematic wide hero image. ${noTextRule}`
       : `Generate one square portfolio thumbnail image. ${textRule}`
 
-  return `${imagePrompt}. ${style} Soft film lighting, rich color grade, high production value, no human faces in focus.`
+  return `${imagePrompt}. ${style} Natural soft daylight or gentle gradient, understated, editorial photography aesthetic, not illustration, not 3D render, not AI-art clichés. No faces.`
 }
 
 async function requestImageViaTool(

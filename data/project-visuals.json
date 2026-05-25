@@ -4,143 +4,111 @@
     "preview": "/projects/socialhub/preview.png",
     "quote": "We're gonna need a bigger boat.",
     "attribution": "Jaws (1975)",
-    "heroImagePrompt": "a vast, moody ocean at dusk with turbulent waves under a dramatic sky, abstract interplay of light and shadow suggesting vast complexity and depth, cinematic wide landscape, no text or logos",
-    "previewImagePrompt": "bold stylized poster typography reading 'Multi-Channel GenOps' overlaid on an abstract digital network map with interconnected nodes glowing softly, dark atmospheric color palette reminiscent of a high-tech control center"
+    "heroImagePrompt": "minimal photograph of a calm desk with notebook and pen, soft morning window light, muted beige and white tones, shallow depth of field",
+    "previewImagePrompt": "simple square crop of the same desk scene, warm neutral palette, no text, no digital effects"
   },
   "prism": {
     "hero": "/projects/prism/hero.png",
     "preview": "/projects/prism/preview.png",
     "quote": "I'm gonna make him an offer he can't refuse.",
     "attribution": "The Godfather (1972)",
-    "heroImagePrompt": "a moody, cinematic wide shot of a futuristic cityscape at dusk, with glowing data streams and abstract AI neural network patterns subtly integrated into the skyline, evoking intelligent automation and seamless connectivity, atmospheric with cool blue and purple tones",
-    "previewImagePrompt": "a bold, stylized square poster with dynamic abstract AI motifs and digital circuitry patterns in vivid blues and purples, featuring a sleek futuristic font for the title 'Recruitment AI', exuding innovation and high-tech recruitment power"
-  },
-  "content-phase": {
-    "hero": "/projects/content-phase/hero.png",
-    "preview": "/projects/content-phase/preview.png",
-    "quote": "Just keep swimming.",
-    "attribution": "Finding Nemo (2003)",
-    "heroImagePrompt": "cinematic wide environmental scene of a futuristic digital cityscape at dusk, with interconnected glowing nodes representing social networks, atmospheric mist, and vibrant neon lights, abstract and immersive",
-    "previewImagePrompt": "bold stylized poster typography reading 'Content Phase' over a square abstract digital network pattern, glowing neon lines and nodes, dark moody background with atmospheric tech ambiance"
+    "heroImagePrompt": "quiet modern office corridor with soft overhead light, neutral gray walls, empty chairs, documentary photograph style",
+    "previewImagePrompt": "simple square of office chairs and table edge, muted grays, natural light, no typography"
   },
   "sugarcane-health-ml": {
     "hero": "/projects/sugarcane-health-ml/hero.png",
     "preview": "/projects/sugarcane-health-ml/preview.png",
     "quote": "Life finds a way.",
     "attribution": "Jurassic Park (1993)",
-    "heroImagePrompt": "wide cinematic background of a vast sugarcane field at dawn, mist rising with soft golden light, abstract data patterns subtly layered in the sky blending biology and technology",
-    "previewImagePrompt": "square portfolio card featuring a stylized bold title 'Sugarcane ML' with a moody, atmospheric close-up of sugarcane leaves interspersed with digital neural network motifs and faint grids"
+    "heroImagePrompt": "wide photograph of green sugarcane field at dawn, light mist, golden hour, natural colors, no overlays",
+    "previewImagePrompt": "close-up photograph of sugarcane leaves, soft green tones, square crop, no text"
   },
   "unify": {
     "hero": "/projects/unify/hero.png",
     "preview": "/projects/unify/preview.png",
     "quote": "Houston, we have a problem.",
     "attribution": "Apollo 13 (1995)",
-    "heroImagePrompt": "a wide, cinematic, atmospheric abstract digital network visualization merging diverse communication channels into a seamless flow, with glowing data streams and soft ambient light, futuristic and vibrant",
-    "previewImagePrompt": "a bold, stylized poster with the title 'Unify' in sleek modern typography, set against an abstract, vibrant network map background symbolizing omni-channel connectivity and multilingual messaging"
+    "heroImagePrompt": "smartphone on wooden table showing blurred chat bubbles, shallow depth of field, warm indoor light, realistic photo",
+    "previewImagePrompt": "simple square of phone edge and table texture, neutral tones, no glowing effects"
   },
   "taleweaver": {
     "hero": "/projects/taleweaver/hero.png",
     "preview": "/projects/taleweaver/preview.png",
     "quote": "The stuff that dreams are made of.",
     "attribution": "The Maltese Falcon (1941)",
-    "heroImagePrompt": "cinematic wide shot of an abstract luminous book opening in a dark, misty library with glowing streams of digital code and ethereal light particles flowing out, atmospheric and mysterious",
-    "previewImagePrompt": "bold stylized poster typography 'AI Book Studio' overlaid on a square image of glowing, abstract digital pages with soft light beams and swirling data streams, maintaining an atmospheric and modern tech vibe"
+    "heroImagePrompt": "open hardcover book on dark wood desk, single warm lamp, soft shadows, literary still life photograph",
+    "previewImagePrompt": "square crop of book pages and wood grain, warm brown tones, minimal, no text on image"
   },
   "linkedin-job-scraper": {
     "hero": "/projects/linkedin-job-scraper/hero.png",
     "preview": "/projects/linkedin-job-scraper/preview.png",
     "quote": "So you're tellin' me there's a chance?",
     "attribution": "Dumb and Dumber (1994)",
-    "heroImagePrompt": "a wide cinematic background showing a moody, futuristic city skyline at dusk, blending digital data streams and abstract AI neural networks subtly woven into the environment, atmospheric with cool blue and dark tones",
-    "previewImagePrompt": "a square portfolio card with a stylized bold title 'AI Jobs Export' in sleek futuristic typography, set against an abstract dark blue and black background with faint digital network patterns and subtle glowing nodes"
-  },
-  "b2b-lead-platform": {
-    "hero": "/projects/b2b-lead-platform/hero.png",
-    "preview": "/projects/b2b-lead-platform/preview.png",
-    "quote": "Always be closing.",
-    "attribution": "Glengarry Glen Ross (1992)",
-    "heroImagePrompt": "cinematic wide atmospheric cityscape at dusk with abstract glowing data streams and network connections overlay, futuristic tech ambiance, deep blue and orange tones",
-    "previewImagePrompt": "bold stylized poster typography 'Lead Intelligence' on a dark abstract digital network background with glowing nodes and data points, tech noir mood"
-  },
-  "madhost": {
-    "hero": "/projects/madhost/hero.png",
-    "preview": "/projects/madhost/preview.png",
-    "quote": "As you wish.",
-    "attribution": "The Princess Bride (1987)",
-    "heroImagePrompt": "cinematic wide shot of a modern, minimalist smart home interior at dusk, warm ambient lighting, subtle digital interface holograms floating, abstract tech aesthetics blending with cozy domestic environment",
-    "previewImagePrompt": "square bold stylized poster with title 'Rental Ops Bot', sleek futuristic typography overlaid on a minimalist abstract digital interface background with warm, inviting tones"
+    "heroImagePrompt": "laptop with spreadsheet glow on desk, coffee cup nearby, evening window bokeh, realistic home office photo",
+    "previewImagePrompt": "simple square of laptop corner and coffee, muted blues and browns, no UI screenshots"
   },
   "ai-twitter-post-generator": {
     "hero": "/projects/ai-twitter-post-generator/hero.png",
     "preview": "/projects/ai-twitter-post-generator/preview.png",
-    "quote": "I'm sorry, Dave. I'm afraid I can't do that.",
-    "attribution": "HAL 9000 — 2001: A Space Odyssey (1968)",
-    "heroImagePrompt": "a wide cinematic scene of a sleek futuristic control room with glowing AI interfaces and digital data streams flowing through an abstract cybernetic space, cool blue and neon accents, atmospheric lighting",
-    "previewImagePrompt": "a bold stylized poster with the project name 'Social Post AI' in techno-futuristic typography over a dark abstract digital network background, with subtle glowing nodes and AI-inspired design elements"
-  },
-  "getzoned-marketing": {
-    "hero": "/projects/getzoned-marketing/hero.png",
-    "preview": "/projects/getzoned-marketing/preview.png",
-    "quote": "To infinity and beyond!",
-    "attribution": "Toy Story (1995)",
-    "heroImagePrompt": "cinematic wide shot of a futuristic cityscape with glowing micro-event markers scattered across a vast, stylized 3D map, atmospheric neon lighting with soft glows, abstract digital data streams flowing in the background, blending organic and tech elements",
-    "previewImagePrompt": "bold, stylized poster typography reading 'Discovery Marketing' over a square background featuring a vibrant 3D abstract map with glowing nodes and subtle motion blur, in neon blues and purples with a sleek tech vibe"
+    "quote": "With great power comes great responsibility.",
+    "attribution": "Spider-Man (2002)",
+    "heroImagePrompt": "newspaper and phone on cafe table, morning light, shallow focus, everyday documentary style",
+    "previewImagePrompt": "square crop of newspaper fold and ceramic cup, neutral palette, no logos"
   },
   "football-analytics": {
     "hero": "/projects/football-analytics/hero.png",
     "preview": "/projects/football-analytics/preview.png",
     "quote": "Clear eyes, full hearts, can't lose.",
     "attribution": "Friday Night Lights (2004)",
-    "heroImagePrompt": "wide cinematic view of a futuristic football stadium at twilight, atmospheric mist over the field, abstract data streams and digital overlays blending with the environment, moody and intense lighting",
-    "previewImagePrompt": "square bold stylized poster with a dynamic close-up of a football on a dark field, abstract AI circuit patterns subtly integrated, dramatic blue and orange tones, bold 'Football Intelligence' typography"
+    "heroImagePrompt": "empty football pitch at dusk, soft floodlights, green grass, wide landscape photograph, no players",
+    "previewImagePrompt": "square of football on grass close-up, natural turf texture, golden hour light"
   },
   "yolo-sports-tracking": {
     "hero": "/projects/yolo-sports-tracking/hero.png",
     "preview": "/projects/yolo-sports-tracking/preview.png",
     "quote": "I feel the need—the need for speed.",
     "attribution": "Top Gun (1986)",
-    "heroImagePrompt": "wide cinematic background of a dynamic, high-energy sports arena at dusk, abstract motion trails and glowing particles representing movement and tracking, atmospheric lighting with a slight digital grid overlay, emphasizing speed and precision",
-    "previewImagePrompt": "square portfolio card with bold, stylized typography for 'Sports Tracking CV', featuring abstract silhouettes of athletes and a ball in motion, vibrant contrasting colors, digital and technological visual elements reflecting computer vision and tracking"
-  },
-  "web-scraper-evasion": {
-    "hero": "/projects/web-scraper-evasion/hero.png",
-    "preview": "/projects/web-scraper-evasion/preview.png",
-    "quote": "These aren't the droids you're looking for.",
-    "attribution": "Star Wars (1977)",
-    "heroImagePrompt": "a dimly lit, high-tech cybernetic environment with abstract rotating data streams and shadowy silhouettes of robotic figures navigating complex digital mazes, atmospheric, cinematic, wide",
-    "previewImagePrompt": "a bold, stylized poster with angular futuristic typography reading 'Adaptive Scraper' overlaid on a moody, abstract network of glowing data nodes and proxy connections, square format"
+    "heroImagePrompt": "blurred motion photograph of runners on track, panning shot, simple composition, outdoor daylight",
+    "previewImagePrompt": "square abstract motion blur of track lanes, muted colors, no digital grid"
   },
   "ai-cost-optimizer": {
     "hero": "/projects/ai-cost-optimizer/hero.png",
     "preview": "/projects/ai-cost-optimizer/preview.png",
     "quote": "Show me the money!",
     "attribution": "Jerry Maguire (1996)",
-    "heroImagePrompt": "cinematic wide shot of a high-tech futuristic control room with glowing data streams and floating holographic financial charts, dark blue and green tones, atmospheric and abstract",
-    "previewImagePrompt": "square portfolio card with a bold, stylized title 'LLM Cost Audit' in sleek modern typography, overlaid on abstract digital data patterns and glowing charts, dark blue and green palette"
+    "heroImagePrompt": "calculator and printed invoice on office desk, soft top light, realistic photograph, green and white paper tones",
+    "previewImagePrompt": "square still life of calculator keys and paper corner, neutral office palette, no charts hologram"
   },
   "course-studio": {
     "hero": "/projects/course-studio/hero.png",
     "preview": "/projects/course-studio/preview.png",
     "quote": "Wax on, wax off.",
     "attribution": "The Karate Kid (1984)",
-    "heroImagePrompt": "Cinematic wide shot of a futuristic digital landscape with glowing neural networks and floating holographic course modules, deep blue and purple hues, atmospheric light beams, abstract interconnected lines symbolizing AI and knowledge flow",
-    "previewImagePrompt": "Square card with abstract neon-lit neural pathways forming a course map, bold stylized typography reading 'Course Builder AI' integrated into the design, moody blue-purple palette, tech-inspired graphic elements"
+    "heroImagePrompt": "headphones and notepad on study desk, soft lamp, cozy learning setup, natural photograph",
+    "previewImagePrompt": "square of notebook and pen tip, warm paper tones, minimal"
   },
   "data-lineage": {
     "hero": "/projects/data-lineage/hero.png",
     "preview": "/projects/data-lineage/preview.png",
     "quote": "Follow the money.",
     "attribution": "All the President's Men (1976)",
-    "heroImagePrompt": "cinematic wide landscape of an interconnected vast digital network with glowing data nodes and flowing streams of abstract code, atmospheric twilight, futuristic and mysterious ambiance",
-    "previewImagePrompt": "square design with bold stylized typography 'Data Lineage KG' integrated into an abstract digital network motif, glowing data points and subtle circuit patterns, cool blue and purple tones, modern tech aesthetic"
+    "heroImagePrompt": "filing folders and labeled tabs on archive shelf, soft side light, documentary office photograph",
+    "previewImagePrompt": "square crop of folder spines and paper edges, muted tan and gray, no network graphics"
+  },
+  "fitzgerald-lora-pipeline": {
+    "hero": "/projects/fitzgerald-lora-pipeline/hero.png",
+    "preview": "/projects/fitzgerald-lora-pipeline/preview.png",
+    "quote": "So we beat on, boats against the current.",
+    "attribution": "The Great Gatsby (2013)",
+    "heroImagePrompt": "vintage typewriter and stacked books on desk, warm tungsten lamp, literary still life, soft focus background",
+    "previewImagePrompt": "square of book stack and typewriter keys, sepia-warm tones, no digital effects"
   },
   "getzoned": {
     "hero": "/projects/getzoned/hero.png",
     "preview": "/projects/getzoned/preview.png",
     "quote": "Adventure is out there!",
     "attribution": "Up (2009)",
-    "heroImagePrompt": "cinematic wide shot of a vibrant, sprawling urban map glowing at dusk, filled with small illuminated dots representing micro-events, atmospheric with soft neon hues and a bustling yet intimate city vibe, abstract and immersive",
-    "previewImagePrompt": "square portfolio card with bold stylized typography reading 'GetZoned', featuring a vibrant map with glowing event points and a dynamic urban nightscape background, moody and engaging"
+    "heroImagePrompt": "city street at golden hour, people silhouettes far in background, warm urban photograph, shallow depth",
+    "previewImagePrompt": "square of sidewalk and cafe chairs, evening warm light, simple city life photo"
   }
 }

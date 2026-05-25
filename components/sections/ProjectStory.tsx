@@ -1,7 +1,8 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import { ArrowUpRight } from 'lucide-react'
-import { SocialHubDemoLaunch } from '@/components/sections/SocialHubDemoLaunch'
+import { ProjectDemoEmbed } from '@/components/sections/ProjectDemoEmbed'
+import { DEMO_CHAPTER_TITLES, getProjectDemo } from '@/lib/project-demos'
 import type { Project } from '@/lib/projects'
 import type { ProjectStory, StoryBlock } from '@/lib/project-story'
 
@@ -110,7 +111,8 @@ function filterNarrativeBlocks(blocks: StoryBlock[]): StoryBlock[] {
     const block = blocks[i]
     if (
       block.type === 'chapter' &&
-      TECHNICAL_CHAPTER_TITLES.has(block.title)
+      (TECHNICAL_CHAPTER_TITLES.has(block.title) ||
+        DEMO_CHAPTER_TITLES.has(block.title))
     ) {
       i += 1
       while (i < blocks.length && blocks[i].type !== 'chapter') i += 1
@@ -129,6 +131,7 @@ export function ProjectStoryNarrative({
   story,
 }: ProjectStoryNarrativeProps) {
   const blocks = filterNarrativeBlocks(story.blocks)
+  const demo = getProjectDemo(project.id)
 
   return (
     <section className="border-t border-foreground/10 pt-16 md:pt-20">
@@ -147,12 +150,6 @@ export function ProjectStoryNarrative({
 
       {story.byline ? (
         <p className="mt-4 font-mono text-xs text-foreground/50">{story.byline}</p>
-      ) : null}
-
-      {project.id === 'socialhub' ? (
-        <div className="mt-8 border-t border-foreground/10 pt-8">
-          <SocialHubDemoLaunch />
-        </div>
       ) : null}
 
       {story.people?.length ? (
@@ -187,6 +184,23 @@ export function ProjectStoryNarrative({
           <StoryBlockView key={`${block.type}-${i}`} block={block} />
         ))}
       </div>
+
+      {demo ? (
+        <div className="mt-12 space-y-8 md:mt-16">
+          <header className="pt-4">
+            <p className="font-mono text-xs uppercase tracking-[0.3em] text-foreground/45">
+              {demo.chapterWhen}
+            </p>
+            <h3 className="mt-3 text-2xl font-semibold tracking-tight md:text-3xl">
+              {demo.chapterTitle}
+            </h3>
+          </header>
+          <p className="text-lg leading-[1.75] text-foreground/80 md:text-xl md:leading-[1.8]">
+            {demo.description}
+          </p>
+          <ProjectDemoEmbed projectId={project.id} />
+        </div>
+      ) : null}
 
       {story.closing ? (
         <p className="mt-16 border-t border-foreground/10 pt-10 font-mono text-sm leading-relaxed text-foreground/55">
